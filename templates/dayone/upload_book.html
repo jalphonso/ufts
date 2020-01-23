@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Dayone Books{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container col-12">
+            <div class="jumbotron">
+                <h2>Upload Day One Book</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table>{{ form.as_table }}</table>
+                    <button class="btn btn-primary btn-sm"   type="submit">Upload Day One Book</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

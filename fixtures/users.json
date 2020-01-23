@@ -1,0 +1,129 @@
+[
+{
+    "model": "users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$120000$5UXUBZkXiewv$F7pVlX2N32vyxjnURv35DFbu2LXDEIRJ2izAV9g3Vy0=",
+        "last_login": "2018-12-17T21:53:54.706Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "Chester",
+        "last_name": "Drawers",
+        "email": "cdrawers@juniper.net",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2018-11-23T23:27:44Z",
+        "unclas_email": "cdrawers@juniper.net",
+        "class_phone": "111111111",
+        "unclas_phone": "22222222",
+        "company": "Juniper Networks",
+        "contract_number": null,
+        "jsa": true,
+        "groups": [
+            [
+                "downloads"
+            ]
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$120000$19OTVvZubeHR$EHWErF9QCTWfYDRBEa7a/ubaPeZyOpGt0b0noQADXbk=",
+        "last_login": "2018-11-28T13:10:25.639Z",
+        "is_superuser": true,
+        "username": "brubble",
+        "first_name": "Barney",
+        "last_name": "Rubble",
+        "email": "brubble@juniper.net",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2018-11-28T00:36:48Z",
+        "unclas_email": "brubble@juniper.net",
+        "class_phone": "9999999",
+        "unclas_phone": "540-219-5679",
+        "company": "Juniper Networks",
+        "contract_number": null,
+        "jsa": true,
+        "groups": [
+            [
+                "downloads"
+            ]
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$120000$oYM6fkIeWgXp$+M6WeVacGlEcCP5Jw54PQX4K4vn5G4fHiByMzPT7wq4=",
+        "last_login": "2018-11-28T01:19:32.886Z",
+        "is_superuser": false,
+        "username": "fflintstone",
+        "first_name": "",
+        "last_name": "",
+        "email": "fflintstone@stoneco.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-11-28T01:19:15.645Z",
+        "unclas_email": "",
+        "class_phone": "",
+        "unclas_phone": "",
+        "company": "Stone Company",
+        "contract_number": "57854872315874538",
+        "jsa": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$120000$zLbQW5Xe5jWn$MY1nE8itvNtknJh3sZDYAIl0LQKO+Zsg+9j7tb3GCIM=",
+        "last_login": "2018-11-28T01:28:23Z",
+        "is_superuser": false,
+        "username": "fishiemao",
+        "first_name": "FishMan",
+        "last_name": "Johnston",
+        "email": "fishie@atcii.net",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-11-28T01:28:10Z",
+        "unclas_email": "yoyo@yahoo.com",
+        "class_phone": "999-9999",
+        "unclas_phone": "703-251-7763",
+        "company": "ATCII",
+        "contract_number": null,
+        "jsa": true,
+        "groups": [
+            [
+                "downloads"
+            ]
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$120000$qUfR3T7p8D2q$UgBhQqE0r5X5ES10JDgcEh/hf5LBRrWCsYTvA0svsTQ=",
+        "last_login": "2018-11-28T15:05:24.435Z",
+        "is_superuser": false,
+        "username": "jhammer",
+        "first_name": "",
+        "last_name": "",
+        "email": "hammer@stoneco.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-11-28T15:04:46.538Z",
+        "unclas_email": "",
+        "class_phone": "",
+        "unclas_phone": "",
+        "company": "Stone Co",
+        "contract_number": "8692787878",
+        "jsa": true,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

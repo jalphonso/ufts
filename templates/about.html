@@ -1,0 +1,33 @@
+<!-- templates/about.html -->
+{% extends 'base.html' %}
+
+{% block title %} - {{ page.title }{% endblock %}
+
+{% block content %}
+    <div class="container text-center col-12">
+        <div class="jumbotron">
+            <h2 class="text-center">About</h2>
+            <hr/>
+            <p class="text-md-left h3">This application was created for {{ company }} to allow customers to download
+                source code, documentation, and be able to use on a classified network.</p>
+            <p class="text-md-left text-muted h4">This is a single license application and can only be used on a single
+                server without permission from the author/developer.</p>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <p class="h3 text-muted">Application Information</p>
+                    <ul>
+                        <li>
+                            <p class="text-muted text-md-left">License Key: {{ license_key }}</p>
+                            <p>License Key will need to be changed when applications goes active</p>
+                        </li>
+                        <li>
+                            <p class="text-muted text-md-left">Access Code: {{ access_code }}</p>
+                            <p>Access Code will need to be changed when applications goes active</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}NOTICE AND CONSENT BANNER{% endblock %}
+
+{% block content %}
+    <div class="container text-center">
+        <div class="jumbotron">
+            <h2 class="text-center">NOTICE AND CONSENT BANNER</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Login</button>
+                </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container col-12">
+        <div class="jumbotron">
+            <div class="row">
+                <div id="sidebar-wrapper" class="col-2">
+                    <ul class="sidebar-nav">
+                        <h2>Links</h2>
+                        <hr/>
+			            <h6>Directions</h6>
+                        <a href="{{ MEDIA_URL }}support/pdf/SunnyvaleOffice.pdf"class="link shown" title="Sunnyvale Office Directions" target="">Sunnyvale Office</a>
+                        <br/>
+                        <a href="{{ MEDIA_URL }}support/pdf/HerndonOffice.pdf"class="link shown" title="Herndon Office Directions" target="">Herndon Office</a>
+                        <br/>
+                        <hr>
+                        <a href="{{ MEDIA_URL }}support/pdf/VisitRequest.pdf"class="link shown" title="Visit Request" target="">Visit Request</a>
+                        <br/>
+                        <hr>
+                        <h6>Contacts</h6>
+                        <h8>Web Support Team</h8>
+                        </br>
+                        <a href="mailto:patches-support@juniper.net"class="link shown" title="Web Support Email" target="">Email: support</a>
+                        </br>Phone: 999-6443
+                        </br></br>
+                        <a href="{{ MEDIA_URL }}support/pdf/VisitRequest.pdf"class="link shown" title="Sales and Engineering" target="">Sales and Engineering Support</a>
+                        </br>
+                    </ul>
+                </div>
+
+                <div class="jumbotron container center col-4">
+                    <img src="{% static 'img/Juniper-1-36-1200x896.jpeg' %}"  width="400" height="400" / >
+                </div>
+                <div id="" class="jumbotron container col-6">
+                    <div class="slice-item slice-item-wide layout-one-content"><div>
+                        <div class="h3 align-content-center header header-layout header-alt">Company History</div>
+                        <p class="paragraph-medium">
+                        <a href="{{ MEDIA_URL }}support/pdf/3000054-en.pdf" class="link shown" title="Company Profile [ PDF  1.95 MB ] " target="">Company Profile [ PDF  1.95 MB ] </a>
+                        <p class="paragraph-sub">In 1995, after 11 years working at the Computer Science Lab of Xerox
+                        PARC, Pradeep Sindhu took a leave of absence to consider his next steps. Noting the explosive
+                        growth of the Internet and the importance of connecting computers, Sindhu was struck by the
+                        enormous potential of the router — the fundamental building block of the network. He returned
+                        from a vacation with the idea to start a company to supply high-performance routers to support
+                        the quickly emerging Internet.</p>
+                        <p class="paragraph paragraph-medium spaced-bottom">After some discouraging responses from venture capitalists, Sindhu managed to secure financing for his company, and Juniper Networks was incorporated February 6, 1996, in California. Instead of starting small like many startups, Juniper Networks decided upon what would become its signature approach — tackle the toughest problem and solve it once.</p><p class="paragraph paragraph-medium spaced-bottom">The company’s first product, the revolutionary M40 router which shipped in September of 1998, did just that. The M40 far surpassed all other routers on the market and established Juniper’s position as an innovative and serious player in the hardware market.</p><p class="paragraph paragraph-medium spaced-bottom">Developing the M40 was a major undertaking that required two years of research and work. During that time, to keep venture capitalists and customers happy, Juniper Networks developed what would later become its major differentiator and the basis for all future innovation — Junos Platform.</p><p class="paragraph paragraph-medium spaced-bottom">Since this auspicious beginning, Juniper Networks has continued to grow and innovate, releasing new product, developing new technologies based on customer’s needs, and remaining at the forefront of high-performance networking.</p><p class="paragraph paragraph-medium spaced-bottom">Juniper Networks went public on June 25, 1999. It was one of the most successful initial public offerings in history.</p><p class="paragraph paragraph-medium spaced-bottom"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,111 @@
+[
+{
+    "model": "documentation.products",
+    "pk": 1,
+    "fields": {
+        "prod_type": "Switching",
+        "prod_family": "EX",
+        "prod_model": "EX4300"
+    }
+},
+{
+    "model": "documentation.products",
+    "pk": 2,
+    "fields": {
+        "prod_type": "Routing",
+        "prod_family": "MX",
+        "prod_model": "MX80"
+    }
+},
+{
+    "model": "documentation.products",
+    "pk": 3,
+    "fields": {
+        "prod_type": "Routing",
+        "prod_family": "CTP",
+        "prod_model": "CTP2008"
+    }
+},
+{
+    "model": "documentation.products",
+    "pk": 4,
+    "fields": {
+        "prod_type": "Switching",
+        "prod_family": "QFX",
+        "prod_model": "QFX5100"
+    }
+},
+{
+    "model": "documentation.products",
+    "pk": 5,
+    "fields": {
+        "prod_type": "Routing",
+        "prod_family": "MX",
+        "prod_model": "MX Branch and Mid-Series"
+    }
+},
+{
+    "model": "documentation.products",
+    "pk": 6,
+    "fields": {
+        "prod_type": "Master Price List",
+        "prod_family": "Master Price List",
+        "prod_model": "Master Price List"
+    }
+},
+{
+    "model": "documentation.document",
+    "pk": 1,
+    "fields": {
+        "name": "10000467",
+        "category": "Datasheet",
+        "document": "support/documentation/1000467-en.pdf",
+        "description": "The Juniper Networks\u00ae EX4300 line of Ethernet switches with Virtual Chassis technology combines the carrier-class reliability of modular systems with the economics and flexibility of stackable platforms, delivering a high-performance, scalable solution for data center, campus, and branch office environments. Both 1GbE access and multigigabit switch options are available.",
+        "product": 1
+    }
+},
+{
+    "model": "documentation.document",
+    "pk": 2,
+    "fields": {
+        "name": "1000480",
+        "category": "Datasheet",
+        "document": "support/documentation/1000480-en.pdf",
+        "description": "The highly flexible, high-performance Juniper Networks\u00ae QFX5100 line of Ethernet switches provides the foundation for today\u2019s and tomorrow\u2019s dynamic data center. As a critical enabler for IT transformation, the data center network supports cloud and software-defined networking (SDN) adoption, as well as rapid deployment and delivery of applications. Mission-critical applications, network virtualization, and integrated or scale-out storage are driving the need for more adaptable networks. With its diverse set of deployment options, including fabric, Layer 3, and spine\r\nand leaf, the QFX5100 is the universal building block for data center switching architectures, enabling users to easily adapt as requirements change over time.",
+        "product": 4
+    }
+},
+{
+    "model": "documentation.document",
+    "pk": 3,
+    "fields": {
+        "name": "1000139",
+        "category": "Datasheet",
+        "document": "support/documentation/1000139-en.pdf",
+        "description": "Juniper Networks CTP Series Circuit to Packet Platforms provide the advanced technology and features required to\r\nreliably transport time-division multiplexing and other circuit- based applications across next- generation IP/MPLS networks. The CTP Series has the field- proven flexibility, performance and reliability required for circuit applications. The CTP Series technology includes many advanced clocking options and per-circuit buffers to enable end- to-end timing and the removal\r\nof jitter to create a psuedowire across the IP/MPLS network. The CTP Series enables customers to connect digital and analog voice applications easily and reliably across the IP network using circuit emulation over IP, bringing them the advantages of converged multiservice IP networking without the complexities and cost of upgrades required for VoIP. The CTP Series bridges the legacy and IP world and provides many unique features that enable cost reduction by eliminating point-to-point circuits and convergence of all applications onto one IP/MPLS network.",
+        "product": 3
+    }
+},
+{
+    "model": "documentation.document",
+    "pk": 4,
+    "fields": {
+        "name": "10000597",
+        "category": "Datasheet",
+        "document": "support/documentation/1000597-en.pdf",
+        "description": "The Juniper Networks\u00ae MX Series 5G Universal Routing Platform delivers the industry\u2019s first end-to-end infrastructure security solution for enterprises as they look to move business-critical applications to public clouds. Delivering features, functionality, and secure services at scale in the 5G era with no compromises, the MX Series is a critical part of the network evolution happening now.",
+        "product": 5
+    }
+},
+{
+    "model": "documentation.document",
+    "pk": 5,
+    "fields": {
+        "name": "Oct 2018",
+        "category": "Master Price List",
+        "document": "support/documentation/Juniper_Master_Price_List_-_October_2018.pdf",
+        "description": "Oct 2018 Master Price List",
+        "product": 6
+    }
+}
+]

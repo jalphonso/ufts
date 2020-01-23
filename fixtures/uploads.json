@@ -1,0 +1,164 @@
+[
+{
+    "model": "uploads.products",
+    "pk": 1,
+    "fields": {
+        "prod_type": "CTP",
+        "prod_family": "CTP",
+        "prod_model": "CTP2000"
+    }
+},
+{
+    "model": "uploads.products",
+    "pk": 2,
+    "fields": {
+        "prod_type": "Switching",
+        "prod_family": "EX",
+        "prod_model": "EX2200-C"
+    }
+},
+{
+    "model": "uploads.products",
+    "pk": 3,
+    "fields": {
+        "prod_type": "Routing",
+        "prod_family": "MX",
+        "prod_model": "MX80"
+    }
+},
+{
+    "model": "uploads.products",
+    "pk": 4,
+    "fields": {
+        "prod_type": "Switching",
+        "prod_family": "EX",
+        "prod_model": "EX4300"
+    }
+},
+{
+    "model": "uploads.uploadfile",
+    "pk": 3,
+    "fields": {
+        "name": "12.3R12-S11",
+        "file": "support/software/jinstall-ex-2200-12.3R12-S11-domestic-signed.tgz",
+        "version": "12.3",
+        "products": 2,
+        "description": "Release Bundle",
+        "md5sum": "62eeb48de297aad11a271d7dac4b1dce",
+        "sha256sum": "de3b0db1d8c7804f0e327c1a794e2552045082bd10f53864a73667a56c10fdea",
+        "uploaded_by": [
+            "admin"
+        ],
+        "uploaded_date": "2018-11-28",
+        "verified_by": [
+            "brubble"
+        ],
+        "verified_date": "2018-11-28"
+    }
+},
+{
+    "model": "uploads.uploadfile",
+    "pk": 4,
+    "fields": {
+        "name": "7.3R5",
+        "file": "support/software/ctp_complete_7.3R5_180910.tgz",
+        "version": "7.3",
+        "products": 1,
+        "description": "Release Bundle",
+        "md5sum": "8ecfcccb15ad6d3273e2d2c4f82d33d6",
+        "sha256sum": "6dc07172014f3f918545bef125a81d303959a8f8e8532d0476e59d97c8b25cdf",
+        "uploaded_by": [
+            "admin"
+        ],
+        "uploaded_date": "2018-11-28",
+        "verified_by": [
+            "brubble"
+        ],
+        "verified_date": "2018-11-28"
+    }
+},
+{
+    "model": "uploads.uploadfile",
+    "pk": 6,
+    "fields": {
+        "name": "14.1X53-D48.1",
+        "file": "support/software/jinstall-ex-4300-14.1X53-D48.1-domestic-signed.tgz",
+        "version": "14.1",
+        "products": 4,
+        "description": "Release Bundle",
+        "md5sum": "7b04e17dbeca9a0fc1597591987c5831",
+        "sha256sum": "ce127696a6aa7cf7c96d722d6daf6322a1b12422471abc3d7acfce8b9ffd7e35",
+        "uploaded_by": [
+            "admin"
+        ],
+        "uploaded_date": "2018-11-28",
+        "verified_by": [
+            "brubble"
+        ],
+        "verified_date": "2018-11-28"
+    }
+},
+{
+    "model": "uploads.uploadfile",
+    "pk": 7,
+    "fields": {
+        "name": "7.3R5",
+        "file": "support/software/flash_7.3R5.img",
+        "version": "7.3",
+        "products": 1,
+        "description": "Flash Image",
+        "md5sum": "1c578c163770a0622f64e79722649eda",
+        "sha256sum": "1ee8ec4a867afec3b093bae0bc0b1a65db08c958a5fad6f25858714dc3a09d86",
+        "uploaded_by": [
+            "admin"
+        ],
+        "uploaded_date": "2018-11-28",
+        "verified_by": [
+            "brubble"
+        ],
+        "verified_date": "2018-11-28"
+    }
+},
+{
+    "model": "uploads.uploadfile",
+    "pk": 8,
+    "fields": {
+        "name": "18.3R1.9",
+        "file": "support/software/jinstall-ppc-18.3R1.9-signed.tgz",
+        "version": "18.3",
+        "products": 3,
+        "description": "Release Bundle",
+        "md5sum": "4f218570d448f4025e81fa096d698a38",
+        "sha256sum": "7aa79ceddf30c90a63159892bb1eef24c29e4cce4d74f8c78d95ee71d900cbe5",
+        "uploaded_by": [
+            "admin"
+        ],
+        "uploaded_date": "2018-11-28",
+        "verified_by": [
+            "brubble"
+        ],
+        "verified_date": "2018-11-28"
+    }
+},
+{
+    "model": "uploads.uploadfile",
+    "pk": 9,
+    "fields": {
+        "name": "7.3R1",
+        "file": "support/software/ctp_complete_7.3R1_160826.tgz",
+        "version": "7.3",
+        "products": 1,
+        "description": "Release Bundle",
+        "md5sum": "52c6409a5eb46bd2727b2fbe6fe95390",
+        "sha256sum": "8ee75bd0e3a69f2051c3e0c6142413cf8c2a24537a7bf25355b339f1e9f9c580",
+        "uploaded_by": [
+            "admin"
+        ],
+        "uploaded_date": "2018-11-28",
+        "verified_by": [
+            "brubble"
+        ],
+        "verified_date": "2018-11-28"
+    }
+}
+]
