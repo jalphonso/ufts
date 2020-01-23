@@ -31,11 +31,11 @@ SECRET_KEY = 'n9ucrt9=)e!d=(uaimum@7onn%uvua6a(m^9-=zmscd$&f%(%u'
 DEBUG = True
 FROM_EMAIL = 'ufts_noreply@example.com'
 
-ALLOWED_HOSTS = ['support.atcii.net','172.16.16.125','support.atcii.net', 'patches.atcii.net', '35.231.90.209','ufts-demo.atcii.net', 'www.atcii.net', '127.0.0.1', 'greenlan.net',]
+ALLOWED_HOSTS = ['ufts.lab', 'support.atcii.net','172.16.16.125','support.atcii.net', 'patches.atcii.net', '35.231.90.209','ufts-demo.atcii.net', 'www.atcii.net', '127.0.0.1', 'localhost', 'greenlan.net',]
 # secure proxy SSL header and secure cookies
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
 
 # session expire at browser close
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -118,23 +118,23 @@ WSGI_APPLICATION = 'ufts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 # if DEBUG:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
 # else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#             'NAME': 'ufts',
-#             'USER': 'uftsuser',
-#             'PASSWORD': 'Th!sI5aS3cr3t',
-#             'HOST': 'localhost',
-#             'PORT': '5432',
-#         }
-#     }
+DATABASES = {
+ 'default': {
+     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+     'NAME': 'ufts',
+     'USER': 'uftsuser',
+     'PASSWORD': 'S3cr3tPWforUFTS',
+     'HOST': 'database1',
+     'PORT': '5432',
+ }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -182,10 +182,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = '/opt/services/ufts/static/'
 COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'),)
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = '/opt/services/ufts/media/'
 MEDIA_URL = '/media/'
 
 
@@ -257,7 +259,7 @@ LOGGING = {
             'backupCount': 7,
             'formatter': 'verbose',
         },
-       
+
         'user-logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',

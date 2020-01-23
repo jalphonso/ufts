@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+
+  ufts:
+    build: .
+    volumes:
+      - .:/opt/services/ufts/src
+      - ./static:/opt/services/ufts/static
+      - media_volume:/opt/services/ufts/media
+    networks:
+      - nginx_network
+      - database1_network
+    depends_on:
+      - database1
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - 8000:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./static:/opt/services/ufts/static
+      - media_volume:/opt/services/ufts/media
+    depends_on:
+      - ufts
+    networks:
+      - nginx_network
+
+  database1:
+    image: postgres:10
+    env_file:
+      - config/db/database1_env
+    networks:
+      - database1_network
+    volumes:
+      - database1_volume:/var/lib/postgresql/data
+
+networks:
+  nginx_network:
+    driver: bridge
+  database1_network:
+    driver: bridge
+
+volumes:
+  database1_volume:
+  media_volume:
