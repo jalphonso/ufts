@@ -18,17 +18,8 @@ def downloads(request):
     filename = ''
     for filename in upload_list:
         print(filename.file)
-
-    page = request.GET.get('page', 1)
-    paginator = Paginator(upload_list, 20)
-    try:
-        uploads = paginator.page(page)
-    except PageNotAnInteger:
-        uploads = paginator.page(1)
-    except EmptyPage:
-        uploads = paginator.page(paginator.num_pages)
     context = {
-        'uploads': uploads,
+        'uploads': upload_list,
     }
     logger.debug('user: {} |ip address: {} |downloaded_file: {}'.format(request.user, dw_client_ip, filename.file))
     return render(request, 'uploads/downloads.html', context)
