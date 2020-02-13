@@ -3,7 +3,6 @@ from django.core.files.storage import FileSystemStorage
 from .forms import SoftwareForm
 from .models import UploadFile
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import logging
 from .forms import SoftwareForm
 logger = logging.getLogger('download_user')
@@ -18,17 +17,8 @@ def downloads(request):
     filename = ''
     for filename in upload_list:
         print(filename.file)
-
-    page = request.GET.get('page', 1)
-    paginator = Paginator(upload_list, 20)
-    try:
-        uploads = paginator.page(page)
-    except PageNotAnInteger:
-        uploads = paginator.page(1)
-    except EmptyPage:
-        uploads = paginator.page(paginator.num_pages)
     context = {
-        'uploads': uploads,
+        'uploads': upload_list,
     }
     logger.debug('user: {} |ip address: {} |downloaded_file: {}'.format(request.user, dw_client_ip, filename.file))
     return render(request, 'uploads/downloads.html', context)
@@ -55,17 +45,8 @@ def verify_software(request):
     filename = ''
     for filename in upload_list:
         print(filename.file)
-
-    page = request.GET.get('page', 1)
-    paginator = Paginator(upload_list, 20)
-    try:
-        uploads = paginator.page(page)
-    except PageNotAnInteger:
-        uploads = paginator.page(1)
-    except EmptyPage:
-        uploads = paginator.page(paginator.num_pages)
     context = {
-        'uploads': uploads,
+        'uploads': upload_list,
     }
     uploads.debug('user: {} |ip address: {} |verified_file: {}'.format(request.user, client_ip, filename.file))
     return render(request, 'uploads/verify_software.html', context)
