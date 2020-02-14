@@ -15,7 +15,6 @@ urlpatterns = [
     path('consent/', include('consent.urls')),
     path('documentation/', include('documentation.urls')),
     path('downloads/', include('uploads.urls')),
-    path('eula/', TemplateView.as_view(template_name='uploads/eula.html'), name='eula'),
     path('upload_software', TemplateView.as_view(template_name='uploads/upload_software.html'), name='upload_software'),
     path('verify_software', TemplateView.as_view(template_name='uploads/verify_software.html'),name='verify_software'),
     path('jsa/', include('jsa.urls')),

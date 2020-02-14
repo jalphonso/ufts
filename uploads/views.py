@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from .forms import SoftwareForm
 from .models import UploadFile
+from documentation.models import Eula
 from django.contrib.auth.decorators import login_required
 import logging
 from .forms import SoftwareForm
@@ -50,4 +51,14 @@ def verify_software(request):
     }
     uploads.debug('user: {} |ip address: {} |verified_file: {}'.format(request.user, client_ip, filename.file))
     return render(request, 'uploads/verify_software.html', context)
+
+@login_required
+def eula(request):
+    client_ip = request.META['REMOTE_ADDR']
+    eula = Eula.objects.all().first()
+    if eula:
+        context = {'eula_summary': eula.summary, 'eula_file': eula.downloadable_file}
+    else:
+        context = {}
+    return render(request, 'uploads/eula.html', context)
 
