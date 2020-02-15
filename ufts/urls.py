@@ -12,7 +12,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
-    path('consent/', include('consent.urls')),
     path('documentation/', include('documentation.urls')),
     path('downloads/', include('uploads.urls')),
     path('upload_software', TemplateView.as_view(template_name='uploads/upload_software.html'), name='upload_software'),

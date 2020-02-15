@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Document, Products, Eula
+from .models import Document, Products, Eula, Consent
 
 
 @admin.register(Document)
@@ -14,3 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Eula)
 class EulaAdmin(admin.ModelAdmin):
     list_display = ['name', 'summary', 'description', 'downloadable_file']
+
+@admin.register(Consent)
+class ConsentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'summary', 'description']
