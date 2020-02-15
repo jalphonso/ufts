@@ -54,7 +54,6 @@ def verify_software(request):
 
 @login_required
 def eula(request):
-    client_ip = request.META['REMOTE_ADDR']
     eula = Eula.objects.all().first()
     if eula:
         context = {'eula_summary': eula.summary, 'eula_file': eula.downloadable_file}
