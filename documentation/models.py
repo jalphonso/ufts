@@ -23,3 +23,22 @@ class Document(models.Model):
 
     def __str__(self):
         return self.name
+
+class Eula(models.Model):
+    name = models.CharField(max_length=100, default='', editable=True)
+    summary = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    downloadable_file = models.FileField(upload_to='support/documentation',)
+
+
+    def __str__(self):
+        return self.name
+
+class Consent(models.Model):
+    name = models.CharField(max_length=100, default='', editable=True)
+    summary = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+
+    def __str__(self):
+        return self.name
