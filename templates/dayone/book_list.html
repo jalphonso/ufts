@@ -6,9 +6,6 @@
         <div class="container col-12">
             <div class="jumbotron">
             <h2>Dayone Books</h2>
-            <p>
-                <a href="{% url 'upload_book' %}" class="btn btn-primary">Upload Dayone Book</a>
-            </p>
                 <table id="table" class="table mb-0">
                     <thead>
                     <tr>
@@ -16,7 +13,6 @@
                         <th>Title</th>
                         <th>Author</th>
                         <th>Download</th>
-                        <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,14 +29,6 @@
                                 <td>{{ book.author }}</td>
                                 <td>
                                     <a href="{{ book.pdf.url }}" class="btn btn-primary btn-sm">Download PDF</a>
-                                </td>
-                                <td>
-                                    {% if user.is_staff %}
-                                    <form method="post" action="{% url 'delete_book' book.pk %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

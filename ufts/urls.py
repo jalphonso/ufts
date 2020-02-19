@@ -4,7 +4,6 @@ from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from dayone.views import upload_dayone, book_list, delete_book, upload_book
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
@@ -25,10 +24,7 @@ urlpatterns = [
     path('password_reset/done', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html')),
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html')),
     path('reset/done', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html')),
-    path('dayone/', upload_dayone, name='dayone'),
-    path('books/', book_list, name='book_list'),
-    path('books/dayone/', upload_book, name='upload_book'),
-    path('books/<int:pk>/', delete_book, name='delete_book'),
+    path('books/', include('dayone.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
