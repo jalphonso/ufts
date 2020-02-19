@@ -15,8 +15,6 @@ urlpatterns = [
     path('documentation/', include('documentation.urls')),
     path('downloads/', include('uploads.urls')),
     path('eula/', TemplateView.as_view(template_name='uploads/eula.html'), name='eula'),
-    path('upload_software', TemplateView.as_view(template_name='uploads/upload_software.html'), name='upload_software'),
-    path('verify_software', TemplateView.as_view(template_name='uploads/verify_software.html'),name='verify_software'),
     path('jsa/', include('jsa.urls')),
     path('password_change', auth_views.PasswordChangeView.as_view(template_name='registration/password_change_form.html')),
     path('password_change/done', auth_views.PasswordChangeDoneView.as_view(template_name='registration/password_change_done.html')),
