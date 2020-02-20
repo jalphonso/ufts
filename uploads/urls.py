@@ -4,6 +4,4 @@ from . import views
 urlpatterns = [
     path('', views.downloads, name='uploads'),
     path('eula', views.eula, name='eula'),
-    path('upload_software', views.upload_software, name='upload_software'),
-    path('verify_software', views.verify_software, name='verify_software'),
 ]
