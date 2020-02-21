@@ -1,6 +1,8 @@
-from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 import hashlib
 
 
@@ -48,3 +50,8 @@ class UploadFile(models.Model):
             self.md5sum = md5hash.hexdigest()
             self.filesize = self.file.size
             super(UploadFile, self).save(*args, **kwargs)
+
+
+@receiver(post_delete, sender=UploadFile)
+def submission_delete(sender, instance, **kwargs):
+    instance.file.delete(False)
