@@ -26,9 +26,9 @@ class UploadFile(models.Model):
     description = models.CharField(max_length=200)
     md5sum = models.CharField(max_length=32, help_text='128bit, 32 Characters', blank=True, editable=True)
     sha256sum = models.CharField(max_length=64, help_text='256bit, 64 Characters', blank=True, editable=True)
-    uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='uploader')
+    uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='uploader')
     uploaded_date = models.DateField(auto_now_add=True, editable=False)
-    verified_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='verifier')
+    verified_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, blank=True, null=True, related_name='verifier')
     verified_date = models.DateField(auto_now=True, editable=False)
 
     def __str__(self):
