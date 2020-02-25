@@ -53,7 +53,7 @@ class UploadFile(models.Model):
             super(UploadFile, self).save(*args, **kwargs)
 
     def clean(self):
-        if self.uploaded_by == self.verified_by:
+        if hasattr(self, 'uploaded_by') and self.uploaded_by == self.verified_by:
             self.verified_by = None
             raise ValidationError("Verified by user must be different from Uploaded by user")
 
