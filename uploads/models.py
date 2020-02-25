@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
@@ -50,6 +51,11 @@ class UploadFile(models.Model):
             self.md5sum = md5hash.hexdigest()
             self.filesize = self.file.size
             super(UploadFile, self).save(*args, **kwargs)
+
+    def clean(self):
+        if self.uploaded_by == self.verified_by:
+            self.verified_by = None
+            raise ValidationError("Verified by user must be different from Uploaded by user")
 
 
 @receiver(post_delete, sender=UploadFile)
