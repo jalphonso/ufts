@@ -15,6 +15,9 @@ class UploadFileAdmin(admin.ModelAdmin):
                 readonly_fields = readonly_fields + ('uploaded_by',)
             if obj.verified_by:
                 readonly_fields = readonly_fields + ('verified_by',)
+            if obj.file:
+                readonly_fields = readonly_fields + ('file',)
+        readonly_fields = readonly_fields + ('md5sum', 'sha256sum')
         return readonly_fields
 
 
