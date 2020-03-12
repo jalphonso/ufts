@@ -8,6 +8,7 @@ services:
       - .:/opt/services/ufts/src
       - ./static:/opt/services/ufts/static
       - media_volume:/opt/services/ufts/media
+      - software_volume:/opt/services/ufts/software
     networks:
       - nginx_network
       - database1_network
@@ -22,6 +23,7 @@ services:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - ./static:/opt/services/ufts/static
       - media_volume:/opt/services/ufts/media
+      - software_volume:/opt/services/ufts/software
     depends_on:
       - ufts
     networks:
@@ -45,3 +47,4 @@ networks:
 volumes:
   database1_volume:
   media_volume:
+  software_volume:

@@ -38,11 +38,9 @@
                             <li class="nav-item active">
                                 <a class="nav-link " href="{% url 'home' %}">Home<span class="sr-only">(current)</span></a>
                             </li>
-                            {% if request.user|has_group:"downloads" %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'eula' %}">Downloads</a>
                             </li>
-                            {% endif %}
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'jsa' %}">Advisories</a>

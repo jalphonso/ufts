@@ -190,6 +190,8 @@ COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'),)
 MEDIA_ROOT = '/opt/services/ufts/media/'
 MEDIA_URL = '/media/'
 
+SOFTWARE_ROOT = '/opt/services/ufts/software/'
+SOFTWARE_URL = '/software/'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
