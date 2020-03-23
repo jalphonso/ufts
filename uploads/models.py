@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.core.files.storage import FileSystemStorage
 from django.db import models
-from django.db.models.signals import post_delete
-from django.dispatch import receiver
 import hashlib
 
+fs = FileSystemStorage(location=settings.SOFTWARE_ROOT, base_url=settings.SOFTWARE_URL)
 
 class Products(models.Model):
     prod_type = models.CharField(max_length=100, default='')  # Routing, Switching, Security, SDN, Packet Optical
@@ -21,7 +21,7 @@ class Products(models.Model):
 
 class UploadFile(models.Model):
     name = models.CharField(max_length=200, blank=True, editable=True)
-    file = models.FileField(upload_to='support/software',)
+    file = models.FileField(storage=fs)
     version = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
     products = models.ForeignKey(Products, on_delete=models.CASCADE, default='')
     description = models.CharField(max_length=200)
@@ -56,8 +56,3 @@ class UploadFile(models.Model):
         if hasattr(self, 'uploaded_by') and self.uploaded_by == self.verified_by:
             self.verified_by = None
             raise ValidationError("Verified by user must be different from Uploaded by user")
-
-
-@receiver(post_delete, sender=UploadFile)
-def submission_delete(sender, instance, **kwargs):
-    instance.file.delete(False)

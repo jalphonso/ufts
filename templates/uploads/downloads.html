@@ -28,12 +28,12 @@
                                 <tr>
                                     <td style="width: 400px" class="col-md-4">{{ upload.products }}</td>
                                     <td style="width: 400px" class="col-md-4">{{ upload.version }}</td>
-                                    <td style="width: 400px" class="col-md-4"><a href="{{ MEDIA_URL }}{{ upload.file }}">{{ upload.file }}</a></td>
+                                    <td style="width: 400px" class="col-md-4"><a href="file/{{ upload.file }}">{{ upload.file }}</a></td>
                                     <td style="width: 250px" class="col-md-4">{{ upload.description }}</td>
                                     <td style="width: 400px" class="col-md-4">{{ upload.md5sum }}</td>
                                     <td style="width: 400px" class="col-md-4">{{ upload.sha256sum }}</td>
                                     <td>
-                                        <a href="{{ upload.file.url }}" class="btn btn-primary btn-sm" name="soft_down">Download Software</a>
+                                        <a href="file/{{ upload.file }}" class="btn btn-primary btn-sm" name="soft_down">Download Software</a>
 {#                                        <input type="submit" class="btn btn-primary btn-sm" value="Download Software" name="soft_down">#}
                                     </td>
                                 </tr>
