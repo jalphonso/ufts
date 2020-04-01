@@ -2,7 +2,54 @@ version: '3'
 
 services:
 
-  ufts:
+  web-lb:
+    build:
+      context: .
+      dockerfile: Dockerfile-haproxy
+    volumes:
+      - ./config/web-haproxy/:/usr/local/etc/haproxy/
+      - ./config/certs/:/etc/ssl/certs/
+    depends_on:
+      - web
+    networks:
+      - frontend_network
+    ports:
+      - "80:80"
+      - "443:443"
+    hostname: haproxy
+    user: root
+    restart: unless-stopped
+
+  app-lb:
+    build:
+      context: .
+      dockerfile: Dockerfile-haproxy
+    volumes:
+      - ./config/app-haproxy/:/usr/local/etc/haproxy/
+    depends_on:
+      - app
+    networks:
+      - frontend_network
+    expose:
+      - "8000"
+    hostname: haproxy
+    user: root
+    restart: unless-stopped
+
+  web:
+    image: nginx:latest
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./static:/opt/services/ufts/static
+      - media_volume:/opt/services/ufts/media
+      - software_volume:/opt/services/ufts/software
+    depends_on:
+      - app
+    networks:
+      - frontend_network
+    restart: unless-stopped
+
+  app:
     build: .
     volumes:
       - .:/opt/services/ufts/src
@@ -10,41 +57,29 @@ services:
       - media_volume:/opt/services/ufts/media
       - software_volume:/opt/services/ufts/software
     networks:
-      - nginx_network
-      - database1_network
+      - frontend_network
+      - backend_network
     depends_on:
-      - database1
+      - db
+    restart: unless-stopped
 
-  nginx:
-    image: nginx:1.13
-    ports:
-      - 8000:80
-    volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
-      - ./static:/opt/services/ufts/static
-      - media_volume:/opt/services/ufts/media
-      - software_volume:/opt/services/ufts/software
-    depends_on:
-      - ufts
-    networks:
-      - nginx_network
-
-  database1:
+  db:
     image: postgres:10
     env_file:
-      - config/db/database1_env
+      - config/db/postgres_env
     networks:
-      - database1_network
+      - backend_network
     volumes:
-      - database1_volume:/var/lib/postgresql/data
+      - db_volume:/var/lib/postgresql/data
+    restart: unless-stopped
 
 networks:
-  nginx_network:
+  frontend_network:
     driver: bridge
-  database1_network:
+  backend_network:
     driver: bridge
 
 volumes:
-  database1_volume:
+  db_volume:
   media_volume:
   software_volume:

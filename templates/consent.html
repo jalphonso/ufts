@@ -10,7 +10,6 @@
             <hr/>
             <form action="{%  url 'login' %}" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
                 <p class="text-sm-left text-muted h5"> {{ consent|linebreaksbr }} </p>
                 <hr/>
                 <input type="submit" value="Accept" />

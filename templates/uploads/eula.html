@@ -10,7 +10,6 @@
             <div class="container center col-8">
                 <form action="{%  url 'uploads' %}" method="post">
                     {% csrf_token %}
-                    {{ form.as_p }}
                     <p class="text-sm-left text-muted h5">{{ eula_summary }}</p>
                     <a href="{{ MEDIA_URL }}{{ eula_file }}" class="link shown" title="EULA" target="">To view Full EULA click HERE</a>
                     <hr/>
