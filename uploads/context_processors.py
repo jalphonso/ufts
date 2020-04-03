@@ -11,4 +11,5 @@ def global_settings(request):
         'code_owner': settings.OWNER,
         'license_key': settings.LICENSE_KEY,
         'access_code': settings.ACCESS_CODE,
+        'version': settings.VERSION,
 }

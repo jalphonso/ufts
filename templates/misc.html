@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+    {% block title %}Miscellaneous Files{% endblock %}
+    {% block content %}
+      <div class="container col-12">
+          <div class="jumbotron">
+          <h2>Miscellaneous Files</h2>
+              <table id="table" class="table mb-0">
+                  <thead>
+                  <tr>
+                      <th>Title</th>
+                      <th>File</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                      {% for file in files %}
+                          <tr>
+                              <td>{{ file.title }}</td>
+                              <td>
+                                  <a href="{{ file.file.url }}" class="btn btn-primary btn-sm">Download File</a>
+                              </td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+{% endblock %}

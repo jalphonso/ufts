@@ -71,6 +71,8 @@ PROJECT_APPS = [
     'jsa.apps.JsaConfig',
     'uploads.apps.UploadsConfig',
     'users.apps.UsersConfig',
+    'misc.apps.MiscConfig',
+    'home.apps.HomeConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
@@ -202,7 +204,8 @@ CLASSIFICATION_BACKGROUND_COLOR = 'green'
 # CLASSIFICATION_LINK = '/security'
 
 PRODUCT_NAME = 'UFTS'
-OWNER = 'James Lamb'
+OWNER = 'Juniper Networks'
+VERSION = "1.0"
 LICENSE_KEY = 'CBXS-V9K7-9CRR-PLU6-1LN4'
 ACCESS_CODE = '1863'
 COMPANY_NAME = 'Juniper Networks'
