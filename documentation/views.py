@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 import logging
 logger = logging.getLogger('documentation_user')
 
-@login_required
+
 def index(request):
     client_ip = request.META['REMOTE_ADDR']
     document_list = Document.objects.all().order_by('document')

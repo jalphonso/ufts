@@ -2,8 +2,6 @@
 {% block title %}Juniper Security Advisories{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-
     <div class="container col-12">
         <div class="jumbotron">
             <h2 class="text-center">Juniper Security Advisories</h2>
@@ -29,14 +27,4 @@
             </div>
         </div>
     </div>
-
-    {% else %}
-        <div class="container">
-            <div class="jumbotron">
-                <p>You are logged in.</p>
-            </div>
-        </div>
-
-    {% endif %}
-
 {% endblock %}

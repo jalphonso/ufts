@@ -2,7 +2,6 @@
 {% load crispy_forms_tags %}
     {% block title %}Dayone Books{% endblock %}
     {% block content %}
-        {% if user.is_authenticated %}
         <div class="container col-12">
             <div class="jumbotron">
             <h2>Dayone Books</h2>
@@ -36,5 +35,4 @@
                 </table>
             </div>
         </div>
-        {% endif %}
 {% endblock %}

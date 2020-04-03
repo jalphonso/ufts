@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from lib.utilities import do_user_logging
 
 
-@login_required
 def index(request):
     jsa_list = Jsa.objects.all().order_by('document')
 
