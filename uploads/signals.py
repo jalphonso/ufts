@@ -16,3 +16,4 @@ def create_product_permission(sender, instance, **kwargs):
 @receiver(post_delete, sender=UploadFile)
 def submission_delete(sender, instance, **kwargs):
     instance.file.delete(False)
+    instance.release_notes.delete(False)

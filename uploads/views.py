@@ -56,6 +56,28 @@ def download_file(request):
 
 
 @login_required
+@permission_required('uploads.view_uploadfile', raise_exception=True)
+def download_release_notes(request):
+    dw_client_ip = request.META['REMOTE_ADDR']
+    filename = request.path.split('/')[-1]
+    try:
+        associated_software = UploadFile.objects.get(release_notes=filename)
+        release_notes = associated_software.release_notes
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound(render(request, '404.html'))
+    is_verified = bool(associated_software.verified_by)
+    permission = 'uploads.' + associated_software.products.prod_type + '_download'
+    if is_verified and request.user.has_perm(permission):
+        logger.debug('user: {} |ip address: {} |downloaded_file: {}'.format(request.user, dw_client_ip, release_notes))
+        response = HttpResponse()
+        response['Content-Type'] = ''
+        response['X-Accel-Redirect'] = settings.SOFTWARE_URL + 'release_notes/' + release_notes.name
+        return response
+    else:
+        return HttpResponseForbidden(render(request, '403.html'))
+
+
+@login_required
 def eula(request):
     eula = Eula.objects.all().first()
     if eula:
