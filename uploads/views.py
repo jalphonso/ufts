@@ -60,6 +60,8 @@ def download_file(request):
 def download_release_notes(request):
     dw_client_ip = request.META['REMOTE_ADDR']
     filename = request.path.split('/')[-1]
+    if not filename:
+        return HttpResponseNotFound(render(request, '404.html'))
     try:
         associated_software = UploadFile.objects.get(release_notes=filename)
         release_notes = associated_software.release_notes
