@@ -26,7 +26,7 @@ backend app-servers
     timeout queue 5s
     balance roundrobin
     option tcp-check
-    tcp-check send HEAD / HTTP/1.1\r\nHost:\ ufts.lab
+    tcp-check send HEAD /about HTTP/1.1\r\nHost:\ ufts.lab
     default-server check maxconn 100
     {{range service "ufts_app" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} check
     {{end}}
