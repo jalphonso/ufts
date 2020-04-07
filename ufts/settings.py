@@ -19,7 +19,6 @@ import logging
 
 # Build paths inside the ufts like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OWNER = 'Jim Lamb'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -28,7 +27,7 @@ OWNER = 'Jim Lamb'
 SECRET_KEY = 'n9ucrt9=)e!d=(uaimum@7onn%uvua6a(m^9-=zmscd$&f%(%u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 FROM_EMAIL = 'ufts_noreply@example.com'
 
 ALLOWED_HOSTS = ['ufts.lab', 'support.atcii.net','172.16.16.125','support.atcii.net', 'patches.atcii.net', '35.231.90.209','ufts-demo.atcii.net', 'www.atcii.net', '127.0.0.1', 'localhost', 'greenlan.net', '192.168.202.179']
