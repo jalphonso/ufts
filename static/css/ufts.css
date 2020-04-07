@@ -51,7 +51,9 @@ body {
 
 .jumbotron {
     size: cover;
+    background-color: white;
 }
+
 .nav-link {
     font-family: Diwan, Verdana, Tahoma, Arial, sans-serif;
 }
