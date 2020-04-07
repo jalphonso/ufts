@@ -4,4 +4,4 @@ from .models import Jsa
 
 @admin.register(Jsa)
 class JsaAdmin(admin.ModelAdmin):
-    list_display = ['displayName', 'document', 'description']
+    list_display = ['displayName', 'document', 'description', 'date']

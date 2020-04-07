@@ -5,7 +5,7 @@ from lib.utilities import do_user_logging
 
 
 def index(request):
-    jsa_list = Jsa.objects.all().order_by('document')
+    jsa_list = Jsa.objects.all().order_by('date')
 
     context = {'documents': jsa_list}
     do_user_logging(request)

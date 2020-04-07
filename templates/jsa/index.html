@@ -12,6 +12,7 @@
                             <tr>
                                 <th style="width: 600px" class="col-md-4">Document Name</th>
                                 <th style="width: 600px" class="col-md-4">Description</th>
+                                <th style="width: 600px" class="col-md-4">Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -19,6 +20,7 @@
                                 <tr>
                                     <td style="width: 600px" class="col-md-4"><a href="{{ MEDIA_URL }}{{ document.document}}">{{ document.displayName }}</a></td>
                                     <td style="width: 600px" class="col-md-4">{{ document.description }}</td>
+                                    <td style="width: 600px" class="col-md-4">{{ document.date }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
