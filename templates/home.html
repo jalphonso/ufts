@@ -4,20 +4,37 @@
 {% block title %} - {{ page.title }{% endblock %}
 
 {% block content %}
-    <div class="container text-center col-12">
+    <div class="container col-12">
         <div class="jumbotron">
             <div class="row">
-                <div class="container col-12">
+                <div class="container col-6">
                     <h2>Announcements</h2>
-                    <h3 style="color: red;">
-                        <p>Contract expiring in less than 90 days.</p>
-                        <p>Once expired you will lose software download access.</p>
-                        <p>Please renew your support contract.</p>
-                    </h3>
+                {% for contract in contracts %}
+                  {% if not contract.valid %}
+                    <h5 style="color: orange;">
+                        <p>Contract "{{ contract.name }}" associated with profile is invalid. Please contact the Administrator to correct.</p>
+                    </h5>
+                  {% elif contract.expiring %}
+                    <h5 style="color: red;">
+                        <p>Contract "{{ contract.name }}" expires on {{ contract.expiry_date }} (less than 90 days)
+                           Once expired you will lose software download access for products associated with this contract.
+                           Please renew your support contract.</p>
+                    </h5>
+                  {% else %}
+                    <h5 style="color: green;">
+                        <p>Contract "{{ contract.name }}" is valid and not expiring anytime soon.</p>
+                    </h5>
+                  {% endif %}
+                {% endfor %}
+                {% if not contracts %}
+                  <h5>Please login to access the full site</h5>
+                {% endif %}
+                </div>
+                <div class="container col-6">
                     <h3>New JSAs (last 30 days)</h3>
-                    <p>JSA123: NTP Vulnerability</p>
-                    <p>JSA456: DNS Vulnerability</p>
-                    <p>JSA789: BGP Vulnerability</p>
+                  {% for jsa in jsas %}
+                    <p>{{ jsa.displayName }} {{ jsa.description }}</p>
+                  {% endfor %}
                 </div>
             </div>
         </div>
