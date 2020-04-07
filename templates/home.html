@@ -26,8 +26,10 @@
                     </h5>
                   {% endif %}
                 {% endfor %}
-                {% if not contracts %}
+                {% if not user.is_authenticated %}
                   <h5>Please login to access the full site</h5>
+                {% elif not contracts %}
+                  <h5>Please contact the Administrator to add your contract to your profile</h5>
                 {% endif %}
                 </div>
                 <div class="container col-6">
