@@ -17,11 +17,14 @@ def home(request):
                 contract_obj = Contract.objects.get(name__exact=contract)
                 expiry_date = contract_obj.expiry_date
                 warning_date = (now + timedelta(days=90)).date()
-                if expiry_date and expiry_date <= warning_date:
+                if expiry_date and expiry_date < now.date():
+                    expired = True
+                elif expiry_date and expiry_date <= warning_date:
                     expiring = True
                 contract_statuses.append({'name': contract,
                                           'valid': True,
                                           'expiry_date': expiry_date,
+                                          'expired': expired,
                                           'expiring': expiring })
             except ObjectDoesNotExist:
                 contract_statuses.append({'name': contract,
