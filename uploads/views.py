@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
@@ -6,24 +7,43 @@ from .models import UploadFile
 from documentation.models import Eula
 from django.contrib.auth.decorators import login_required, permission_required
 from itertools import chain
+from users.models import Contract
+
 import logging
 
 
 logger = logging.getLogger('download_user')
 
 
+def get_permissions(user):
+    now = datetime.now().date()
+    groups = user.groups.all()
+    download_permissions = []
+    for group in groups:
+        try:
+            contract_obj = Contract.objects.get(name__exact=group)
+        except ObjectDoesNotExist:
+            continue
+        expiry_date = contract_obj.expiry_date
+        if expiry_date < now:
+            continue
+        permissions = list(group.permissions.all())
+        for permission in permissions:
+            permission_name = permission.codename
+            if 'download' in permission_name:
+                if permission_name not in download_permissions:
+                    download_permissions.append(permission_name)
+    return download_permissions
+
+
 @login_required
 @permission_required('uploads.view_uploadfile', raise_exception=True)
 def downloads(request):
-    permissions = request.user.get_all_permissions()
-    download_permissions = []
-    for permission in permissions:
-        if 'download' in permission:
-            download_permissions.append(permission.split('_')[0])
+    download_permissions = get_permissions(request.user)
     dw_client_ip = request.META['REMOTE_ADDR']
     upload_list = []
     for permission in download_permissions:
-        prod_type = permission.split('.')[1]
+        prod_type = permission.split('_')[0]
         query_set = UploadFile.objects.all().order_by('file').filter(products__prod_type=prod_type)
         upload_list = chain(upload_list, query_set)
     upload_list = list(upload_list)
@@ -39,13 +59,15 @@ def downloads(request):
 def download_file(request):
     dw_client_ip = request.META['REMOTE_ADDR']
     filename = request.path.split('/')[-1]
+    download_permissions = get_permissions(request.user)
     try:
         file_requested = UploadFile.objects.get(file=filename)
     except ObjectDoesNotExist:
         return HttpResponseNotFound(render(request, '404.html'))
     is_verified = bool(file_requested.verified_by)
-    permission = 'uploads.' + file_requested.products.prod_type + '_download'
-    if is_verified and request.user.has_perm(permission):
+    permission = file_requested.products.prod_type + '_download'
+
+    if is_verified and permission in download_permissions:
         logger.debug('user: {} |ip address: {} |downloaded_file: {}'.format(request.user, dw_client_ip, filename))
         response = HttpResponse()
         response['Content-Type'] = ''
@@ -60,6 +82,7 @@ def download_file(request):
 def download_release_notes(request):
     dw_client_ip = request.META['REMOTE_ADDR']
     filename = request.path.split('/')[-1]
+    download_permissions = get_permissions(request.user)
     if not filename:
         return HttpResponseNotFound(render(request, '404.html'))
     try:
@@ -68,8 +91,8 @@ def download_release_notes(request):
     except ObjectDoesNotExist:
         return HttpResponseNotFound(render(request, '404.html'))
     is_verified = bool(associated_software.verified_by)
-    permission = 'uploads.' + associated_software.products.prod_type + '_download'
-    if is_verified and request.user.has_perm(permission):
+    permission = associated_software.products.prod_type + '_download'
+    if is_verified and permission in download_permissions:
         logger.debug('user: {} |ip address: {} |downloaded_file: {}'.format(request.user, dw_client_ip, release_notes))
         response = HttpResponse()
         response['Content-Type'] = ''
