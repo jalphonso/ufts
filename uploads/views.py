@@ -14,6 +14,13 @@ import logging
 
 logger = logging.getLogger('download_user')
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def get_permissions(user):
     now = datetime.now().date()
@@ -40,7 +47,7 @@ def get_permissions(user):
 @permission_required('uploads.view_uploadfile', raise_exception=True)
 def downloads(request):
     download_permissions = get_permissions(request.user)
-    dw_client_ip = request.META['REMOTE_ADDR']
+    dw_client_ip = get_client_ip(request)
     upload_list = []
     for permission in download_permissions:
         prod_type = permission.split('_')[0]
@@ -57,7 +64,7 @@ def downloads(request):
 @login_required
 @permission_required('uploads.view_uploadfile', raise_exception=True)
 def download_file(request):
-    dw_client_ip = request.META['REMOTE_ADDR']
+    dw_client_ip = get_client_ip(request)
     filename = request.path.split('/')[-1]
     download_permissions = get_permissions(request.user)
     try:
@@ -80,7 +87,7 @@ def download_file(request):
 @login_required
 @permission_required('uploads.view_uploadfile', raise_exception=True)
 def download_release_notes(request):
-    dw_client_ip = request.META['REMOTE_ADDR']
+    dw_client_ip = get_client_ip(request)
     filename = request.path.split('/')[-1]
     download_permissions = get_permissions(request.user)
     if not filename:

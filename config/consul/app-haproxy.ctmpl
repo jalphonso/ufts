@@ -19,6 +19,7 @@ defaults
     maxconn 5000
 
 frontend request-in
+    option forwardfor
     bind *:8000
     default_backend app-servers
 
