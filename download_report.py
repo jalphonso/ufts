@@ -8,7 +8,7 @@ class CustomPDF(FPDF):
 
     def header(self):
         # Set up a logo
-        self.image('./static/img/Juniper-Logo.jpeg', 10, 8, 33)
+        self.image('./static/img/Juniper-Logo.svg', 10, 8, 33)
         self.set_font('Times', '', 10)
 
         # Add an address

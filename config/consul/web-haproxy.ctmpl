@@ -32,7 +32,7 @@ backend https-servers
     timeout queue 5s
     balance roundrobin
     cookie WEBSERVERUSED insert indirect nocache
-    option httpchk HEAD / HTTP/1.1\r\nHost:\ ufts.lab
+    option httpchk HEAD /static/img/Juniper-Logo.svg HTTP/1.1\r\nHost:\ ufts.lab
     default-server check maxconn 100
     {{range service "nginx" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} cookie {{.ID }} check
     {{end}}

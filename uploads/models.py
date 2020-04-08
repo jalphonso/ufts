@@ -5,7 +5,8 @@ from django.core.files.storage import FileSystemStorage
 from django.db import models
 import hashlib
 
-fs = FileSystemStorage(location=settings.SOFTWARE_ROOT, base_url=settings.SOFTWARE_URL)
+fs_software = FileSystemStorage(location=settings.SOFTWARE_ROOT, base_url=settings.SOFTWARE_URL)
+fs_release_notes = FileSystemStorage(location=settings.SOFTWARE_ROOT + 'release_notes/', base_url=settings.SOFTWARE_URL + 'release_notes/')
 
 class Products(models.Model):
     prod_type = models.CharField(max_length=100, default='')  # Routing, Switching, Security, SDN, Packet Optical
@@ -21,7 +22,8 @@ class Products(models.Model):
 
 class UploadFile(models.Model):
     name = models.CharField(max_length=200, blank=True, editable=True)
-    file = models.FileField(storage=fs)
+    file = models.FileField(storage=fs_software)
+    release_notes = models.FileField(storage=fs_release_notes, blank=True, null=True)
     version = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
     products = models.ForeignKey(Products, on_delete=models.CASCADE, default='')
     description = models.CharField(max_length=200)

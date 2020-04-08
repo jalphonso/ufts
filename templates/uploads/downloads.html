@@ -19,6 +19,7 @@
                                 <th style="width: 400px" class="col-md-4">MD5 Hash</th>
                                 <th style="width: 400px" class="col-md-4">SHA256</th>
                                 <th style="width: 400px" class="col-md-4">Download</th>
+                                <th style="width: 400px" class="col-md-4">Release Notes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,7 +35,9 @@
                                     <td style="width: 400px" class="col-md-4">{{ upload.sha256sum }}</td>
                                     <td>
                                         <a href="file/{{ upload.file }}" class="btn btn-primary btn-sm" name="soft_down">Download Software</a>
-{#                                        <input type="submit" class="btn btn-primary btn-sm" value="Download Software" name="soft_down">#}
+                                    </td>
+                                    <td>
+                                        <a href="file/release_notes/{{ upload.release_notes }}" class="btn btn-primary btn-sm" name="soft_down">Download Release Notes</a>
                                     </td>
                                 </tr>
                                 {% endif %}
@@ -49,7 +52,7 @@
     {% else %}
         <div class="container">
             <div class="jumbotron">
-                <p>You are logged in.</p>
+                <p>You are logged out.</p>
             </div>
         </div>
 

@@ -25,10 +25,11 @@
     <body>
         {% classification_banner %}
         <header>
-            <!-- Fixed navbar -->
         <div id="app" class="container">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style="font-family: Arial; font-size: large">
-                <img class="navbar-brand" src="{% static 'img/Juniper-Logo.jpeg' %}">
+                <a href="{% url 'home' %}">
+                    <img class="navbar-brand" src="{% static 'img/Juniper-Logo.svg' %}">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -51,11 +52,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'book_list' %}">Day One Books</a>
                             </li>
-{#                            {% if user.is_staff %}#}
-{#                            <li class="nav-item">#}
-{#                                <a class="nav-link" href="{% url 'about' %}">About</a>#}
-{#                            </li>#}
-{#                            {% endif %}#}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'misc' %}">Misc</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'about' %}">About</a>
+                            </li>
 
                             <li class="nav-item dropdown ml-5 text-right">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -72,18 +74,11 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
                                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-{#                                    <div class="dropdown-divider"></div>#}
                                 </div>
                             </li>
                         </ul>
                     </div>
                 {% else %}
-                <div id="app" class="container">
-                    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                        <img class="navbar-brand" src="{% static 'img/Juniper-Logo.jpeg' %}">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
@@ -95,12 +90,28 @@
                             <li class="nav-item mr-auto">
                                 <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'jsa' %}">Advisories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'documentation' %}">Documentation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'book_list' %}">Day One Books</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'misc' %}">Misc</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'about' %}">About</a>
+                            </li>
 
                         </ul>
                     </div>
 
                 {% endif %}
             </nav>
+        </div>
         </header>
         <main>
             {% block content %}

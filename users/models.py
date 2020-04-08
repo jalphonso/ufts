@@ -8,9 +8,13 @@ class CustomUser(AbstractUser):
     class_phone = models.CharField(max_length=30, default='', editable=True)
     unclas_phone = models.CharField(max_length=30, default='', editable=True)
     company = models.CharField(max_length=30, default='', editable=True)
-    contract_number = models.CharField(max_length=30, default='', editable=True, blank=True, null=True)
     jsa = models.BooleanField(default=True, editable=True, blank=True, null=True)
 
 
     def __str__(self):
         return self.email
+
+
+class Contract(models.Model):
+    name = models.CharField(max_length=50, default='', editable=True)
+    expiry_date = models.DateField(editable=True)

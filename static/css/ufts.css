@@ -7,6 +7,9 @@ div > .jumbotron {
     font-size: 10px;
     padding-bottom: 280px;
 }
+body {
+    font-family: Diwan, Verdana, Tahoma, Arial, sans-serif;
+}
 
 * {
     box-sizing: border-box;
@@ -37,17 +40,22 @@ div > .jumbotron {
 }
 
 .pagination {
-    font-family: Arial;
+    font-family: Diwan, Verdana, Tahoma, Arial, sans-serif;
     font-size: 16px;
 }
 
 .disabled {
-    font-family: Arial;
+    font-family: Diwan, Verdana, Tahoma, Arial, sans-serif;
     font-size: 16px;
 }
 
 .jumbotron {
     size: cover;
+    background-color: white;
+}
+
+.nav-link {
+    font-family: Diwan, Verdana, Tahoma, Arial, sans-serif;
 }
 
 @media only screen and (min-width: 768px) {

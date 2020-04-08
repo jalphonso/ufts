@@ -2,8 +2,6 @@
 {% block title %}Juniper Security Advisories{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-
     <div class="container col-12">
         <div class="jumbotron">
             <h2 class="text-center">Juniper Security Advisories</h2>
@@ -14,6 +12,7 @@
                             <tr>
                                 <th style="width: 600px" class="col-md-4">Document Name</th>
                                 <th style="width: 600px" class="col-md-4">Description</th>
+                                <th style="width: 600px" class="col-md-4">Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -21,6 +20,7 @@
                                 <tr>
                                     <td style="width: 600px" class="col-md-4"><a href="{{ MEDIA_URL }}{{ document.document}}">{{ document.displayName }}</a></td>
                                     <td style="width: 600px" class="col-md-4">{{ document.description }}</td>
+                                    <td style="width: 600px" class="col-md-4">{{ document.date }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -29,14 +29,4 @@
             </div>
         </div>
     </div>
-
-    {% else %}
-        <div class="container">
-            <div class="jumbotron">
-                <p>You are logged in.</p>
-            </div>
-        </div>
-
-    {% endif %}
-
 {% endblock %}
