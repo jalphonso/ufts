@@ -13,6 +13,7 @@ def home(request):
         contracts = request.user.groups.all()
         for contract in contracts:
             expiring = False
+            expired = False
             try:
                 contract_obj = Contract.objects.get(name__exact=contract)
                 expiry_date = contract_obj.expiry_date
