@@ -1,9 +1,16 @@
 [
 {
-    "model": "auth.group",
+    "model": "users.contract",
     "fields": {
-        "name": "downloads",
-        "permissions": []
+        "name": "long-expired",
+        "expiry_date": "2019-08-08"
+    }
+},
+{
+    "model": "users.contract",
+    "fields": {
+        "name": "futureproof",
+        "expiry_date": "2029-10-07"
     }
 }
 ]
