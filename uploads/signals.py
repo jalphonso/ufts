@@ -5,9 +5,6 @@ from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch import receiver
 
 import os
-import logging
-
-logger = logging.getLogger('upload_user')
 
 @receiver(post_save, sender=Products)
 def create_product_permission(sender, instance, **kwargs):
@@ -27,7 +24,6 @@ def submission_delete(sender, instance, **kwargs):
 def auto_delete_file_on_change(sender, instance, **kwargs):
     if not instance.pk:
         return False
-    logger.debug('user: {} |uploaded_file: {}'.format(instance.uploaded_by, instance.file))
 
     try:
         old_file = sender.objects.get(pk=instance.pk).file

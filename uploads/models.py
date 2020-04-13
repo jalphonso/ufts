@@ -4,6 +4,9 @@ from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 import hashlib
+import logging
+
+logger = logging.getLogger('upload_user')
 
 fs_software = FileSystemStorage(location=settings.SOFTWARE_ROOT, base_url=settings.SOFTWARE_URL)
 fs_release_notes = FileSystemStorage(location=settings.SOFTWARE_ROOT + 'release_notes/', base_url=settings.SOFTWARE_URL + 'release_notes/')
@@ -38,6 +41,7 @@ class UploadFile(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        logger.debug('user: {} |uploaded_file: {}'.format(self.uploaded_by, self.file))
 
         with self.file.open('rb') as f:
             hash256 = hashlib.sha256()
