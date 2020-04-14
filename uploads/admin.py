@@ -1,6 +1,16 @@
 from django.contrib import admin
 from .models import UploadFile, Products
+import logging
 
+logger = logging.getLogger('upload_user')
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 @admin.register(UploadFile)
 class UploadFileAdmin(admin.ModelAdmin):
@@ -21,7 +31,10 @@ class UploadFileAdmin(admin.ModelAdmin):
             readonly_fields = readonly_fields + ('verified_by',)
         readonly_fields = readonly_fields + ('md5sum', 'sha256sum')
         return readonly_fields
-
+    def save_model(self, request, obj, form, change):
+        client_ip = get_client_ip(request)
+        logger.debug('user: {} |ip address: {} |downloaded_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
+        super().save_model(request, obj, form, change)
 
 @admin.register(Products)
 class ProductsAdmin(admin.ModelAdmin):

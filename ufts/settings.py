@@ -283,6 +283,15 @@ LOGGING = {
             'backupCount': 7,
             'formatter': 'verbose',
         },
+        'upload-logfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/upload.log'),
+            'when': 'W0',
+            'interval': 1,
+            'backupCount': 7,
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         'django': {
@@ -309,6 +318,12 @@ LOGGING = {
         },
         'download_user': {
             'handlers': ['console', 'download-logfile'],
+            'level': 'DEBUG',
+            'disabled': False,
+            'propagate': False
+        },
+        'upload_user': {
+            'handlers': ['console', 'upload-logfile'],
             'level': 'DEBUG',
             'disabled': False,
             'propagate': False

@@ -6,7 +6,6 @@ from django.dispatch import receiver
 
 import os
 
-
 @receiver(post_save, sender=Products)
 def create_product_permission(sender, instance, **kwargs):
     content_type = ContentType.objects.get_for_model(Products)

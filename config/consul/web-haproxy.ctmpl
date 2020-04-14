@@ -23,6 +23,7 @@ defaults
     maxconn 5000
 
 frontend https-in
+    option forwardfor
     bind *:80
     bind *:443 ssl crt /etc/ssl/certs/ufts.pem
     http-request redirect scheme https unless { ssl_fc }
