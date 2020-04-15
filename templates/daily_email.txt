@@ -1,0 +1,10 @@
+{% spaceless %}
+{% if jsas %}
+NEW JSAs:{% for jsa in jsas %}
+    {{ jsa.displayName }} {{ jsa.description }}{% endfor %}{% endif %}
+{% if softwares %}
+NEW SOFTWARE:{% for software in softwares %}
+    Name: {{ software.name }}
+        Version: {{ software.version }}
+        Description: {{ software.description }}{% endfor %}{% endif %}
+{% endspaceless %}
