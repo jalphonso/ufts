@@ -10,10 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import os
-from socket import gethostname, gethostbyname
+from celery.schedules import crontab
 from logging.handlers import SysLogHandler
+from socket import gethostname, gethostbyname
+
 import logging
+import os
+
 
 # from termsandconditions.decorators import terms_required
 
@@ -28,7 +31,6 @@ SECRET_KEY = 'n9ucrt9=)e!d=(uaimum@7onn%uvua6a(m^9-=zmscd$&f%(%u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-FROM_EMAIL = 'ufts_noreply@example.com'
 
 ALLOWED_HOSTS = ['ufts.lab', 'support.atcii.net','172.16.16.125','support.atcii.net', 'patches.atcii.net', '35.231.90.209','ufts-demo.atcii.net', 'www.atcii.net', '127.0.0.1', 'localhost', 'greenlan.net', '192.168.202.179']
 # secure proxy SSL header and secure cookies
@@ -210,8 +212,6 @@ ACCESS_CODE = '1863'
 COMPANY_NAME = 'Juniper Networks'
 COMPANY_ADDRESS = '2251 Corporate Park Dr #100, Herndon, VA 20171'
 COMPANY_PHONE = '(571) 203-1700'
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 THUMB_SIZE = (400, 400)
 AUTH_USER_MODEL = 'users.CustomUser'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -316,4 +316,25 @@ LOGGING = {
     },
 }
 
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+# EMAIL_HOST = '192.168.2.5'
+# EMAIL_PORT = 25
+# # EMAIL_HOST_USER = 'testsite_app'
+# # EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
+EMAIL_USE_TLS = False
+FROM_EMAIL = 'ufts_noreply@example.com'
+DEFAULT_FROM_EMAIL = FROM_EMAIL
 
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    'daily_email': {
+        'task': 'home.tasks.daily_email',
+        'schedule': crontab(hour=23, minute=59)
+    },
+}
