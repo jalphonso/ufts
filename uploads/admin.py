@@ -1,16 +1,10 @@
 from django.contrib import admin
 from .models import UploadFile, Products
 import logging
+from ipware import get_client_ip
 
 logger = logging.getLogger('upload_user')
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
 
 @admin.register(UploadFile)
 class UploadFileAdmin(admin.ModelAdmin):
@@ -32,9 +26,16 @@ class UploadFileAdmin(admin.ModelAdmin):
         readonly_fields = readonly_fields + ('md5sum', 'sha256sum')
         return readonly_fields
     def save_model(self, request, obj, form, change):
-        client_ip = get_client_ip(request)
-        logger.debug('user: {} |ip address: {} |downloaded_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
+        client_ip, is_forwardable = get_client_ip(request)
+        if not change:
+            logger.debug('user: {} |ip address: {} |uploaded_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
+            if obj.release_notes:
+                logger.debug('user: {} |ip address: {} |uploaded_release_notes: {}'.format(obj.uploaded_by, client_ip, obj.release_notes))
         super().save_model(request, obj, form, change)
+    def delete_model(self, request, obj):
+        client_ip, is_forwardable = get_client_ip(request)
+        logger.debug('user: {} |ip address: {} |deleted_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
+        super().delete_model(request, obj)
 
 @admin.register(Products)
 class ProductsAdmin(admin.ModelAdmin):

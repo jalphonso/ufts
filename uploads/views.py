@@ -8,19 +8,12 @@ from documentation.models import Eula
 from django.contrib.auth.decorators import login_required, permission_required
 from itertools import chain
 from users.models import Contract
-
+from ipware import get_client_ip
 import logging
 
 
 logger = logging.getLogger('download_user')
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
 
 def get_permissions(user):
     now = datetime.now().date()
@@ -64,7 +57,7 @@ def downloads(request):
 @login_required
 @permission_required('uploads.view_uploadfile', raise_exception=True)
 def download_file(request):
-    dw_client_ip = get_client_ip(request)
+    dw_client_ip, is_routable = get_client_ip(request)
     filename = request.path.split('/')[-1]
     download_permissions = get_permissions(request.user)
     try:
@@ -87,7 +80,7 @@ def download_file(request):
 @login_required
 @permission_required('uploads.view_uploadfile', raise_exception=True)
 def download_release_notes(request):
-    dw_client_ip = get_client_ip(request)
+    dw_client_ip, is_routable = get_client_ip(request)
     filename = request.path.split('/')[-1]
     download_permissions = get_permissions(request.user)
     if not filename:
