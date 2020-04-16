@@ -47,6 +47,7 @@ et_xmlfile = "*"
 Pillow = "*"
 celery="*"
 redis="*"
+django-ipware = "*"
 
 [requires]
 python_version = "3.6"

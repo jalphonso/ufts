@@ -215,6 +215,17 @@ COMPANY_PHONE = '(571) 203-1700'
 THUMB_SIZE = (400, 400)
 AUTH_USER_MODEL = 'users.CustomUser'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+IPWARE_META_PRECEDENCE_ORDER = (
+     'REMOTE_ADDR',
+     'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # <client>, <proxy1>, <proxy2>
+     'HTTP_CLIENT_IP',
+     'HTTP_X_REAL_IP',
+     'HTTP_X_FORWARDED',
+     'HTTP_X_CLUSTER_CLIENT_IP',
+     'HTTP_FORWARDED_FOR',
+     'HTTP_FORWARDED',
+     'HTTP_VIA',
+ )
 # Logging to console, syslog and file
 #
 # Logging to console, syslog and file
