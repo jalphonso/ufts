@@ -8,7 +8,7 @@ from uploads.models import UploadFile
 
 def home(request):
     contract_statuses = []
-    now = date.today() +
+    now = date.today() 
 
     try:
         contracts = request.user.groups.all()
