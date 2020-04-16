@@ -45,6 +45,8 @@ DateTimeRange = "*"
 Django = "*"
 et_xmlfile = "*"
 Pillow = "*"
+celery="*"
+redis="*"
 
 [requires]
 python_version = "3.6"

@@ -73,10 +73,53 @@ services:
       - db_volume:/var/lib/postgresql/data
     restart: unless-stopped
 
+  redis:
+    image: "redis:alpine"
+    networks:
+      - redis_network
+    restart: unless-stopped
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile-celery
+    command: celery -A ufts worker -l info -c 3 --uid=nobody --gid=nogroup
+    networks:
+      - redis_network
+      - backend_network
+    volumes:
+      - .:/opt/services/ufts/src
+      - ./static:/opt/services/ufts/static
+      - media_volume:/opt/services/ufts/media
+      - software_volume:/opt/services/ufts/software
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile-celery
+    command: celery -A ufts beat -l info --uid=nobody --gid=nogroup
+    networks:
+      - redis_network
+    volumes:
+      - .:/opt/services/ufts/src
+      - ./static:/opt/services/ufts/static
+      - media_volume:/opt/services/ufts/media
+      - software_volume:/opt/services/ufts/software
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
 networks:
   frontend_network:
     driver: bridge
   backend_network:
+    driver: bridge
+  redis_network:
     driver: bridge
 
 volumes:
