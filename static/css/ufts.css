@@ -11,6 +11,11 @@ body {
     font-family: Diwan, Verdana, Tahoma, Arial, sans-serif;
 }
 
+pre {
+    font-size: 10px;
+    font-family: Diwan, Verdana, Tahoma, Arial, sans-serif;
+}
+
 * {
     box-sizing: border-box;
 }

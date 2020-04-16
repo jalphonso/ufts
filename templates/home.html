@@ -40,9 +40,24 @@
                 </div>
                 <div class="container col-6">
                     <h3>New JSAs (last 30 days)</h3>
+                {% if jsas %}
                   {% for jsa in jsas %}
-                    <p>{{ jsa.displayName }} {{ jsa.description }}</p>
+                    {{ jsa.displayName }} {{ jsa.description }}<br/>
                   {% endfor %}
+                {% else %}
+                    <p>No recent JSAs</p>
+                {% endif %}
+                <br/>
+                    <h3>New Software (last 30 days)</h3>
+                {% if softwares %}
+                  {% for software in softwares %}
+                    <pre>Name: {{ software.name }}
+<!--                  -->  Version: {{ software.version }}
+<!--                  -->  Description: {{ software.description }}</pre>
+                  {% endfor %}
+                {% else %}
+                    <p>No recent software uploads</p>
+                {% endif %}
                 </div>
             </div>
         </div>
