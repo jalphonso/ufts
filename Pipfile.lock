@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e8e76670067659988bb0adcc17d0f7ad3701cfc463160ad145385561badd75dc"
+            "sha256": "0abd5ade8b8562b7f60e24a04f67609af098d44ac9942f9f2a27fb14f5397005"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -161,6 +161,13 @@
             ],
             "index": "pypi",
             "version": "==4.0.2"
+        },
+        "django-ipware": {
+            "hashes": [
+                "sha256:a7c7a8fd019dbdc9c357e6e582f65034e897572fc79a7e467674efa8aef9d00b"
+            ],
+            "index": "pypi",
+            "version": "==2.1.0"
         },
         "django-libsass": {
             "hashes": [
@@ -535,11 +542,11 @@
                 "datetime"
             ],
             "hashes": [
-                "sha256:4d10fb9f88524bcf1292e9a1256c8f88345390f8c06d47a18b3b669d7017b90f",
-                "sha256:e422165afc5632ef8006ae6b35a3984a132f60287809752099f8d0a16d3561dd"
+                "sha256:1e4c16810dd4e820af0e311b4c44d59f28f8ec89e2ee8c07cfbc680a770058c9",
+                "sha256:57e99d0e7f5b0713c8700b1aae5cdae106056e2ab067b944d3b2e74cf21bcc01"
             ],
             "index": "pypi",
-            "version": "==1.0.0"
+            "version": "==1.1.0"
         },
         "vine": {
             "hashes": [
