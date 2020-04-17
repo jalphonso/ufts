@@ -363,4 +363,8 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'home.tasks.daily_email',
         'schedule': crontab(hour=23, minute=59)
     },
+    'weekly_report': {
+        'task': 'home.tasks.weekly_report_email',
+        'schedule': crontab(minute=30)
+    },
 }
