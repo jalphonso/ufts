@@ -196,6 +196,7 @@ MEDIA_URL = '/media/'
 SOFTWARE_ROOT = '/opt/services/ufts/software/'
 SOFTWARE_URL = '/software/'
 
+LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
