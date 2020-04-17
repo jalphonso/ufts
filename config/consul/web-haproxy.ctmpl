@@ -24,10 +24,12 @@ defaults
 
 frontend https-in
     option forwardfor
-    bind *:80
     bind *:443 ssl crt /etc/ssl/certs/ufts.pem
-    http-request redirect scheme https unless { ssl_fc }
-    default_backend https-servers
+    acl host_ufts hdr(host) -i ufts.lab
+    http-request set-header X-Forwarded-Proto https if  { ssl_fc }
+    http-request set-header X-Forwarded-Proto http  if !{ ssl_fc }
+    use_backend https-servers if host_ufts
+    http-request deny if !host_ufts
 
 backend https-servers
     timeout queue 5s
