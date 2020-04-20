@@ -48,6 +48,7 @@ Pillow = "*"
 celery="*"
 redis="*"
 django-ipware = "*"
+python-docx="*"
 
 [requires]
 python_version = "3.6"

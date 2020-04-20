@@ -93,9 +93,9 @@ def generate_upload_report_pdf(log_file,pdf_file):
     pdf.set_font('Courier', '', 10)
     for logentry in logs:
         if 'verifyuser' in logentry:
-            pdf.cell(0, 10, txt="{} {}   {}{} {} {} {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'], logentry['verifyuser'].ljust(26),logentry['verifydate'],logentry['filename']), ln=1)
+            pdf.cell(0, 10, txt="{} {}   {}{}{} {} {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15), logentry['verifyuser'].ljust(26),logentry['verifydate'],logentry['filename']), ln=1)
         else:
-            pdf.cell(0, 10, txt="{} {}   {}{} {}            {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'],"unverified".ljust(26),logentry['filename']), ln=1)
+            pdf.cell(0, 10, txt="{} {}   {}{}{}            {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15),"unverified".ljust(26),logentry['filename']), ln=1)
         line_no += 1
     pdf.output(pdf_file)
     return len(logs)
@@ -113,10 +113,10 @@ def generate_download_report_pdf(log_file,pdf_file):
     line_no = 1
     logs=process_download_log(log_file)
 
-    pdf.cell(0, 10, "Date                   Time                  User                                                       IP                              Filename", 0,1)
+    pdf.cell(0, 10, "Date                   Time                  User                                                       IP                                  Filename", 0,1)
     pdf.set_font('Courier', '', 10)
     for logentry in logs:
-        pdf.cell(0, 10, txt="{} {}   {}{} {}".format(logentry['dloaddate'], logentry['dloadtime'], logentry['dloaduser'].ljust(26), logentry['dloadip'],logentry['filename']), ln=1)
+        pdf.cell(0, 10, txt="{} {}   {}{}{}".format(logentry['dloaddate'], logentry['dloadtime'], logentry['dloaduser'].ljust(26), logentry['dloadip'].ljust(15),logentry['filename']), ln=1)
         line_no += 1
     pdf.output(pdf_file)
     return len(logs)
