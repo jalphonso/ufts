@@ -3,6 +3,6 @@
 Number of files downloaded this week: {{ downloads }}
 {% endif %}
 {% if uploads > 0 %}
-Number ooof new files uploaded this week: {{ uploads }}
+Number of new files uploaded this week: {{ uploads }}
 {% endif %}
 {% endspaceless %}
