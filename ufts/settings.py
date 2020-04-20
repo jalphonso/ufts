@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 from celery.schedules import crontab
 from logging.handlers import SysLogHandler
 from socket import gethostname, gethostbyname
-
+from datetime import time
 import logging
 import os
 
@@ -292,6 +292,7 @@ LOGGING = {
             'when': 'W0',
             'interval': 1,
             'backupCount': 7,
+            'atTime': time(0,0,0),
             'formatter': 'verbose',
         },
         'upload-logfile': {
@@ -301,6 +302,7 @@ LOGGING = {
             'when': 'W0',
             'interval': 1,
             'backupCount': 7,
+            'atTime': time(0,0,0),
             'formatter': 'verbose',
         },
     },
@@ -365,6 +367,6 @@ CELERY_BEAT_SCHEDULE = {
     },
     'weekly_report': {
         'task': 'home.tasks.weekly_report_email',
-        'schedule': crontab(minute=30)
+        'schedule': crontab(day_of_week=0,hour=23,minute=59)
     },
 }
