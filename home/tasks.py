@@ -1,5 +1,5 @@
 from celery import shared_task
-from datetime import date
+from datetime import date,timedelta
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import get_template
@@ -41,14 +41,16 @@ def daily_email():
 @shared_task
 def weekly_report_email():
     today = date.today()
+    startdate= today - timedelta(days=7)
     email_list = []
     users = CustomUser.objects.all()
     for user in users:
-        email_list.append(user.email)
+        if user.is_staff:
+            email_list.append(user.email)
     dlreportfile=os.path.join(settings.BASE_DIR,'reports/download_report-') + str(today) + '.pdf'
     ulreportfile=os.path.join(settings.BASE_DIR,'reports/upload_report-') + str(today) + '.pdf'
-    downloads = generate_download_report_pdf(os.path.join(settings.BASE_DIR,'logs/download.log'),dlreportfile)
-    uploads = generate_upload_report_pdf(os.path.join(settings.BASE_DIR,'logs/upload.log'),ulreportfile)
+    downloads = generate_download_report_pdf(os.path.join(settings.BASE_DIR,'logs/download.log'),dlreportfile,startdate,today)
+    uploads = generate_upload_report_pdf(os.path.join(settings.BASE_DIR,'logs/upload.log'),ulreportfile,startdate,today)
     context = {
         'downloads': downloads,
         'uploads': uploads,
@@ -66,8 +68,6 @@ def weekly_report_email():
             email_to,
             email_bcc,
         )
-        if downloads > 0:
-            email.attach_file(dlreportfile)
-        if uploads > 0:
-            email.attach_file(ulreportfile)
+        email.attach_file(dlreportfile)
+        email.attach_file(ulreportfile)
         email.send()
