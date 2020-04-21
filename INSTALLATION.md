@@ -401,7 +401,7 @@ openssl req -new -key client1.key -out client1.csr -subj '/CN=client1/O=ufts/C=U
 openssl ca -batch -notext -in client1.csr -out client1.crt
 openssl pkcs12 -export -clcerts -in client1.crt -inkey client1.key -out client1.p12
 ```
-Take the p12 cert and import it into your browser and/or system keychain. Safari will use the system keychain, but Firefox manages its own certificate store.
+Take the p12 cert and import it into your browser and/or system keychain. Safari will use the system keychain, but Firefox manages its own certificate store. On Mac, I also manually trusted the certificate in the system keychain which may or may not be necessary but it seemed like a logical thing to do.
 
 #### Generate CRL
 ```
@@ -435,7 +435,7 @@ Go through the file carefully and change the following:
     but this is where you would if needed.
 
 ```
-vim settings.py
+vim ufts/settings.py
 ```
 
 #### Update domain in nginx config
