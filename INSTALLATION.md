@@ -361,26 +361,34 @@ ess_cert_id_alg		= sha1	# algorithm to compute certificate
 
 #### CA File Layout
 ```
-$ tree
-.
+$ tree config/certs/
+config/certs/
 ├── ca.crt
 ├── client1.crt
 ├── client1.csr
 ├── client1.key
+├── client1.p12
 ├── crlnumber
 ├── crlnumber.old
 ├── index.txt
 ├── index.txt.attr
+├── index.txt.attr.old
 ├── index.txt.old
 ├── newcerts
-│   └── 01.pem
+│   ├── 01.pem
+│   └── 02.pem
+├── newfile.crt.pem
 ├── private
 │   └── ca.key
+├── root_crl.pem
 ├── serial
 ├── serial.old
-└── ufts_crl.pem
+├── ufts.crt
+├── ufts.csr
+├── ufts.key
+└── ufts.pem
 
-2 directories, 14 files
+2 directories, 22 files
 ```
 
 #### Build CA Infrastructure if you do not have an Enterprise one
@@ -394,6 +402,14 @@ openssl genrsa -out private/ca.key 4096
 openssl req -new -x509 -days 1826 -key private/ca.key -out ca.crt
 ```
 
+#### Create Haproxy LB Cert
+```
+openssl genrsa -out ufts.key 2048
+openssl req -new -key ufts.key -out ufts.csr -subj '/CN=ufts/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=no-reply@ufts.lab'
+openssl ca -batch -notext -in ufts.csr -out ufts.crt
+cat ufts.crt ufts.key > ufts.pem
+```
+
 #### Create Client Cert
 ```
 openssl genrsa -out client1.key 2048
@@ -405,13 +421,13 @@ Take the p12 cert and import it into your browser and/or system keychain. Safari
 
 #### Generate CRL
 ```
-openssl ca -gencrl -out ufts_crl.pem
+openssl ca -gencrl -out root_crl.pem
 ```
 
 #### To Revoke a Client
 ```
 openssl ca -revoke client1.crt
-openssl ca  -gencrl -out ufts_crl.pem
+openssl ca  -gencrl -out root_crl.pem
 ```
 
 ## Create Application Log directory
