@@ -374,16 +374,13 @@ $ tree
 ├── index.txt.old
 ├── newcerts
 │   └── 01.pem
-├── p12
-│   ├── expired.p12
-│   └── joe.p12
 ├── private
 │   └── ca.key
 ├── serial
 ├── serial.old
 └── ufts_crl.pem
 
-3 directories, 16 files
+2 directories, 14 files
 ```
 
 #### Build CA Infrastructure if you do not have an Enterprise one
@@ -404,13 +401,14 @@ openssl req -new -key client1.key -out client1.csr -subj '/CN=client1/O=ufts/C=U
 openssl ca -batch -notext -in client1.csr -out client1.crt
 openssl pkcs12 -export -clcerts -in client1.crt -inkey client1.key -out client1.p12
 ```
+Take the p12 cert and import it into your browser and/or system keychain. Safari will use the system keychain, but Firefox manages its own certificate store.
 
 #### Generate CRL
 ```
 openssl ca -gencrl -out ufts_crl.pem
 ```
 
-Revoke Client and update CRL
+#### To Revoke a Client
 ```
 openssl ca -revoke client1.crt
 openssl ca  -gencrl -out ufts_crl.pem
