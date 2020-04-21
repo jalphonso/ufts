@@ -17,16 +17,16 @@ If you have it elsewhere you'll need to supply it in most of the commands.
 
 # This definition stops the following lines choking if HOME isn't
 # defined.
-HOME			= .
+HOME                    = .
 
 # Extra OBJECT IDENTIFIER info:
-#oid_file		= $ENV::HOME/.oid
-oid_section		= new_oids
+#oid_file               = $ENV::HOME/.oid
+oid_section             = new_oids
 
 # To use this configuration file with the "-extfile" option of the
 # "openssl x509" utility, name here the section containing the
 # X.509v3 extensions to use:
-# extensions		=
+# extensions            =
 # (Alternatively, use a configuration file that has only
 # X.509v3 extensions in its main [= default] section.)
 
@@ -38,6 +38,8 @@ oid_section		= new_oids
 # Or use config file substitution like this:
 # testoid2=${testoid1}.5.6
 
+userName = 1.2.3.4.5.6.7.8
+
 # Policies used by the TSA examples.
 tsa_policy1 = 1.2.3.4.1
 tsa_policy2 = 1.2.3.4.5.6
@@ -45,32 +47,32 @@ tsa_policy3 = 1.2.3.4.5.7
 
 ####################################################################
 [ ca ]
-default_ca	= CA_default		# The default ca section
+default_ca      = CA_default            # The default ca section
 
 ####################################################################
 [ CA_default ]
 
-dir		= .     		# Where everything is kept
-certs		= $dir/certs		# Where the issued certs are kept
-crl_dir		= $dir/crl		# Where the issued crl are kept
-database	= $dir/index.txt	# database index file.
-#unique_subject	= no			# Set to 'no' to allow creation of
-					# several certs with same subject.
-new_certs_dir	= $dir/newcerts		# default place for new certs.
+dir             = .                     # Where everything is kept
+certs           = $dir/certs            # Where the issued certs are kept
+crl_dir         = $dir/crl              # Where the issued crl are kept
+database        = $dir/index.txt        # database index file.
+#unique_subject = no                    # Set to 'no' to allow creation of
+                                        # several certs with same subject.
+new_certs_dir   = $dir/newcerts         # default place for new certs.
 
-certificate	= $dir/ca.crt   	# The CA certificate
-serial		= $dir/serial 		# The current serial number
-crlnumber	= $dir/crlnumber	# the current crl number
-					# must be commented out to leave a V1 CRL
-crl		= $dir/crl.pem 		# The current CRL
-private_key	= $dir/private/ca.key   # The private key
+certificate     = $dir/ca.crt           # The CA certificate
+serial          = $dir/serial           # The current serial number
+crlnumber       = $dir/crlnumber        # the current crl number
+                                        # must be commented out to leave a V1 CRL
+crl             = $dir/crl.pem          # The current CRL
+private_key     = $dir/private/ca.key   # The private key
 
-x509_extensions	= usr_cert		# The extensions to add to the cert
+x509_extensions = usr_cert              # The extensions to add to the cert
 
 # Comment out the following two lines for the "traditional"
 # (and highly broken) format.
-name_opt 	= ca_default		# Subject Name options
-cert_opt 	= ca_default		# Certificate field options
+name_opt        = ca_default            # Subject Name options
+cert_opt        = ca_default            # Certificate field options
 
 # Extension copying option: use with caution.
 # copy_extensions = copy
@@ -78,46 +80,48 @@ cert_opt 	= ca_default		# Certificate field options
 # Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs
 # so this is commented out by default to leave a V1 CRL.
 # crlnumber must also be commented out to leave a V1 CRL.
-# crl_extensions	= crl_ext
+# crl_extensions        = crl_ext
 
-default_days	= 365			# how long to certify for
-default_crl_days= 30			# how long before next CRL
-default_md	= sha256		# use public key default MD
-preserve	= no			# keep passed DN ordering
+default_days    = 365                   # how long to certify for
+default_crl_days= 30                    # how long before next CRL
+default_md      = sha256                # use public key default MD
+preserve        = no                    # keep passed DN ordering
 
 # A few difference way of specifying how similar the request should look
 # For type CA, the listed attributes must be the same, and the optional
 # and supplied fields are just that :-)
-policy		= policy_match
+policy          = policy_match
 
 # For the CA policy
 [ policy_match ]
-countryName		= match
-stateOrProvinceName	= match
-organizationName	= match
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
+countryName             = match
+stateOrProvinceName     = match
+organizationName        = match
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = supplied
+userName                = supplied
 
 # For the 'anything' policy
 # At this point in time, you must list all acceptable 'object'
 # types.
 [ policy_anything ]
-countryName		= optional
-stateOrProvinceName	= optional
-localityName		= optional
-organizationName	= optional
-organizationalUnitName	= optional
-commonName		= supplied
-emailAddress		= optional
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+userName                = optional
 
 ####################################################################
 [ req ]
-default_bits		= 2048
-default_keyfile 	= privkey.pem
-distinguished_name	= req_distinguished_name
-attributes		= req_attributes
-x509_extensions	= v3_ca	# The extensions to add to the self signed cert
+default_bits            = 2048
+default_keyfile         = privkey.pem
+distinguished_name      = req_distinguished_name
+attributes              = req_attributes
+x509_extensions = v3_ca # The extensions to add to the self signed cert
 
 # Passwords for private keys if not present they will be prompted for
 # input_password = secret
@@ -125,7 +129,7 @@ x509_extensions	= v3_ca	# The extensions to add to the self signed cert
 
 # This sets a mask for permitted string types. There are several options.
 # default: PrintableString, T61String, BMPString.
-# pkix	 : PrintableString, BMPString (PKIX recommendation before 2004)
+# pkix   : PrintableString, BMPString (PKIX recommendation before 2004)
 # utf8only: only UTF8Strings (PKIX recommendation after 2004).
 # nombstr : PrintableString, T61String (no BMPStrings or UTF8Strings).
 # MASK:XXXX a literal mask value.
@@ -135,41 +139,44 @@ string_mask = utf8only
 # req_extensions = v3_req # The extensions to add to a certificate request
 
 [ req_distinguished_name ]
-countryName			= Country Name (2 letter code)
-countryName_default		= US
-countryName_min			= 2
-countryName_max			= 2
+countryName                     = Country Name (2 letter code)
+countryName_default             = US
+countryName_min                 = 2
+countryName_max                 = 2
 
-stateOrProvinceName		= State or Province Name (full name)
-stateOrProvinceName_default	= Maryland
+stateOrProvinceName             = State or Province Name (full name)
+stateOrProvinceName_default     = Maryland
 
-localityName			= Locality Name (eg, city)
+localityName                    = Locality Name (eg, city)
 localityName_default            = Columbia
 
-0.organizationName		= Organization Name (eg, company)
-0.organizationName_default	= ufts
+0.organizationName              = Organization Name (eg, company)
+0.organizationName_default      = ufts
 
 # we can do this but it is not needed normally :-)
-#1.organizationName		= Second Organization Name (eg, company)
-#1.organizationName_default	=
+#1.organizationName             = Second Organization Name (eg, company)
+#1.organizationName_default     =
 
-organizationalUnitName		= Organizational Unit Name (eg, section)
-organizationalUnitName_default	= ufts
+organizationalUnitName          = Organizational Unit Name (eg, section)
+organizationalUnitName_default  = ufts
 
-commonName			= Common Name (e.g. server FQDN or YOUR name)
-commonName_max			= 64
+commonName                      = Common Name (e.g. server FQDN or YOUR name)
+commonName_max                  = 64
 
-emailAddress			= Email Address
-emailAddress_max		= 64
+emailAddress                    = Email Address
+emailAddress_max                = 64
 
-# SET-ex3			= SET extension number 3
+userName                        = User Name
+userName_max                    = 64
+
+# SET-ex3                       = SET extension number 3
 
 [ req_attributes ]
-challengePassword		= A challenge password
-challengePassword_min		= 4
-challengePassword_max		= 20
+challengePassword               = A challenge password
+challengePassword_min           = 4
+challengePassword_max           = 20
 
-unstructuredName		= An optional company name
+unstructuredName                = An optional company name
 
 [ usr_cert ]
 
@@ -184,7 +191,7 @@ basicConstraints=CA:FALSE
 # the certificate can be used for anything *except* object signing.
 
 # This is OK for an SSL server.
-# nsCertType			= server
+# nsCertType                    = server
 
 # For an object signing certificate this would be used.
 # nsCertType = objsign
@@ -199,7 +206,7 @@ basicConstraints=CA:FALSE
 # keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
 # This will be displayed in Netscape's comment listbox.
-nsComment			= "OpenSSL Generated Certificate"
+nsComment                       = "OpenSSL Generated Certificate"
 
 # PKIX recommendations harmless if included in all certificates.
 subjectKeyIdentifier=hash
@@ -215,7 +222,7 @@ authorityKeyIdentifier=keyid,issuer
 # Copy subject details
 # issuerAltName=issuer:copy
 
-#nsCaRevocationUrl		= http://www.domain.dom/ca-crl.pem
+#nsCaRevocationUrl              = http://www.domain.dom/ca-crl.pem
 #nsBaseUrl
 #nsRevocationUrl
 #nsRenewalUrl
@@ -285,7 +292,7 @@ basicConstraints=CA:FALSE
 # the certificate can be used for anything *except* object signing.
 
 # This is OK for an SSL server.
-# nsCertType			= server
+# nsCertType                    = server
 
 # For an object signing certificate this would be used.
 # nsCertType = objsign
@@ -300,7 +307,7 @@ basicConstraints=CA:FALSE
 # keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
 # This will be displayed in Netscape's comment listbox.
-nsComment			= "OpenSSL Generated Certificate"
+nsComment                       = "OpenSSL Generated Certificate"
 
 # PKIX recommendations harmless if included in all certificates.
 subjectKeyIdentifier=hash
@@ -316,7 +323,7 @@ authorityKeyIdentifier=keyid,issuer
 # Copy subject details
 # issuerAltName=issuer:copy
 
-#nsCaRevocationUrl		= http://www.domain.dom/ca-crl.pem
+#nsCaRevocationUrl              = http://www.domain.dom/ca-crl.pem
 #nsBaseUrl
 #nsRevocationUrl
 #nsRenewalUrl
@@ -329,34 +336,34 @@ proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
 ####################################################################
 [ tsa ]
 
-default_tsa = tsa_config1	# the default TSA section
+default_tsa = tsa_config1       # the default TSA section
 
 [ tsa_config1 ]
 
 # These are used by the TSA reply generation only.
-dir		= .     		# TSA root directory
-serial		= $dir/tsaserial	# The current serial number (mandatory)
-crypto_device	= builtin		# OpenSSL engine to use for signing
-signer_cert	= $dir/tsacert.pem 	# The TSA signing certificate
-					# (optional)
-certs		= $dir/cacert.pem	# Certificate chain to include in reply
-					# (optional)
-signer_key	= $dir/private/tsakey.pem # The TSA private key (optional)
-signer_digest  = sha256			# Signing digest to use. (Optional)
-default_policy	= tsa_policy1		# Policy if request did not specify it
-					# (optional)
-other_policies	= tsa_policy2, tsa_policy3	# acceptable policies (optional)
+dir             = .                     # TSA root directory
+serial          = $dir/tsaserial        # The current serial number (mandatory)
+crypto_device   = builtin               # OpenSSL engine to use for signing
+signer_cert     = $dir/tsacert.pem      # The TSA signing certificate
+                                        # (optional)
+certs           = $dir/cacert.pem       # Certificate chain to include in reply
+                                        # (optional)
+signer_key      = $dir/private/tsakey.pem # The TSA private key (optional)
+signer_digest  = sha256                 # Signing digest to use. (Optional)
+default_policy  = tsa_policy1           # Policy if request did not specify it
+                                        # (optional)
+other_policies  = tsa_policy2, tsa_policy3      # acceptable policies (optional)
 digests     = sha1, sha256, sha384, sha512  # Acceptable message digests (mandatory)
-accuracy	= secs:1, millisecs:500, microsecs:100	# (optional)
-clock_precision_digits  = 0	# number of digits after dot. (optional)
-ordering		= yes	# Is ordering defined for timestamps?
-				# (optional, default: no)
-tsa_name		= yes	# Must the TSA name be included in the reply?
-				# (optional, default: no)
-ess_cert_id_chain	= no	# Must the ESS cert id chain be included?
-				# (optional, default: no)
-ess_cert_id_alg		= sha1	# algorithm to compute certificate
-				# identifier (optional, default: sha1)
+accuracy        = secs:1, millisecs:500, microsecs:100  # (optional)
+clock_precision_digits  = 0     # number of digits after dot. (optional)
+ordering                = yes   # Is ordering defined for timestamps?
+                                # (optional, default: no)
+tsa_name                = yes   # Must the TSA name be included in the reply?
+                                # (optional, default: no)
+ess_cert_id_chain       = no    # Must the ESS cert id chain be included?
+                                # (optional, default: no)
+ess_cert_id_alg         = sha1  # algorithm to compute certificate
+                                # identifier (optional, default: sha1)
 ```
 
 #### CA File Layout
@@ -418,6 +425,13 @@ openssl ca -batch -notext -in client1.csr -out client1.crt
 openssl pkcs12 -export -clcerts -in client1.crt -inkey client1.key -out client1.p12
 ```
 Take the p12 cert and import it into your browser and/or system keychain. Safari will use the system keychain, but Firefox manages its own certificate store. On Mac, I also manually trusted the certificate in the system keychain which may or may not be necessary but it seemed like a logical thing to do.
+
+
+Here is a client cert request with custom OID (userName).
+```
+openssl req -new -key joe.key -out joe.csr -subj '/userName=joe/CN=Joe Alphonso/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=jalphons@home-lab.local'
+```
+If you have other Custom OIDs in the DN subject line, then you'll want to either create a custom function for processing your cert in django_ssl_auth/cert.py and change the value of USER_DATA_FN in the Django settings file located in ufts/settings.py or modify the existing one referenced.
 
 #### Generate CRL
 ```
