@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import re
 from fpdf import FPDF
-from datetime import datetime
+from datetime import datetime,date
 
 
 class CustomPDF(FPDF):
@@ -24,8 +24,8 @@ class CustomPDF(FPDF):
         self.cell(0, 5, 'Phone: (571) 203-1700', 0, 0, 'R')
         # Line break
         self.ln(10)
-        self.set_font('Times', 'B', 12)
-        title = 'Download Report'
+        self.set_font('Arial', 'B', 12)
+        title = 'Weekly Download Report for ' + str(date.today())
         self.cell(0, 10, title, 0, 0, 'C')
         self.ln(10)
         # sub_title = first_line + ' - ' + last_line
@@ -48,7 +48,7 @@ def create_pdf(pdf_path):
     # Create the special value {nb}
     pdf.alias_nb_pages()
     pdf.add_page()
-    pdf.set_font('Times', '', 10)
+    pdf.set_font('Arial', 'BU', 10)
     line_no = 1
     logfile = input('Enter the LOG FILE to process: ')
     report_data = []
@@ -58,19 +58,21 @@ def create_pdf(pdf_path):
         # data = download_report.readlines()
         # # first_line = data[0].split(' ')[0]
         # last_line = data[len(data) - 1].split(' ')[0]
-        pdf.cell(0, 5, txt="Date               Time          User                                   IP Address        File Downloaded", ln=1)
-        pdf.cell(0, 5, txt="_______________________________________________________________________________________________________", ln=1 )
+        pdf.cell(0, 5, txt="Date              Time        User                                            IP Address        File Downloaded", ln=1)
+        pdf.set_font('Courier', '', 9)
+
         for line in download_report:
             line = re.sub('\s+', ',', line)
             line = line.strip().split(',')
             # pdf.cell(0, 10, txt="Line #{}".format(line_no), ln=1)
-            pdf.cell(0, 10, txt="{}    {}    {}       {}           {}".format(line[0], line[1], line[9], line[12], line[14]), ln=1)
+            pdf.cell(0, 10, txt="{} {} {}{} {}".format(line[0], line[1], line[9].ljust(26), line[12], line[14]), ln=1)
             line_no += 1
     pdf.output(pdf_path)
 
 
 if __name__ == '__main__':
-    create_pdf('./reports/download_report.pdf')
+    report_name="./reports/download_report-{}.pdf".format(str(date.today()))
+    create_pdf(report_name)
 
 
 # logfile = input('Enter the LOG FILE to process: ')

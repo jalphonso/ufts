@@ -2,11 +2,13 @@ from django.shortcuts import render
 from .models import Document
 from django.contrib.auth.decorators import login_required
 import logging
+from ipware import get_client_ip
+
 logger = logging.getLogger('documentation_user')
 
 
 def index(request):
-    client_ip = request.META['REMOTE_ADDR']
+    client_ip = get_client_ip(request)
     document_list = Document.objects.all().order_by('document')
     for filename in document_list:
         print(filename.document)

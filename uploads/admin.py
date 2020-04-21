@@ -28,9 +28,15 @@ class UploadFileAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         client_ip, is_forwardable = get_client_ip(request)
         if not change:
-            logger.debug('user: {} |ip address: {} |uploaded_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
             if obj.release_notes:
-                logger.debug('user: {} |ip address: {} |uploaded_release_notes: {}'.format(obj.uploaded_by, client_ip, obj.release_notes))
+                logger.debug('user: {} |ip address: {} |uploaded_file: {} |uploaded_release_notes: {}'.format(obj.uploaded_by, client_ip, obj.file, obj.release_notes))
+            else:
+                logger.debug('user: {} |ip address: {} |uploaded_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
+
+        else:
+            if 'verified_by' in form.fields and obj.verified_by:
+                logger.debug('user: {} |ip address: {} |verified_file: {}'.format(obj.verified_by, client_ip, obj.file))
+                
         super().save_model(request, obj, form, change)
     def delete_model(self, request, obj):
         client_ip, is_forwardable = get_client_ip(request)
