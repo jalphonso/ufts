@@ -501,6 +501,20 @@ docker-compose logs -f
 ./stop_app.sh
 ```
 
+### Signal HAProxy or Nginx to reload config
+```
+docker kill -s HUP <container name>
+```
+There is a docker-compose equivalent command but you probably want to do one container at a time instead of the entire tier
+
+### Restart App Tier
+```
+docker restart <container name>
+```
+Likewise, there is a docker-compose equivalent command but you probably want to do one container at a time instead of the entire tier unless there are disruptive code changes. In which case you should do this in a maintenance window.
+
+**Do not issue a SIGHUP signal as this may cause problems. It is better to just restart this container.**
+
 ### Remove Services
 ```
 ./remove_containers.sh
