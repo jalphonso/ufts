@@ -412,7 +412,7 @@ openssl req -new -x509 -days 1826 -key private/ca.key -out ca.crt
 #### Create Haproxy LB Cert
 ```
 openssl genrsa -out ufts.key 2048
-openssl req -new -key ufts.key -out ufts.csr -subj '/CN=ufts/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=no-reply@ufts.lab'
+openssl req -new -key ufts.key -out ufts.csr -subj '/userName=ufts/CN=ufts/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=no-reply@ufts.lab'
 openssl ca -batch -notext -in ufts.csr -out ufts.crt
 cat ufts.crt ufts.key > ufts.pem
 ```
@@ -420,7 +420,7 @@ cat ufts.crt ufts.key > ufts.pem
 #### Create Client Cert
 ```
 openssl genrsa -out client1.key 2048
-openssl req -new -key client1.key -out client1.csr -subj '/CN=client1/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=client1@ufts.lab'
+openssl req -new -key client1.key -out client1.csr -subj '/userName=client1/CN=client1/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=client1@ufts.lab'
 openssl ca -batch -notext -in client1.csr -out client1.crt
 openssl pkcs12 -export -clcerts -in client1.crt -inkey client1.key -out client1.p12
 ```
