@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
 
@@ -82,7 +82,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-celery
-    command: celery -A ufts worker -l info -c 3 --uid=nobody --gid=nogroup
+    command: >
+             celery -A ufts worker
+             --pidfile=/var/run/celery/celeryd.pid
+             -l info -c 3
     networks:
       - redis_network
       - backend_network
@@ -100,7 +103,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-celery
-    command: celery -A ufts beat -l info --uid=nobody --gid=nogroup
+    command: >
+             celery -A ufts beat
+             --pidfile=/var/run/celery/celeryd.pid
+             --schedule=/var/run/celery/celerybeat-schedule
+             -l info
     networks:
       - redis_network
     volumes:
