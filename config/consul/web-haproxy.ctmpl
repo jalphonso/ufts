@@ -24,16 +24,43 @@ defaults
 
 frontend https-in
     option forwardfor
-    bind *:80
-    bind *:443 ssl crt /etc/ssl/certs/ufts.pem
-    http-request redirect scheme https unless { ssl_fc }
-    default_backend https-servers
+    bind *:443 ssl crt /etc/ssl/certs/ufts.pem ca-file /etc/ssl/certs/ca.crt verify optional crt-ignore-err all crl-file /etc/ssl/certs/root_crl.pem
+    acl host_ufts hdr(host) -i ufts.lab
+    http-request set-header X-Forwarded-Proto https if  { ssl_fc }
+    http-request set-header X-Forwarded-Proto http  if !{ ssl_fc }
+    http-request set-header X-SSL                       %[ssl_fc]
+    http-request set-header X-SSL-Client-Verify         %[ssl_c_used]
+    http-request set-header X-SSL-Authenticated         %[ssl_c_verify]
+    http-request set-header X-SSL-Client-SHA1           %{+Q}[ssl_c_sha1]
+    http-request set-header X-SSL-Client-DN             %{+Q}[ssl_c_s_dn]
+    http-request set-header X-SSL-Client-CN             %{+Q}[ssl_c_s_dn(cn)]
+    http-request set-header X-SSL-Issuer                %{+Q}[ssl_c_i_dn]
+    http-request set-header X-SSL-Client-Not-Before     %{+Q}[ssl_c_notbefore]
+    http-request set-header X-SSL-Client-Serial         %{+Q}[ssl_c_serial,hex]
+    http-request set-header X-SSL-Client-Version        %{+Q}[ssl_c_version]
+    http-request deny if !host_ufts
+    use_backend https-servers if host_ufts
 
 backend https-servers
     timeout queue 5s
     balance roundrobin
     cookie WEBSERVERUSED insert indirect nocache
     option httpchk HEAD /static/img/Juniper-Logo.svg HTTP/1.1\r\nHost:\ ufts.lab
+
+    acl url_expired path /certexpired.html
+    acl url_revoked path /certrevoked.html
+    acl url_othererrors path /othererrors.html
+    acl cert_used ssl_c_used 1
+    acl cert_valid ssl_c_verify 0
+    acl cert_expired ssl_c_verify 10
+    acl cert_revoked ssl_c_verify 23
+    http-request add-header X-SSL-Error 10 if cert_used cert_expired
+    http-request add-header X-SSL-Error 23 if cert_used cert_revoked
+    http-request add-header X-SSL-Error other if cert_used ! cert_valid ! cert_expired ! cert_revoked
+    redirect location /certexpired.html if cert_used cert_expired ! url_expired
+    redirect location /certrevoked.html if cert_used cert_revoked ! url_revoked
+    redirect location /othererrors.html if cert_used ! cert_valid ! cert_expired ! cert_revoked ! url_othererrors
+
     default-server check maxconn 100
     {{range service "nginx" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} cookie {{.ID }} check
     {{end}}

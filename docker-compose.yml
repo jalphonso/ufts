@@ -14,7 +14,6 @@ services:
     networks:
       - frontend_network
     ports:
-      - "80:80"
       - "443:443"
     hostname: haproxy
     user: root

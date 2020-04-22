@@ -87,7 +87,18 @@ MIDDLEWARE = [
     'request.middleware.RequestMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_ssl_auth.SSLClientAuthMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django_ssl_auth.SSLClientAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+USER_DATA_FN = 'django_ssl_auth.cert.user_dict_from_dn'
+AUTOCREATE_VALID_SSL_USERS = True
+
+
 REQUEST_VALID_METHOD_NAMES = ('get', 'post', 'put', 'delete')
 ROOT_URLCONF = 'ufts.urls'
 
@@ -196,6 +207,7 @@ MEDIA_URL = '/media/'
 SOFTWARE_ROOT = '/opt/services/ufts/software/'
 SOFTWARE_URL = '/software/'
 
+LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
