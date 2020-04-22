@@ -1,10 +1,10 @@
 # INSTALLATION
 
 ## Certificates
-Use a standard openssl.cnf. Update if needed. Default location is typically /etc/ssl/openssl.cnf
-If you have it elsewhere you'll need to supply it in most of the commands.
+You will need an openssl.cnf preferably in the default location is typically /etc/ssl/openssl.cnf
+If you have it elsewhere you'll need to supply it with the -conf <filename> in most of the commands.
 
-#### Example openssl.cnf:
+#### openssl.cnf:
 ```
 #
 # OpenSSL example configuration file.
