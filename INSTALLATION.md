@@ -1,8 +1,15 @@
 # INSTALLATION
 
 ## Certificates
-You will need an openssl.cnf preferably in the default location is typically /etc/ssl/openssl.cnf
-If you have it elsewhere you'll need to supply it with the -conf <filename> in most of the commands.
+You will need an openssl.cnf preferably in the default location
+
+Mac/Ubuntu:
+- /etc/ssl/openssl.cnf
+
+CentOS 7:
+- /etc/pki/tls/openssl.cnf
+
+If you have it elsewhere you'll need to supply it with the -config openssl.cnf in most of the commands.
 
 #### openssl.cnf:
 ```
