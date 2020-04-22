@@ -1,8 +1,12 @@
 import logging
 import re
+import os
+#from django.conf import settings
+
 from fpdf import FPDF
 from datetime import datetime,date 
-
+from openpyxl import load_workbook
+from openpyxl.worksheet.table import Table, TableStyleInfo
 class CustomPDF(FPDF):
 
     def header(self):
@@ -139,6 +143,58 @@ def generate_download_report_pdf(log_file,pdf_file,startdate,enddate):
             pdf.cell(0, 10, txt="{} {}   {}{}{}".format(logentry['dloaddate'], logentry['dloadtime'], logentry['dloaduser'].ljust(26), logentry['dloadip'].ljust(15),logentry['filename']), ln=1)
             line_no += 1
     pdf.output(pdf_file)
+    return len(logs)
+
+def generate_upload_report_xlsx(log_file,xlsx_file,startdate,enddate):
+    logs=process_upload_log(log_file,startdate, enddate)
+    if len(logs) > 0:
+        #template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.xlsx')
+        template_file='templates/reports/ul_template.xlsx'
+        wb=load_workbook(template_file)
+        ws=wb.active
+        dltable=ws._tables[0]
+        dlstyle=dltable.tableStyleInfo
+        for i,dload in enumerate(logs):
+            ws.cell(row=3+i,column=2).value=datetime.strptime(dload['uploaddate'],'%Y-%m-%d').date()
+            ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"           
+            ws.cell(row=3+i,column=3).value=datetime.strptime(dload['uploadtime'],'%H:%M:%S').time()
+            ws.cell(row=3+i,column=3).number_format="h:mm:ss"
+            ws.cell(row=3+i,column=4).value=dload['uploaduser']
+            ws.cell(row=3+i,column=5).value=dload['uploadip']
+            ws.cell(row=3+i,column=9).value=dload['filename']
+            ws.cell(row=3+i,column=6).value=dload['deleted']
+            if 'verifyuser' in dload:
+                ws.cell(row=3+i,column=7).value=dload['verifyuser']
+                ws.cell(row=3+i,column=8).value=dload['verifyip']
+            elif dload['deleted']=='N':
+                ws.cell(row=3+i,column=7).value="Unverified"
+               
+
+        dltable.ref='B2:I{}'.format(len(logs)+2)
+        ws._tables[0]=dltable
+        wb.save(xlsx_file)
+    return len(logs)
+
+def generate_download_report_xlsx(log_file,xlsx_file,startdate,enddate):
+    logs=process_download_log(log_file,startdate, enddate)
+    if len(logs) > 0:
+        #template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.xlsx')
+        template_file='templates/reports/dl_template.xlsx'
+        wb=load_workbook(template_file)
+        ws=wb.active
+        dltable=ws._tables[0]
+        dlstyle=dltable.tableStyleInfo
+        for i,dload in enumerate(logs):
+            ws.cell(row=3+i,column=2).value=datetime.strptime(dload['dloaddate'],'%Y-%m-%d').date()
+            ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"           
+            ws.cell(row=3+i,column=3).value=datetime.strptime(dload['dloadtime'],'%H:%M:%S').time()
+            ws.cell(row=3+i,column=3).number_format="h:mm:ss"
+            ws.cell(row=3+i,column=4).value=dload['dloaduser']
+            ws.cell(row=3+i,column=5).value=dload['dloadip']
+            ws.cell(row=3+i,column=6).value=dload['filename']
+        dltable.ref='B2:F{}'.format(len(logs)+2)
+        ws._tables[0]=dltable
+        wb.save(xlsx_file)
     return len(logs)
 
 
