@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-docker start consul
-docker start registrator
-docker-compose up -d
+. .venv/bin/activate && ./docker-compose.py -a1 -w1 up --remove-orphans -d || exit 1
 docker run -d --restart unless-stopped --name consul-tpl -e CONSUL_TEMPLATE_LOG=debug  \
 -v /var/run/docker.sock:/var/run/docker.sock  \
 -v /usr/local/bin/docker:/usr/bin/docker  \

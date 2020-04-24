@@ -136,3 +136,6 @@ haproxy.cfg
 
 #SSL Certs
 **/certs/*
+
+#Docker Compose file is generated
+docker-compose.yml

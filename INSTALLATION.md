@@ -486,9 +486,21 @@ vim config/consul/web-haproxy.ctmpl
 ```
 
 ## Microservices management
+
+### Install Docker and Docker Compose
+Follow instructions for your OS on the official Docker website
+https://docs.docker.com/get-docker/
+
+Version used during development was 19.03
+
+The Docker compose version used is 1.25.5 which we install using pip in the next step. To install system wide you will need superuser privileges; otherwise, you can use a virtualenv if you'd like.
+```
+pip install -r requirements-docker.txt
+```
+
 ### Start Services
 ```
-./init_containers.sh
+./init_app.sh
 ./start_app.sh
 ```
 
@@ -502,10 +514,28 @@ python manage.py migrate
 ```
 docker-compose logs -f
 ```
+If you scale the app while tailing the logs you will need to reissue this command to get logs for the new services
+
+If using the syslog driver for your Docker daemon, you'll have to monitor logs on your syslog server instead
 
 ### Stop Services
 ```
 ./stop_app.sh
+```
+
+### Restart Services
+```
+./restart_app.sh
+```
+
+### Scale Services
+Scale App and Web Tiers to 3 containers each
+```
+./scale_app.sh 3 3
+```
+Scale App and Web Tiers back down to 1 each
+```
+./scale_app.sh
 ```
 
 ### Signal HAProxy or Nginx to reload config
@@ -524,11 +554,11 @@ Likewise, there is a docker-compose equivalent command but you probably want to 
 
 ### Remove Services
 ```
-./remove_containers.sh
+./cleanup_app.sh
 ```
 
 ### Completely wipe docker env: images/datastores
-First, make sure you've stopped the app
+First, make sure you've stopped the app with the cleanup_app.sh script
 ```
 docker system prune -af
 docker volume prune -f
