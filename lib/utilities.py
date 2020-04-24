@@ -1,12 +1,14 @@
 import logging
 import re
 import os
-#from django.conf import settings
+from django.conf import settings
 
 from fpdf import FPDF
 from datetime import datetime,date 
 from openpyxl import load_workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
+from docx import Document
+
 class CustomPDF(FPDF):
 
     def header(self):
@@ -148,8 +150,7 @@ def generate_download_report_pdf(log_file,pdf_file,startdate,enddate):
 def generate_upload_report_xlsx(log_file,xlsx_file,startdate,enddate):
     logs=process_upload_log(log_file,startdate, enddate)
     if len(logs) > 0:
-        #template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.xlsx')
-        template_file='templates/reports/ul_template.xlsx'
+        template_file=os.path.join(settings.BASE_DIR,'templates/reports/ul_template.xlsx')
         wb=load_workbook(template_file)
         ws=wb.active
         dltable=ws._tables[0]
@@ -178,8 +179,7 @@ def generate_upload_report_xlsx(log_file,xlsx_file,startdate,enddate):
 def generate_download_report_xlsx(log_file,xlsx_file,startdate,enddate):
     logs=process_download_log(log_file,startdate, enddate)
     if len(logs) > 0:
-        #template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.xlsx')
-        template_file='templates/reports/dl_template.xlsx'
+        template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.xlsx')
         wb=load_workbook(template_file)
         ws=wb.active
         dltable=ws._tables[0]
@@ -195,6 +195,54 @@ def generate_download_report_xlsx(log_file,xlsx_file,startdate,enddate):
         dltable.ref='B2:F{}'.format(len(logs)+2)
         ws._tables[0]=dltable
         wb.save(xlsx_file)
+    return len(logs)
+
+def generate_upload_report_docx(log_file,docx_file,startdate,enddate):
+    logs=process_upload_log(log_file,startdate, enddate)
+    if len(logs) > 0:
+        template_file=os.path.join(settings.BASE_DIR,'templates/reports/ul_template.docx')
+        report_title="Upload Report for " + str(startdate) + " - " + str(enddate)
+        dlreport=Document(template_file)
+        for paragraph in dlreport.paragraphs:
+            if paragraph.text == "Upload Report":
+                paragraph.text=report_title
+
+        dltable=dlreport.tables[0]
+        for dload in logs:
+            row_cells=dltable.add_row().cells
+            row_cells[0].text=dload['uploaddate']
+            row_cells[1].text=dload['uploadtime']
+            row_cells[2].text=dload['uploaduser']
+            row_cells[3].text=dload['uploadip']
+            row_cells[4].text=dload['deleted']
+            if 'verifyuser' in dload:
+                row_cells[5].text=dload['verifyuser']
+                row_cells[6].text=dload['verifyip']
+            elif dload['deleted']=='N':
+                row_cells[5].text="Unverified"
+            row_cells[7].text=dload['filename']
+        dlreport.save(docx_file)
+    return len(logs)
+
+def generate_download_report_docx(log_file,docx_file,startdate,enddate):
+    logs=process_download_log(log_file,startdate, enddate)
+    if len(logs) > 0:
+        template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.docx')
+        report_title="Download Report for " + str(startdate) + " - " + str(enddate)
+        dlreport=Document(template_file)
+        for paragraph in dlreport.paragraphs:
+            if paragraph.text == "Weekly Download Report":
+                paragraph.text=report_title
+
+        dltable=dlreport.tables[0]
+        for dload in logs:
+            row_cells=dltable.add_row().cells
+            row_cells[0].text=dload['dloaddate']
+            row_cells[1].text=dload['dloadtime']
+            row_cells[2].text=dload['dloaduser']
+            row_cells[3].text=dload['dloadip']
+            row_cells[4].text=dload['filename']
+        dlreport.save(docx_file)
     return len(logs)
 
 
