@@ -7,6 +7,8 @@ from jsa.models import Jsa
 from uploads.models import UploadFile
 from users.models import CustomUser
 from lib.utilities import generate_download_report_pdf, generate_upload_report_pdf
+from lib.utilities import generate_download_report_xlsx, generate_upload_report_xlsx
+from lib.utilities import generate_download_report_docx, generate_upload_report_docx
 import os
 
 @shared_task
