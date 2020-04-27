@@ -493,7 +493,16 @@ https://docs.docker.com/get-docker/
 
 Version used during development was 19.03
 
-The Docker compose version used is 1.25.5 which we install using pip in the next step. To install system wide you will need superuser privileges; otherwise, you can use a virtualenv if you'd like.
+The Docker compose version used is 1.25.5 which we install using pip. To install system wide you will need superuser privileges; otherwise, you can use a virtualenv if you'd like.
+
+To optionally create and use virtualenv:
+```
+python3 -m venv .venv
+. .venv/bin/activate
+```
+If using a virtualenv, you'll need to ensure it is activated in all terminals where you run docker-compose commands. The helper shell scripts will do this automatically when needed.
+
+Install requirements
 ```
 pip install -r requirements-docker.txt
 ```
