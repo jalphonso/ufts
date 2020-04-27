@@ -16,4 +16,4 @@ if [[ -f ".venv/bin/activate" ]]; then
 else
     docker-compose down
 fi
-docker rmi celery haproxy ufts-app
+docker rmi -f celery haproxy haproxy:custom ufts-app consul-template:custom

@@ -12,6 +12,7 @@ install: venv
 				. .venv/bin/activate && \
 				./docker-compose.py build
 				./init_app.sh
+				docker build -t consul-template:custom -f Dockerfile-consul-template .
 
 start: venv
 				./start_app.sh

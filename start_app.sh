@@ -8,11 +8,10 @@ fi
 
 docker run -d --restart unless-stopped --name consul-tpl -e CONSUL_TEMPLATE_LOG=debug  \
 -v /var/run/docker.sock:/var/run/docker.sock  \
--v $(which docker):/usr/bin/docker  \
 -v $(pwd)/config/consul/:/tmp/consul  \
 -v $(pwd)/config/web-haproxy/:/tmp/web-haproxy  \
 -v $(pwd)/config/app-haproxy/:/tmp/app-haproxy  \
-hashicorp/consul-template \
+consul-template:custom \
 -template "/tmp/consul/web-haproxy.ctmpl:/tmp/web-haproxy/haproxy.cfg:docker  \
 kill -s HUP '$(docker ps -aq --filter name=web-lb)'" \
 -template "/tmp/consul/app-haproxy.ctmpl:/tmp/app-haproxy/haproxy.cfg:docker  \
