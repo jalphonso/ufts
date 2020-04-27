@@ -590,7 +590,6 @@ d82c91bb8013        redis:alpine                    "docker-entrypoint.s…"   5
 ```
 
 ### Completely wipe docker env: images/datastores
-First, make sure you've stopped the app with the cleanup_app.sh script
 ```
 make wipe
 ```
