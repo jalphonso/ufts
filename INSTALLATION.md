@@ -514,7 +514,7 @@ make install
 
 ### Setup DB for the first time
 ```
-docker-compose exec app bash
+docker-compose exec app0 bash
 python manage.py migrate
 ```
 
