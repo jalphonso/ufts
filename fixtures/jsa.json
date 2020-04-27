@@ -4,6 +4,7 @@
     "pk": 4,
     "fields": {
         "displayName": "JSA10679",
+        "date": "2018-11-28",
         "document": "support/jsas/JSA10679.pdf",
         "description": "2015-04 Security Bulletin: OpenSSL 8th January 2015 advisory"
     }
@@ -13,6 +14,7 @@
     "pk": 5,
     "fields": {
         "displayName": "JSA10711",
+        "date": "2018-11-28",
         "document": "support/jsas/JSA10711.pdf",
         "description": "2015-10 Out of Cycle Security Bulletin: NTP.org announcement of multiple vulnerabilities."
     }
@@ -22,6 +24,7 @@
     "pk": 6,
     "fields": {
         "displayName": "JSA10749",
+        "date": "2018-11-28",
         "document": "support/jsas/JSA10749.pdf",
         "description": "IPv6 Neighbor Discovery Crafted Packet Denial of Service Vulnerability (CVE-2016-1409)"
     }
@@ -31,6 +34,7 @@
     "pk": 7,
     "fields": {
         "displayName": "JSA10770",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10770.pdf",
         "description": "2017-01 Security Bulletin: Junos Space: Multiple vulnerabilities resolved in 16.1R1 release."
     }
@@ -40,6 +44,7 @@
     "pk": 8,
     "fields": {
         "displayName": "JSA10831",
+        "date": "2018-11-28",
         "document": "support/jsas/JSA10831.pdf",
         "description": "2018-01 Security Bulletin: Junos OS: A crafted MPLS packet may lead to a kernel crash (CVE-2018-0003)"
     }
@@ -49,6 +54,7 @@
     "pk": 9,
     "fields": {
         "displayName": "JSA10871",
+        "date": "2018-11-28",
         "document": "support/jsas/JSA10871.pdf",
         "description": "2018-07 Security Bulletin: Junos OS: RPD daemon crashes due to receipt of crafted BGP NOTIFICATION messages (CVE-2018-0037)"
     }
@@ -58,6 +64,7 @@
     "pk": 10,
     "fields": {
         "displayName": "JSA10874",
+        "date": "2018-11-28",
         "document": "support/jsas/JSA10874.pdf",
         "description": "2018-07 Security Bulletin: Junos OS: cURL: Multiple vulnerabilities in multiple cURL versions"
     }
@@ -67,6 +74,7 @@
     "pk": 11,
     "fields": {
         "displayName": "JSA10876",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10876.pdf",
         "description": "2018-08 Out of Cycle Security Bulletin: Junos platforms vulnerable to SegmentSmack attack [VU#962459], and Juniper response to FragmentSmack [VU#641765]"
     }
@@ -76,6 +84,7 @@
     "pk": 12,
     "fields": {
         "displayName": "JSA10877",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10877.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: RPD daemon crashes upon receipt of specific MPLS packet (CVE-2018-0043)"
     }
@@ -85,6 +94,7 @@
     "pk": 13,
     "fields": {
         "displayName": "JSA10878",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10878.pdf",
         "description": "2018-10 Security Bulletin: NFX Series: Insecure sshd configuration in Juniper Device Manager (JDM) and host OS (CVE-2018-0044)"
     }
@@ -94,6 +104,7 @@
     "pk": 14,
     "fields": {
         "displayName": "JSA10879",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10879.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: RPD daemon crashes due to receipt of specific Draft-Rosen MVPN control packet in Draft-Rosen MVPN configuration (CVE-2018-0045)"
     }
@@ -103,6 +114,7 @@
     "pk": 15,
     "fields": {
         "displayName": "JSA10880",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10880.pdf",
         "description": "2018-10 Security Bulletin: Junos Space: Multiple vulnerabilities resolved in 18.2R1 release"
     }
@@ -112,6 +124,7 @@
     "pk": 16,
     "fields": {
         "displayName": "JSA10881",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10881.pdf",
         "description": "2018-10 Security Bulletin: Junos Space Security Director: XSS vulnerability in web administration (CVE-2018-0047)"
     }
@@ -121,6 +134,7 @@
     "pk": 17,
     "fields": {
         "displayName": "JSA10882",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10882.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Memory exhaustion denial of service vulnerability in Routing Protocols Daemon (RPD) with Juniper Extension Toolkit (JET) support (CVE-2018-0048)"
     }
@@ -130,6 +144,7 @@
     "pk": 18,
     "fields": {
         "displayName": "JSA10883",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10883.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Receipt of a specifically crafted malicious MPLS packet leads to a Junos kernel crash (CVE-2018-0049)"
     }
@@ -139,6 +154,7 @@
     "pk": 19,
     "fields": {
         "displayName": "JSA10884",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10884.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Receipt of a malformed MPLS RSVP packet leads to a Routing Protocols Daemon (RPD) crash (CVE-2018-0050)"
     }
@@ -148,6 +164,7 @@
     "pk": 20,
     "fields": {
         "displayName": "JSA10885",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10885.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Denial of Service vulnerability in MS-PIC, MS-MIC, MS-MPC, MS-DPC and SRX flow daemon (flowd) related to SIP ALG (CVE-2018-0051)"
     }
@@ -157,6 +174,7 @@
     "pk": 21,
     "fields": {
         "displayName": "JSA10886",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10886.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Unauthenticated remote root access possible when RSH service is enabled (CVE-2018-0052)"
     }
@@ -166,6 +184,7 @@
     "pk": 22,
     "fields": {
         "displayName": "JSA10887",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10887.pdf",
         "description": "2018-10 Security Bulletin: vSRX Series: A local authentication vulnerability may lead to full control of a vSRX instance while the system is booting. (CVE-2018-0053)"
     }
@@ -175,6 +194,7 @@
     "pk": 23,
     "fields": {
         "displayName": "JSA10888",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10888.pdf",
         "description": "2018-10 Security Bulletin: QFX5000/EX4600 Series: Routing protocol flap upon receipt of high rate of Ethernet frames (CVE-2018-0054)"
     }
@@ -184,6 +204,7 @@
     "pk": 24,
     "fields": {
         "displayName": "JSA10889",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10889.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: jdhcpd process crash during processing of specially crafted DHCPv6 message (CVE-2018-0055)"
     }
@@ -193,6 +214,7 @@
     "pk": 25,
     "fields": {
         "displayName": "JSA10890",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10890.pdf",
         "description": "2018-10 Security Bulletin: MX Series: L2ALD daemon may crash if a duplicate MAC is learned by two different interfaces (CVE-2018-0056)"
     }
@@ -202,6 +224,7 @@
     "pk": 26,
     "fields": {
         "displayName": "JSA10892",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10892.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: authd allows assignment of IP address requested by DHCP subscriber logging in with Option 50 (Requested IP Address) (CVE-2018-0057)"
     }
@@ -211,6 +234,7 @@
     "pk": 27,
     "fields": {
         "displayName": "JSA10893",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10893.pdf",
         "description": "2018-10 Security Bulletin: MX Series: In BBE configurations, receipt of a crafted IPv6 exception packet causes a Denial of Service (CVE-2018-0058)"
     }
@@ -220,6 +244,7 @@
     "pk": 28,
     "fields": {
         "displayName": "JSA10894",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10894.pdf",
         "description": "2018-10 Security Bulletin: ScreenOS: Stored Cross-Site Scripting (XSS) vulnerability (CVE-2018-0059)"
     }
@@ -229,6 +254,7 @@
     "pk": 29,
     "fields": {
         "displayName": "JSA10895",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10895.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Invalid IP/mask learned from DHCP server might cause the device control daemon (dcd) process crash (CVE-2018-0060)"
     }
@@ -238,6 +264,7 @@
     "pk": 30,
     "fields": {
         "displayName": "JSA10896",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10896.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Denial of service in telnetd (CVE-2018-0061)"
     }
@@ -247,6 +274,7 @@
     "pk": 31,
     "fields": {
         "displayName": "JSA10897",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10897.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Denial of Service in J-Web (CVE-2018-0062)"
     }
@@ -256,6 +284,7 @@
     "pk": 32,
     "fields": {
         "displayName": "JSA10898",
+        "date": "2020-4-27",
         "document": "support/jsas/JSA10898.pd",
         "description": "2018-10 Security Bulletin: Junos OS: Multiple vulnerabilities in NTP [VU#961909]"
     }
@@ -265,6 +294,7 @@
     "pk": 33,
     "fields": {
         "displayName": "JSA10899",
+        "date": "2020-4-26",
         "document": "support/jsas/JSA10899.pdf",
         "description": "2018-10 Security Bulletin: Junos OS: Nexthop index allocation failed: private index space exhausted via incoming ARP requests to management interface (CVE-2018-0063)"
     }
