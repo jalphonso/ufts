@@ -1,7 +1,3 @@
 FROM hashicorp/consul-template:alpine
-ARG UID=100
-ARG GID=1000
 USER root
-RUN addgroup docker && adduser -D -H -G docker ${UID}
 RUN apk add docker
-USER ${UID}:${GID}
