@@ -493,23 +493,22 @@ https://docs.docker.com/get-docker/
 
 Version used during development was 19.03
 
-The Docker compose version used is 1.25.5 which we install using pip. To install system wide you will need superuser privileges; otherwise, you can use a virtualenv if you'd like.
+The Docker compose version used is 1.25.5 which we install using pip. To install system wide you will need superuser privileges; otherwise, you can use a virtualenv.
 
-To optionally create and use virtualenv:
+To create and use the virtualenv:
 ```
-python3 -m venv .venv
+make venv
 . .venv/bin/activate
 ```
 If using a virtualenv, you'll need to ensure it is activated in all terminals where you run docker-compose commands. The helper shell scripts will do this automatically when needed.
 
-Install requirements
+### Build Services
 ```
-pip install -r requirements-docker.txt
+make install
 ```
 
 ### Start Services
 ```
-./init_app.sh
 ./start_app.sh
 ```
 
@@ -563,13 +562,36 @@ Likewise, there is a docker-compose equivalent command but you probably want to 
 
 ### Remove Services
 ```
-./cleanup_app.sh
+make clean
+```
+
+### Cleanly restart app
+```
+make clean && make install && make start
+```
+
+### View running services
+```
+$ docker ps
+CONTAINER ID        IMAGE                           COMMAND                  CREATED             STATUS              PORTS                                                                      NAMES
+960b93537e5d        nginx:latest                    "nginx -g 'daemon of…"   17 minutes ago      Up 17 minutes       80/tcp                                                                     web1
+71a0bc44210d        ufts-app                        "gunicorn -w 3 --chd…"   17 minutes ago      Up 17 minutes       8000/tcp                                                                   app1
+cd3886cf6bde        consul-template:custom          "/bin/docker-entrypo…"   17 minutes ago      Up 17 minutes                                                                                  consul-tpl
+2d4b12bbf9e7        ufts-app                        "gunicorn -w 3 --chd…"   51 minutes ago      Up 51 minutes       8000/tcp                                                                   app0
+0c7d8583c264        celery                          "celery -A ufts beat…"   51 minutes ago      Up 51 minutes                                                                                  celery-beat
+ed35fd259916        celery                          "celery -A ufts work…"   51 minutes ago      Up 51 minutes                                                                                  celery
+3866422bbf60        nginx:latest                    "nginx -g 'daemon of…"   51 minutes ago      Up 51 minutes       80/tcp                                                                     web0
+6debc8fc23c4        haproxy:custom                  "/docker-entrypoint.…"   51 minutes ago      Up 51 minutes       8000/tcp                                                                   app-lb
+bed8414fadec        postgres:10                     "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       5432/tcp                                                                   db
+d82c91bb8013        redis:alpine                    "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       6379/tcp                                                                   redis
+03c6aaeaf3e1        haproxy:custom                  "/docker-entrypoint.…"   51 minutes ago      Up 51 minutes       0.0.0.0:443->443/tcp                                                       web-lb
+016a61671fbe        gliderlabs/registrator:master   "/bin/registrator -i…"   51 minutes ago      Up 51 minutes                                                                                  registrator
+83d4b4e90166        consul                          "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       8300-8302/tcp, 8301-8302/udp, 8600/tcp, 8600/udp, 0.0.0.0:8500->8500/tcp   consul
 ```
 
 ### Completely wipe docker env: images/datastores
 First, make sure you've stopped the app with the cleanup_app.sh script
 ```
-docker system prune -af
-docker volume prune -f
+make wipe
 ```
 
