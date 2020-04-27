@@ -11,4 +11,8 @@ else
     w=1
 fi
 
-. .venv/bin/activate && ./docker-compose.py -a"$a" -w"$w" up --remove-orphans -d || exit 1
+if [[ -f ".venv/bin/activate" ]]; then
+    . .venv/bin/activate && ./docker-compose.py -a"$a" -w"$w" up --remove-orphans -d || exit 1
+else
+    ./docker-compose.py -a"$a" -w"$w" up --remove-orphans -d || exit 1
+fi

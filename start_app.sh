@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-. .venv/bin/activate && ./docker-compose.py -a1 -w1 up --remove-orphans -d || exit 1
+if [[ -f ".venv/bin/activate" ]]; then
+    . .venv/bin/activate && ./docker-compose.py -a1 -w1 up --remove-orphans -d || exit 1
+else
+    ./docker-compose.py -a1 -w1 up --remove-orphans -d || exit 1
+fi
+
 docker run -d --restart unless-stopped --name consul-tpl -e CONSUL_TEMPLATE_LOG=debug  \
 -v /var/run/docker.sock:/var/run/docker.sock  \
 -v /usr/local/bin/docker:/usr/bin/docker  \
