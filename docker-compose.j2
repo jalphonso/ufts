@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-haproxy
-    image: haproxy
+    image: haproxy:custom
     volumes:
       - ./config/web-haproxy/:/usr/local/etc/haproxy/
       - ./config/certs/:/etc/ssl/certs/
@@ -24,7 +24,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-haproxy
-    image: haproxy
+    image: haproxy:custom
     volumes:
       - ./config/app-haproxy/:/usr/local/etc/haproxy/
     networks:
