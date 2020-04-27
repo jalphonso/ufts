@@ -17,6 +17,9 @@ parser.add_argument('-a', '--app', metavar='number of app instances',
 parser.add_argument('-w', '--web', metavar='number of web instances',
                     default=1, type=int,
                     help='Specify an numnber of web instances to run')
+parser.add_argument('-g', '--generate_only',
+                    action='store_true',
+                    help='Generates compose file but does not invoke docker compose')
 
 (args, extras) = parser.parse_known_args()
 
@@ -29,5 +32,6 @@ compose_yml = yaml.load(compose_file)
 compose_file_path = Path("docker-compose.yml")
 yaml.dump(compose_yml, compose_file_path)
 
-sys.argv[:] = ['docker-compose'] + extras
-compose_main()
+if not args.generate_only:
+  sys.argv[:] = ['docker-compose'] + extras
+  compose_main()
