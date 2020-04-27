@@ -8,7 +8,7 @@ fi
 
 docker run -d --restart unless-stopped --name consul-tpl -e CONSUL_TEMPLATE_LOG=debug  \
 -v /var/run/docker.sock:/var/run/docker.sock  \
--v /usr/local/bin/docker:/usr/bin/docker  \
+-v $(which docker):/usr/bin/docker  \
 -v $(pwd)/config/consul/:/tmp/consul  \
 -v $(pwd)/config/web-haproxy/:/tmp/web-haproxy  \
 -v $(pwd)/config/app-haproxy/:/tmp/app-haproxy  \
