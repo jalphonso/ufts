@@ -1,16 +1,16 @@
-version: '3'
+version: '3.8'
 
 services:
 
   web-lb:
+    container_name: web-lb
     build:
       context: .
       dockerfile: Dockerfile-haproxy
+    image: haproxy:custom
     volumes:
       - ./config/web-haproxy/:/usr/local/etc/haproxy/
       - ./config/certs/:/etc/ssl/certs/
-    depends_on:
-      - web
     networks:
       - frontend_network
     ports:
@@ -20,13 +20,13 @@ services:
     restart: unless-stopped
 
   app-lb:
+    container_name: app-lb
     build:
       context: .
       dockerfile: Dockerfile-haproxy
+    image: haproxy:custom
     volumes:
       - ./config/app-haproxy/:/usr/local/etc/haproxy/
-    depends_on:
-      - app
     networks:
       - frontend_network
     expose:
@@ -34,35 +34,44 @@ services:
     hostname: haproxy
     user: root
     restart: unless-stopped
-
-  web:
+{% for i in range(num_web) %}
+  web{{i}}:
+    container_name: web{{i}}
     image: nginx:latest
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - ./static:/opt/services/ufts/static
       - media_volume:/opt/services/ufts/media
       - software_volume:/opt/services/ufts/software
-    depends_on:
-      - app
     networks:
       - frontend_network
     restart: unless-stopped
-
-  app:
-    build: .
+{% endfor %}
+{% for i in range(num_app) %}
+  app{{i}}:
+    container_name: app{{i}}
+    build:
+      context: .
+    image: ufts-app
     volumes:
       - .:/opt/services/ufts/src
       - ./static:/opt/services/ufts/static
       - media_volume:/opt/services/ufts/media
       - software_volume:/opt/services/ufts/software
+    labels:
+      service_ip: 172.20.10.{{100 + i}}
     networks:
-      - frontend_network
-      - backend_network
+      frontend_network:
+        ipv4_address: 172.20.10.{{100 + i}}
+      backend_network:
+        ipv4_address: 172.20.11.{{100 + i}}
     depends_on:
       - db
     restart: unless-stopped
+{% endfor %}
 
   db:
+    container_name: db
     image: postgres:10
     env_file:
       - config/db/postgres_env
@@ -73,16 +82,22 @@ services:
     restart: unless-stopped
 
   redis:
+    container_name: redis
     image: "redis:alpine"
     networks:
       - redis_network
     restart: unless-stopped
 
   celery:
+    container_name: celery
     build:
       context: .
       dockerfile: Dockerfile-celery
-    command: celery -A ufts worker -l info -c 3 --uid=nobody --gid=nogroup
+    image: celery
+    command: >
+             celery -A ufts worker
+             --pidfile=/var/run/celery/celeryd.pid
+             -l info -c 3
     networks:
       - redis_network
       - backend_network
@@ -97,10 +112,16 @@ services:
     restart: unless-stopped
 
   celery-beat:
+    container_name: celery-beat
     build:
       context: .
       dockerfile: Dockerfile-celery
-    command: celery -A ufts beat -l info --uid=nobody --gid=nogroup
+    image: celery
+    command: >
+             celery -A ufts beat
+             --pidfile=/var/run/celery/celeryd.pid
+             --schedule=/var/run/celery/celerybeat-schedule
+             -l info
     networks:
       - redis_network
     volumes:
@@ -115,11 +136,20 @@ services:
 
 networks:
   frontend_network:
-    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.10.0/24"
   backend_network:
-    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.11.0/24"
   redis_network:
-    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.12.0/24"
 
 volumes:
   db_volume:
