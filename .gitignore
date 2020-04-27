@@ -57,6 +57,8 @@ coverage.xml
 # Django stuff:
 *.log
 logs/
+sent_emails/
+reports/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
@@ -136,3 +138,6 @@ haproxy.cfg
 
 #SSL Certs
 **/certs/*
+
+#Docker Compose file is generated
+docker-compose.yml

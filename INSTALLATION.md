@@ -1,8 +1,15 @@
 # INSTALLATION
 
 ## Certificates
-You will need an openssl.cnf preferably in the default location is typically /etc/ssl/openssl.cnf
-If you have it elsewhere you'll need to supply it with the -conf <filename> in most of the commands.
+You will need an openssl.cnf preferably in the default location
+
+Mac/Ubuntu:
+- /etc/ssl/openssl.cnf
+
+CentOS 7:
+- /etc/pki/tls/openssl.cnf
+
+If you have it elsewhere you'll need to supply it with the -config openssl.cnf in most of the commands.
 
 #### openssl.cnf:
 ```
@@ -479,15 +486,35 @@ vim config/consul/web-haproxy.ctmpl
 ```
 
 ## Microservices management
+
+### Install Docker and Docker Compose
+Follow instructions for your OS on the official Docker website
+https://docs.docker.com/get-docker/
+
+Version used during development was 19.03
+
+The Docker compose version used is 1.25.5 which we install using pip. To install system wide you will need superuser privileges; otherwise, you can use a virtualenv.
+
+To create and use the virtualenv:
+```
+make venv
+. .venv/bin/activate
+```
+If using a virtualenv, you'll need to ensure it is activated in all terminals where you run docker-compose commands. The helper shell scripts will do this automatically when needed.
+
+### Build Services
+```
+make install
+```
+
 ### Start Services
 ```
-./init_containers.sh
 ./start_app.sh
 ```
 
 ### Setup DB for the first time
 ```
-docker-compose exec app bash
+docker-compose exec app0 bash
 python manage.py migrate
 ```
 
@@ -495,10 +522,28 @@ python manage.py migrate
 ```
 docker-compose logs -f
 ```
+If you scale the app while tailing the logs you will need to reissue this command to get logs for the new services
+
+If using the syslog driver for your Docker daemon, you'll have to monitor logs on your syslog server instead
 
 ### Stop Services
 ```
 ./stop_app.sh
+```
+
+### Restart Services
+```
+./restart_app.sh
+```
+
+### Scale Services
+Scale App and Web Tiers to 3 containers each
+```
+./scale_app.sh 3 3
+```
+Scale App and Web Tiers back down to 1 each
+```
+./scale_app.sh
 ```
 
 ### Signal HAProxy or Nginx to reload config
@@ -517,13 +562,35 @@ Likewise, there is a docker-compose equivalent command but you probably want to 
 
 ### Remove Services
 ```
-./remove_containers.sh
+make clean
+```
+
+### Cleanly restart app
+```
+make clean && make install && make start
+```
+
+### View running services
+```
+$ docker ps
+CONTAINER ID        IMAGE                           COMMAND                  CREATED             STATUS              PORTS                                                                      NAMES
+960b93537e5d        nginx:latest                    "nginx -g 'daemon of…"   17 minutes ago      Up 17 minutes       80/tcp                                                                     web1
+71a0bc44210d        ufts-app                        "gunicorn -w 3 --chd…"   17 minutes ago      Up 17 minutes       8000/tcp                                                                   app1
+cd3886cf6bde        consul-template:custom          "/bin/docker-entrypo…"   17 minutes ago      Up 17 minutes                                                                                  consul-tpl
+2d4b12bbf9e7        ufts-app                        "gunicorn -w 3 --chd…"   51 minutes ago      Up 51 minutes       8000/tcp                                                                   app0
+0c7d8583c264        celery                          "celery -A ufts beat…"   51 minutes ago      Up 51 minutes                                                                                  celery-beat
+ed35fd259916        celery                          "celery -A ufts work…"   51 minutes ago      Up 51 minutes                                                                                  celery
+3866422bbf60        nginx:latest                    "nginx -g 'daemon of…"   51 minutes ago      Up 51 minutes       80/tcp                                                                     web0
+6debc8fc23c4        haproxy:custom                  "/docker-entrypoint.…"   51 minutes ago      Up 51 minutes       8000/tcp                                                                   app-lb
+bed8414fadec        postgres:10                     "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       5432/tcp                                                                   db
+d82c91bb8013        redis:alpine                    "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       6379/tcp                                                                   redis
+03c6aaeaf3e1        haproxy:custom                  "/docker-entrypoint.…"   51 minutes ago      Up 51 minutes       0.0.0.0:443->443/tcp                                                       web-lb
+016a61671fbe        gliderlabs/registrator:master   "/bin/registrator -i…"   51 minutes ago      Up 51 minutes                                                                                  registrator
+83d4b4e90166        consul                          "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       8300-8302/tcp, 8301-8302/udp, 8600/tcp, 8600/udp, 0.0.0.0:8500->8500/tcp   consul
 ```
 
 ### Completely wipe docker env: images/datastores
-First, make sure you've stopped the app
 ```
-docker system prune -af
-docker volume prune -f
+make wipe
 ```
 
