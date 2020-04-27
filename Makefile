@@ -14,13 +14,13 @@ install: venv
 				./init_app.sh
 				docker build -t consul-template:custom -f Dockerfile-consul-template .
 
-start: venv
+start:
 				./start_app.sh
 
-stop: venv
+stop:
 				./stop_app.sh
 
-restart: venv
+restart:
 				./restart_app.sh
 
 clean:
@@ -28,3 +28,7 @@ clean:
 				find . -name '*.pyc' -print | xargs rm
 				find . -name '__pycache__' -print | xargs rmdir
 				./cleanup_app.sh
+
+wipe: clean
+				docker system prune -af
+				docker volume prune -f
