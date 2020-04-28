@@ -28,10 +28,12 @@ class UploadFileAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         client_ip, is_forwardable = get_client_ip(request)
         if not change:
+            fixed_name=obj.file.name.replace(' ','_')
             if obj.release_notes:
-                logger.debug('user: {} |ip address: {} |uploaded_file: {} |uploaded_release_notes: {}'.format(obj.uploaded_by, client_ip, obj.file, obj.release_notes))
+                fixed_relnotes=obj.release_notes.name.replace(' ','_')
+                logger.debug('user: {} |ip address: {} |uploaded_file: {} |uploaded_release_notes: {}'.format(obj.uploaded_by, client_ip, fixed_name, fixed_relnotes))
             else:
-                logger.debug('user: {} |ip address: {} |uploaded_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
+                logger.debug('user: {} |ip address: {} |uploaded_file: {}'.format(obj.uploaded_by, client_ip, fixed_name))
 
         else:
             if 'verified_by' in form.fields and obj.verified_by:
