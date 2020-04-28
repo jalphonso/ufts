@@ -101,7 +101,7 @@ def generate_upload_report_pdf(log_file,pdf_file,startdate,enddate):
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
-    title = 'Weekly Upload Report for ' + str(startdate) + ' - ' + str(enddate)
+    title = 'Upload Report for ' + str(startdate) + ' - ' + str(enddate)
     pdf.cell(0, 12, title, 0, 0, 'C')
     pdf.ln(24)
     logs=process_upload_log(log_file,startdate,enddate)
@@ -112,13 +112,15 @@ def generate_upload_report_pdf(log_file,pdf_file,startdate,enddate):
         pdf.set_font('Arial', 'BU', 9)
         line_no = 1
 
-        pdf.cell(0, 10, "Upload Date     Upload Time     Upload User                                          Uploader IP               Verifier                                                     Verify Date        File Uploaded".ljust(300), 0,1)
+        pdf.cell(0, 10, "Date                   Time                  User                                                      IP                         Deleted?    Verifier                                                     Verify Date       File Uploaded".ljust(300), 0,1)
         pdf.set_font('Courier', '', 10)
         for logentry in logs:
             if 'verifyuser' in logentry:
-                pdf.cell(0, 10, txt="{} {}   {}{}{} {} {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15), logentry['verifyuser'].ljust(26),logentry['verifydate'],logentry['filename']), ln=1)
+                pdf.cell(0, 10, txt="{} {}   {}{}{}    {} {} {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15), logentry['deleted'],logentry['verifyuser'].ljust(26),logentry['verifydate'],logentry['filename']), ln=1)
+            elif logentry['deleted'] == 'Y':
+                pdf.cell(0, 10, txt="{} {}   {}{}{}                                          {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15),logentry['deleted'],logentry['filename']), ln=1)
             else:
-                pdf.cell(0, 10, txt="{} {}   {}{}{}            {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15),"unverified".ljust(26),logentry['filename']), ln=1)
+                pdf.cell(0, 10, txt="{} {}   {}{}{}    {}            {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15),logentry['deleted'],"unverified".ljust(26),logentry['filename']), ln=1)
             line_no += 1
     pdf.output(pdf_file)
     return len(logs)
@@ -129,7 +131,7 @@ def generate_download_report_pdf(log_file,pdf_file,startdate,enddate):
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
-    title = 'Weekly Download Report for ' + str(startdate) + ' - ' + str(enddate)
+    title = 'Download Report for ' + str(startdate) + ' - ' + str(enddate)
     pdf.cell(0, 12, title, 0, 0, 'C')
     pdf.ln(24)
     logs=process_download_log(log_file,startdate, enddate)
