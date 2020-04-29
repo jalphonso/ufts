@@ -61,17 +61,14 @@
 
                             <li class="nav-item dropdown ml-5 text-right">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {% if user.is_staff  or user.is_superuser %}
                                     {{ request.user.get_full_name }}
-                                {% else %}
-                                    {{ request.user.get_full_name }}
-                                {% endif %}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="padding-right:30px">
                                     {% if user.is_staff %}
                                         <a class="dropdown-item" href="{% url 'admin:index' %}">System Administration</a>
                                     {% endif %}
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'profile' %}">Edit Profile</a>
                                     <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
                                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                                 </div>
