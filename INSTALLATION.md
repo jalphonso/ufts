@@ -1,5 +1,22 @@
 # INSTALLATION
 
+## Prerequisites
+
+- Python 3.6 https://www.python.org/downloads/
+- Docker 19.03 https://docs.docker.com/get-docker/
+
+## Services used
+- Python Django Web Framework
+- Nginx
+- Consul
+- Registrator
+- Consul Template
+- Celery
+- Celery Beat
+- HAProxy
+- Redis
+- Postgres
+
 ## Certificates
 You will need an openssl.cnf preferably in the default location
 
