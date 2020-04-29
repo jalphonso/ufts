@@ -470,11 +470,26 @@ Go through the file carefully and change the following:
 9. Set EMAIL_USE_TLS=True if needed
 10. Notice CELERY_BEAT_SCHEDULE at the bottom. You probably do not need to change these settings
     but this is where you would if needed.
+11. Change reporting format(pdf,xlsx,docx) with REPORT_FORMAT near the bottom.
 
 ```
 vim ufts/settings.py
 ```
-
+#### IP address logging
+Because we are using a proxy, in order for correct logging of IP addresses for uploads and downloads, we use a configurable library that attempts to choose the correct IP. By default, we configure it under the assumption that the deployed network is using a private IP space. If this is deployed in a public IP space, replace the IPWARE_META_PRECEDENCE_ORDER settings variable with the following:
+```
+IPWARE_META_PRECEDENCE_ORDER = (
+     'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # <client>, <proxy1>, <proxy2>
+     'HTTP_CLIENT_IP',
+     'HTTP_X_REAL_IP',
+     'HTTP_X_FORWARDED',
+     'HTTP_X_CLUSTER_CLIENT_IP',
+     'HTTP_FORWARDED_FOR',
+     'HTTP_FORWARDED',
+     'HTTP_VIA',
+     'REMOTE_ADDR',
+ )
+```
 #### Update domain in nginx config
 ```
 vim config/nginx/conf.d/local.conf
