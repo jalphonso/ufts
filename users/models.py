@@ -1,9 +1,10 @@
 # users/models.py
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from lib.mixins import ModelDiffMixin
 
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser, ModelDiffMixin):
     unclas_email = models.CharField(max_length=50, default='', editable=True)
     class_phone = models.CharField(max_length=30, default='', editable=True)
     unclas_phone = models.CharField(max_length=30, default='', editable=True)
@@ -12,7 +13,7 @@ class CustomUser(AbstractUser):
 
 
     def __str__(self):
-        return self.email
+        return self.username
 
 
 class Contract(models.Model):

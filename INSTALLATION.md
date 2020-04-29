@@ -1,5 +1,22 @@
 # INSTALLATION
 
+## Prerequisites
+
+- Python 3.6 https://www.python.org/downloads/
+- Docker 19.03 https://docs.docker.com/get-docker/
+
+## Services used
+- Python Django Web Framework
+- Nginx
+- Consul
+- Registrator
+- Consul Template
+- Celery
+- Celery Beat
+- HAProxy
+- Redis
+- Postgres
+
 ## Certificates
 You will need an openssl.cnf preferably in the default location
 
@@ -440,6 +457,14 @@ openssl req -new -key joe.key -out joe.csr -subj '/userName=joe/CN=Joe Alphonso/
 ```
 If you have other Custom OIDs in the DN subject line, then you'll want to either create a custom function for processing your cert in django_ssl_auth/cert.py and change the value of USER_DATA_FN in the Django settings file located in ufts/settings.py or modify the existing one referenced.
 
+#### Validate Certs
+This is optional but good to know if you've done everything correctly so far. If the cert isn't valid, the load balancer won't start up.
+```
+$ openssl verify -CAfile ca.crt ufts.pem
+ufts.pem: OK
+```
+Repeat as desired for client certs.
+
 #### Generate CRL
 ```
 openssl ca -gencrl -out root_crl.pem
@@ -500,6 +525,13 @@ vim config/nginx/conf.d/local.conf
 vim config/consul/web-haproxy.ctmpl
 ```
 
+#### Update IP Networks in Docker Compose Template
+```
+vim docker-compose.j2
+```
+Edit the networks at the bottom of the file if you need to. Make sure you also update the network
+under the app service in this same file.
+
 ## Microservices management
 
 ### Install Docker and Docker Compose
@@ -535,7 +567,7 @@ python manage.py migrate
 
 ### Monitor Services
 ```
-docker-compose logs -f
+./monitor_app.sh
 ```
 If you scale the app while tailing the logs you will need to reissue this command to get logs for the new services
 

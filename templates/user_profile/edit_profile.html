@@ -1,0 +1,26 @@
+<!-- templates/edit_profile.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron">
+            <h2 class="text-center">Edit Profile</h2>
+        {% if invalid %}
+            <h6 style="color: red;">
+                Form submission was invalid. Please fix errors and try again.
+            </h6>
+        {% elif no_change %}
+            <h6 style="color: red;">
+                No change made to profile
+            </h6>
+        {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
