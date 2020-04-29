@@ -1,7 +1,14 @@
 import logging
 import re
+import os
+from django.conf import settings
+
 from fpdf import FPDF
 from datetime import datetime,date 
+from openpyxl import load_workbook
+from openpyxl.worksheet.table import Table, TableStyleInfo
+from docx import Document
+from docx.shared import Pt
 
 class CustomPDF(FPDF):
 
@@ -94,7 +101,7 @@ def generate_upload_report_pdf(log_file,pdf_file,startdate,enddate):
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
-    title = 'Weekly Upload Report for ' + str(startdate) + ' - ' + str(enddate)
+    title = 'Upload Report for ' + str(startdate) + ' - ' + str(enddate)
     pdf.cell(0, 12, title, 0, 0, 'C')
     pdf.ln(24)
     logs=process_upload_log(log_file,startdate,enddate)
@@ -105,13 +112,15 @@ def generate_upload_report_pdf(log_file,pdf_file,startdate,enddate):
         pdf.set_font('Arial', 'BU', 9)
         line_no = 1
 
-        pdf.cell(0, 10, "Upload Date     Upload Time     Upload User                                          Uploader IP               Verifier                                                     Verify Date        File Uploaded".ljust(300), 0,1)
+        pdf.cell(0, 10, "Date                   Time                  User                                                      IP                         Deleted?    Verifier                                                     Verify Date       File Uploaded".ljust(300), 0,1)
         pdf.set_font('Courier', '', 10)
         for logentry in logs:
             if 'verifyuser' in logentry:
-                pdf.cell(0, 10, txt="{} {}   {}{}{} {} {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15), logentry['verifyuser'].ljust(26),logentry['verifydate'],logentry['filename']), ln=1)
+                pdf.cell(0, 10, txt="{} {}   {}{}{}    {} {} {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15), logentry['deleted'],logentry['verifyuser'].ljust(26),logentry['verifydate'],logentry['filename']), ln=1)
+            elif logentry['deleted'] == 'Y':
+                pdf.cell(0, 10, txt="{} {}   {}{}{}                                          {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15),logentry['deleted'],logentry['filename']), ln=1)
             else:
-                pdf.cell(0, 10, txt="{} {}   {}{}{}            {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15),"unverified".ljust(26),logentry['filename']), ln=1)
+                pdf.cell(0, 10, txt="{} {}   {}{}{}    {}            {}".format(logentry['uploaddate'], logentry['uploadtime'], logentry['uploaduser'].ljust(26), logentry['uploadip'].ljust(15),logentry['deleted'],"unverified".ljust(26),logentry['filename']), ln=1)
             line_no += 1
     pdf.output(pdf_file)
     return len(logs)
@@ -122,7 +131,7 @@ def generate_download_report_pdf(log_file,pdf_file,startdate,enddate):
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
-    title = 'Weekly Download Report for ' + str(startdate) + ' - ' + str(enddate)
+    title = 'Download Report for ' + str(startdate) + ' - ' + str(enddate)
     pdf.cell(0, 12, title, 0, 0, 'C')
     pdf.ln(24)
     logs=process_download_log(log_file,startdate, enddate)
@@ -139,6 +148,126 @@ def generate_download_report_pdf(log_file,pdf_file,startdate,enddate):
             pdf.cell(0, 10, txt="{} {}   {}{}{}".format(logentry['dloaddate'], logentry['dloadtime'], logentry['dloaduser'].ljust(26), logentry['dloadip'].ljust(15),logentry['filename']), ln=1)
             line_no += 1
     pdf.output(pdf_file)
+    return len(logs)
+
+def generate_upload_report_xlsx(log_file,xlsx_file,startdate,enddate):
+    logs=process_upload_log(log_file,startdate, enddate)
+    template_file=os.path.join(settings.BASE_DIR,'templates/reports/ul_template.xlsx')
+    wb=load_workbook(template_file)
+    ws=wb.active
+    report_title="Upload Report for " + str(enddate)
+    ws.title=report_title
+    dltable=ws._tables[0]
+    dlstyle=dltable.tableStyleInfo
+    for i,dload in enumerate(logs):
+        ws.cell(row=3+i,column=2).value=datetime.strptime(dload['uploaddate'],'%Y-%m-%d').date()
+        ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"           
+        ws.cell(row=3+i,column=3).value=datetime.strptime(dload['uploadtime'],'%H:%M:%S').time()
+        ws.cell(row=3+i,column=3).number_format="h:mm:ss"
+        ws.cell(row=3+i,column=4).value=dload['uploaduser']
+        ws.cell(row=3+i,column=5).value=dload['uploadip']
+        ws.cell(row=3+i,column=9).value=dload['filename']
+        ws.cell(row=3+i,column=6).value=dload['deleted']
+        if 'verifyuser' in dload:
+            ws.cell(row=3+i,column=7).value=dload['verifyuser']
+            ws.cell(row=3+i,column=8).value=dload['verifyip']
+        elif dload['deleted']=='N':
+            ws.cell(row=3+i,column=7).value="Unverified"
+               
+
+    dltable.ref='B2:I{}'.format(len(logs)+2)
+    ws._tables[0]=dltable
+    wb.save(xlsx_file)
+    return len(logs)
+
+def generate_download_report_xlsx(log_file,xlsx_file,startdate,enddate):
+    logs=process_download_log(log_file,startdate, enddate)
+    template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.xlsx')
+    wb=load_workbook(template_file)
+    ws=wb.active
+    report_title="Download Report for " + str(enddate)
+    ws.title=report_title
+    dltable=ws._tables[0]
+    dlstyle=dltable.tableStyleInfo
+    for i,dload in enumerate(logs):
+        ws.cell(row=3+i,column=2).value=datetime.strptime(dload['dloaddate'],'%Y-%m-%d').date()
+        ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"           
+        ws.cell(row=3+i,column=3).value=datetime.strptime(dload['dloadtime'],'%H:%M:%S').time()
+        ws.cell(row=3+i,column=3).number_format="h:mm:ss"
+        ws.cell(row=3+i,column=4).value=dload['dloaduser']
+        ws.cell(row=3+i,column=5).value=dload['dloadip']
+        ws.cell(row=3+i,column=6).value=dload['filename']
+    dltable.ref='B2:F{}'.format(len(logs)+2)
+    ws._tables[0]=dltable
+    wb.save(xlsx_file)
+    return len(logs)
+
+def generate_upload_report_docx(log_file,docx_file,startdate,enddate):
+    logs=process_upload_log(log_file,startdate, enddate)
+    template_file=os.path.join(settings.BASE_DIR,'templates/reports/ul_template.docx')
+    report_title="Upload Report for " + str(startdate) + " - " + str(enddate)
+    dlreport=Document(template_file)
+    for paragraph in dlreport.paragraphs:
+        if paragraph.text == "Upload Report":
+            paragraph.text=report_title
+            titlefont=paragraph.runs[0].font
+            titlefont.name = 'Calibri'
+            titlefont.size=Pt(16)
+            titlefont.bold= True
+
+
+    if len(logs) > 0:
+        dltable=dlreport.tables[0]
+        tablefont=dltable.style.font
+        tablefont.name='Courier'
+        tablefont.size=Pt(8)
+        for dload in logs:
+            row_cells=dltable.add_row().cells
+            row_cells[0].text=dload['uploaddate']
+            row_cells[1].text=dload['uploadtime']
+            row_cells[2].text=dload['uploaduser']
+            row_cells[3].text=dload['uploadip']
+            row_cells[4].text=dload['deleted']
+            if 'verifyuser' in dload:
+                row_cells[5].text=dload['verifyuser']
+                row_cells[6].text=dload['verifyip']
+            elif dload['deleted']=='N':
+                row_cells[5].text="Unverified"
+            row_cells[7].text=dload['filename']
+    else:
+        dlreport.add_paragraph("No uploads for this period")
+    dlreport.save(docx_file)
+    return len(logs)
+
+def generate_download_report_docx(log_file,docx_file,startdate,enddate):
+    logs=process_download_log(log_file,startdate, enddate)
+    template_file=os.path.join(settings.BASE_DIR,'templates/reports/dl_template.docx')
+    report_title="Download Report for " + str(startdate) + " - " + str(enddate)
+    dlreport=Document(template_file)
+    for paragraph in dlreport.paragraphs:
+        if paragraph.text == "Weekly Download Report":
+            paragraph.text=report_title
+            titlefont=paragraph.runs[0].font
+            titlefont.name = 'Calibri'
+            titlefont.size=Pt(16)
+            titlefont.bold= True
+
+    if len(logs) > 0:
+
+        dltable=dlreport.tables[0]
+        tablefont=dltable.style.font
+        tablefont.name='Courier'
+        tablefont.size=Pt(8)
+        for dload in logs:
+            row_cells=dltable.add_row().cells
+            row_cells[0].text=dload['dloaddate']
+            row_cells[1].text=dload['dloadtime']
+            row_cells[2].text=dload['dloaduser']
+            row_cells[3].text=dload['dloadip']
+            row_cells[4].text=dload['filename']
+    else:
+        dlreport.add_paragraph("No downloads for this period")
+    dlreport.save(docx_file)
     return len(logs)
 
 

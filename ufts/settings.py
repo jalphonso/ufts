@@ -365,6 +365,7 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 EMAIL_USE_TLS = False
 FROM_EMAIL = 'ufts_noreply@example.com'
 DEFAULT_FROM_EMAIL = FROM_EMAIL
+REPORT_FORMAT = 'xlsx' #supported formats are pdf,xlsx, and docx
 
 CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_RESULT_BACKEND = 'redis://redis:6379'
