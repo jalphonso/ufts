@@ -485,6 +485,13 @@ vim config/nginx/conf.d/local.conf
 vim config/consul/web-haproxy.ctmpl
 ```
 
+#### Update IP Networks in Docker Compose Template
+```
+vim docker-compose.j2
+```
+Edit the networks at the bottom of the file if you need to. Make sure you also update the network
+under the app service in this same file.
+
 ## Microservices management
 
 ### Install Docker and Docker Compose
@@ -520,7 +527,7 @@ python manage.py migrate
 
 ### Monitor Services
 ```
-docker-compose logs -f
+./monitor_app.sh
 ```
 If you scale the app while tailing the logs you will need to reissue this command to get logs for the new services
 
