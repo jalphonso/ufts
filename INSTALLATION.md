@@ -457,6 +457,14 @@ openssl req -new -key joe.key -out joe.csr -subj '/userName=joe/CN=Joe Alphonso/
 ```
 If you have other Custom OIDs in the DN subject line, then you'll want to either create a custom function for processing your cert in django_ssl_auth/cert.py and change the value of USER_DATA_FN in the Django settings file located in ufts/settings.py or modify the existing one referenced.
 
+#### Validate Certs
+This is optional but good to know if you've done everything correctly so far. If the cert isn't valid, the load balancer won't start up.
+```
+$ openssl verify -CAfile ca.crt ufts.pem
+ufts.pem: OK
+```
+Repeat as desired for client certs.
+
 #### Generate CRL
 ```
 openssl ca -gencrl -out root_crl.pem
