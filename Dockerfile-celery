@@ -6,7 +6,7 @@ ARG UFTS_GID
 # arbitrary location choice: you can change the directory
 RUN mkdir -p /opt/services/ufts/src
 WORKDIR /opt/services/ufts/src
-RUN groupadd -g "${UFTS_GID}" -r celery && useradd -u "${UFTS_UID}" --no-log-init -r -g celery celery
+RUN groupadd -f -g "${UFTS_GID}" -r celery && useradd -u "${UFTS_UID}" --no-log-init -r -g "${UFTS_GID}" celery
 RUN mkdir -p /var/run/celery/
 RUN chown celery:celery /var/run/celery
 # install our dependencies

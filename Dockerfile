@@ -5,7 +5,7 @@ ARG UFTS_GID
 # arbitrary location choice: you can change the directory
 RUN mkdir -p /opt/services/ufts/src
 WORKDIR /opt/services/ufts/src
-RUN groupadd -g "${UFTS_GID}" -r ufts && useradd -u "${UFTS_UID}" --no-log-init -r -g ufts ufts
+RUN groupadd -f -g "${UFTS_GID}" -r ufts && useradd -u "${UFTS_UID}" --no-log-init -r -g "${UFTS_GID}" ufts
 # install our dependencies
 # we use --system flag because we don't need an extra virtualenv
 COPY Pipfile Pipfile.lock /opt/services/ufts/src/
