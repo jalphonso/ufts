@@ -28,8 +28,8 @@ restart:
 	./restart_app.sh
 
 clean:
-	find . -name '*.retry' -print | xargs rm
-	find . -name '*.pyc' -print | xargs rm
+	find . -name '*.retry' -print | xargs rm -f
+	find . -name '*.pyc' -print | xargs rm -f
 	find . -name '__pycache__' -print | xargs rmdir
 	./cleanup_app.sh
 

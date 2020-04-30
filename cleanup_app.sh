@@ -8,9 +8,9 @@ if [[ -f ".venv/bin/activate" ]]; then
 else
     docker-compose down --remove-orphans
 fi
-docker rm consul
-docker rm registrator
-docker rm consul-tpl
+docker rm -f consul
+docker rm -f registrator
+docker rm -f consul-tpl
 if [[ -f ".venv/bin/activate" ]]; then
     . .venv/bin/activate && docker-compose down
 else
