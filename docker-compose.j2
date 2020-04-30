@@ -52,6 +52,9 @@ services:
     container_name: app{{i}}
     build:
       context: .
+      args:
+        UFTS_UID: "${UID}"
+        UFTS_GID: "${GID}"
     image: ufts-app
     volumes:
       - .:/opt/services/ufts/src
@@ -93,6 +96,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-celery
+      args:
+        UFTS_UID: "${UID}"
+        UFTS_GID: "${GID}"
     image: celery
     command: >
              celery -A ufts worker
@@ -116,6 +122,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-celery
+      args:
+        UFTS_UID: "${UID}"
+        UFTS_GID: "${GID}"
     image: celery
     command: >
              celery -A ufts beat

@@ -1,3 +1,6 @@
+export GID := $(shell id -g)
+export UID := $(shell id -u)
+
 .PHONY: venv install start stop restart clean
 
 venv:
@@ -13,6 +16,7 @@ install: venv
 	./docker-compose.py build
 	./init_app.sh
 	docker build -t consul-template:custom -f Dockerfile-consul-template .
+	mkdir -p logs
 
 start:
 	./start_app.sh
@@ -24,8 +28,8 @@ restart:
 	./restart_app.sh
 
 clean:
-	find . -name '*.retry' -print | xargs rm
-	find . -name '*.pyc' -print | xargs rm
+	find . -name '*.retry' -print | xargs rm -f
+	find . -name '*.pyc' -print | xargs rm -f
 	find . -name '__pycache__' -print | xargs rmdir
 	./cleanup_app.sh
 

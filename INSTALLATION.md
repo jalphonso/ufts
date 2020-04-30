@@ -476,10 +476,6 @@ openssl ca -revoke client1.crt
 openssl ca  -gencrl -out root_crl.pem
 ```
 
-## Create Application Log directory
-```
-mkdir logs
-```
 
 ## Configs
 #### Update Django settings file
