@@ -1,10 +1,16 @@
 # start from an official image
 FROM python:3.6
+ARG UFTS_UID
+ARG UFTS_GID
 
 # arbitrary location choice: you can change the directory
 RUN mkdir -p /opt/services/ufts/src
 WORKDIR /opt/services/ufts/src
+<<<<<<< Updated upstream
 RUN groupadd -g 1000 -r celery && useradd -u 1000 --no-log-init -r -g celery celery
+=======
+RUN groupadd -g "${UFTS_GID}" -r celery && useradd -u "${UFTS_UID}" --no-log-init -r -g celery celery
+>>>>>>> Stashed changes
 RUN mkdir -p /var/run/celery/
 RUN chown celery:celery /var/run/celery
 # install our dependencies

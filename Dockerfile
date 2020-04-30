@@ -1,10 +1,15 @@
 # start from an official image
 FROM python:3.6
-
+ARG UFTS_UID
+ARG UFTS_GID
 # arbitrary location choice: you can change the directory
 RUN mkdir -p /opt/services/ufts/src
 WORKDIR /opt/services/ufts/src
+<<<<<<< Updated upstream
 RUN groupadd -g 1000 -r ufts && useradd -u 1000 --no-log-init -r -g ufts ufts
+=======
+RUN groupadd -g "${UFTS_GID}" -r ufts && useradd -u "${UFTS_UID}" --no-log-init -r -g ufts ufts
+>>>>>>> Stashed changes
 # install our dependencies
 # we use --system flag because we don't need an extra virtualenv
 COPY Pipfile Pipfile.lock /opt/services/ufts/src/

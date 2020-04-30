@@ -1,3 +1,6 @@
+export GID := $(shell id -g)
+export UID := $(shell id -u)
+
 .PHONY: venv install start stop restart clean
 
 venv:
