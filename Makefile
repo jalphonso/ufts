@@ -1,4 +1,5 @@
-.PHONY: venv install start stop restart clean
+.PHONY: venv develop prepare start stop restart monitor migrate testdata save load clean wipe
+docker-images-path=docker-images
 
 venv:
 	@if [ ! -d ".venv" ]; then \
@@ -8,13 +9,17 @@ venv:
 		pip3 install -q -r requirements-docker.txt;\
 	fi
 
-install: venv
+develop: venv
 	. .venv/bin/activate && \
 	./docker-compose.py -g && \
 	docker-compose pull && \
 	docker-compose build
-	./init_app.sh
 	docker build -t consul-template:custom -f Dockerfile-consul-template .
+
+prepare: venv
+	. .venv/bin/activate && \
+	./docker-compose.py -g
+	./init_app.sh
 	mkdir -p logs media software reports database
 
 start:
@@ -23,8 +28,35 @@ start:
 stop:
 	./stop_app.sh
 
-restart:
-	./restart_app.sh
+restart: stop start
+
+monitor:
+	-@./monitor_app.sh || true
+
+migrate:
+	docker exec app0 python manage.py migrate
+
+testdata:
+	docker exec app0 bash utilities/loaddefault_data.sh
+
+status:
+	docker ps -a
+	docker images
+	docker network ls
+
+save:
+	@if [ ! -d "docker-images" ]; then \
+		mkdir -p docker-images;\
+	fi
+	@for image in $$(docker images --format "{{.Repository}}:{{.Tag}}"); do \
+		filename="$(docker-images-path)/$${image//[\:|\/]/-}.tar"; \
+		docker save -o $$filename $$image; \
+	done
+
+load:
+	@for image in $$(ls docker-images); do \
+		docker load -i $(docker-images-path)/$$image; \
+	done
 
 clean:
 	find . -name '*.retry' -print | xargs rm -f
