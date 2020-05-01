@@ -56,9 +56,11 @@ coverage.xml
 
 # Django stuff:
 *.log
-logs/
-sent_emails/
-reports/
+/logs
+/media
+/software
+/sent_emails
+/reports
 local_settings.py
 db.sqlite3
 db.sqlite3-journal

@@ -6,6 +6,7 @@ from ruamel.yaml import YAML
 
 import argparse
 import jinja2
+import os
 import sys
 
 yaml = YAML()
@@ -23,11 +24,13 @@ parser.add_argument('-g', '--generate_only',
 
 (args, extras) = parser.parse_known_args()
 
+uid = os.getuid()
+gid = os.getgid()
 templateLoader = jinja2.FileSystemLoader(searchpath="./")
 templateEnv = jinja2.Environment(loader=templateLoader, autoescape=True)
 TEMPLATE_FILE = "docker-compose.j2"
 template = templateEnv.get_template(TEMPLATE_FILE)
-compose_file = template.render(num_web=args.web, num_app=args.app)
+compose_file = template.render(num_web=args.web, num_app=args.app, UID=uid, GID=gid)
 compose_yml = yaml.load(compose_file)
 compose_file_path = Path("docker-compose.yml")
 yaml.dump(compose_yml, compose_file_path)
