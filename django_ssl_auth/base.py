@@ -70,6 +70,8 @@ class SSLClientAuthBackend(backends.ModelBackend):
         dn = request.META.get('HTTP_X_SSL_CLIENT_DN')
         user_data = USER_DATA_FN(dn)
         username = user_data['username']
+        if not username:
+            return None
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
