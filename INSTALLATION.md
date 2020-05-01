@@ -34,6 +34,19 @@ chgrp -R docker <project dir>
 - Redis
 - Postgres
 
+## Data Storage
+- Uploaded software will be stored in software/
+- Uploaded books, docs, and other media will be stored in media/
+- Application logs stored in logs/ but also sent out through Docker's logging mechanism
+- Supporting container logs are visible through Docker's logging mechanism
+- Reports are located in reports/
+- Emails if email server is not configured will be stored in sent_emails/
+- Certs are stored in config/certs/
+- Consul, Web, DB, and LB configs are stored in config/
+- Static web files like html/css/js and third-party web libraries are stored in /static
+- Templated web files are stored in templates/
+- DB is stored in database/
+
 ## Certificates
 You will need an openssl.cnf preferably in the default location
 

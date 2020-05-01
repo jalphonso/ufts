@@ -15,7 +15,7 @@ install: venv
 	docker-compose build
 	./init_app.sh
 	docker build -t consul-template:custom -f Dockerfile-consul-template .
-	mkdir -p logs media software reports
+	mkdir -p logs media software reports database
 
 start:
 	./start_app.sh
@@ -35,4 +35,4 @@ clean:
 wipe: clean
 	docker system prune -af
 	docker volume prune -f
-	rm -rf logs media software reports
+	rm -rf logs media software reports sent_emails database
