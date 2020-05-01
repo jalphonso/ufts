@@ -1,6 +1,3 @@
-export GID := $(shell id -g)
-export UID := $(shell id -u)
-
 .PHONY: venv install start stop restart clean
 
 venv:
@@ -13,10 +10,12 @@ venv:
 
 install: venv
 	. .venv/bin/activate && \
-	./docker-compose.py build
+	./docker-compose.py -g && \
+	docker-compose pull && \
+	docker-compose build
 	./init_app.sh
 	docker build -t consul-template:custom -f Dockerfile-consul-template .
-	mkdir -p logs
+	mkdir -p logs media software reports database
 
 start:
 	./start_app.sh
@@ -36,3 +35,4 @@ clean:
 wipe: clean
 	docker system prune -af
 	docker volume prune -f
+	rm -rf logs media software reports sent_emails database

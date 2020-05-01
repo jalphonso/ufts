@@ -17,3 +17,4 @@ else
     docker-compose down
 fi
 docker rmi -f celery haproxy haproxy:custom ufts-app consul-template:custom
+rm -f docker-compose.yml

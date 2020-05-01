@@ -5,6 +5,23 @@
 - Python 3.6 https://www.python.org/downloads/
 - Docker 19.03 https://docs.docker.com/get-docker/
 
+## Clone Repository
+```
+git clone git@github.com:jalphonso/ufts.git
+```
+
+## Setup user
+For installation and mgmt of the app **do not run as root**.
+
+Ensure user is in the docker group.
+```
+groupadd docker
+usermod -a -G docker <username>
+```
+Optionally, if more users will need access to manage this project change group ownership of the project dir and files to a common group. We use docker as the group in this example since they must belong to that anyway.
+```
+chgrp -R docker <project dir>
+```
 ## Services used
 - Python Django Web Framework
 - Nginx
@@ -16,6 +33,19 @@
 - HAProxy
 - Redis
 - Postgres
+
+## Data Storage
+- Uploaded software will be stored in software/
+- Uploaded books, docs, and other media will be stored in media/
+- Application logs stored in logs/ but also sent out through Docker's logging mechanism
+- Supporting container logs are visible through Docker's logging mechanism
+- Reports are located in reports/
+- Emails if email server is not configured will be stored in sent_emails/
+- Certs are stored in config/certs/
+- Consul, Web, DB, and LB configs are stored in config/
+- Static web files like html/css/js and third-party web libraries are stored in /static
+- Templated web files are stored in templates/
+- DB is stored in database/
 
 ## Certificates
 You will need an openssl.cnf preferably in the default location
@@ -444,10 +474,12 @@ cat ufts.crt ufts.key > ufts.pem
 #### Create Client Cert
 ```
 openssl genrsa -out client1.key 2048
-openssl req -new -key client1.key -out client1.csr -subj '/userName=client1/CN=client1/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=client1@ufts.lab'
+openssl req -new -key client1.key -out client1.csr -subj '/userName=client1/CN=firstname lastname/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=client1@ufts.lab'
 openssl ca -batch -notext -in client1.csr -out client1.crt
 openssl pkcs12 -export -clcerts -in client1.crt -inkey client1.key -out client1.p12
 ```
+**Note: CN format should be "firstname lastname"**
+
 Take the p12 cert and import it into your browser and/or system keychain. Safari will use the system keychain, but Firefox manages its own certificate store. On Mac, I also manually trusted the certificate in the system keychain which may or may not be necessary but it seemed like a logical thing to do.
 
 
