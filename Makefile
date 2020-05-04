@@ -43,6 +43,7 @@ status:
 	docker ps -a
 	docker images
 	docker network ls
+	docker volume ls
 
 save:
 	@if [ ! -d "docker-images" ]; then \
