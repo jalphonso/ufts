@@ -1,0 +1,17 @@
+# start from an official image
+FROM nginx:latest
+ARG UFTS_UID
+ARG UFTS_GID
+
+# arbitrary location choice: you can change the directory
+RUN groupmod -g "${UFTS_GID}" nginx && usermod -u "${UFTS_UID}" nginx
+COPY config/nginx/nginx.conf /etc/nginx/nginx.conf
+RUN chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /etc/nginx/conf.d
+# install our dependencies
+# we use --system flag because we don't need an extra virtualenv
+RUN touch /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/run/nginx.pid
+EXPOSE 8080
+USER nginx:nginx
