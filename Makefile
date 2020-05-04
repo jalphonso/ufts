@@ -20,7 +20,7 @@ prepare: venv
 	. .venv/bin/activate && \
 	./docker-compose.py -g
 	./init_app.sh
-	mkdir -p logs media software reports database
+	mkdir -p logs media software reports
 
 start:
 	./start_app.sh
@@ -67,4 +67,4 @@ clean:
 wipe: clean
 	docker system prune -af
 	docker volume prune -f
-	rm -rf logs media software reports sent_emails database
+	rm -rf logs media software reports sent_emails

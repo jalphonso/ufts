@@ -45,7 +45,8 @@ chgrp -R docker <project dir>
 - Consul, Web, DB, and LB configs are stored in config/
 - Static web files like html/css/js and third-party web libraries are stored in /static
 - Templated web files are stored in templates/
-- DB is stored in database/
+- DB is stored in a docker named volume typically named ufts_db_volume
+- Docker data is stored in /var/lib/docker/ by default
 
 ## Certificates
 You will need an openssl.cnf preferably in the default location
