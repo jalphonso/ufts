@@ -60,9 +60,9 @@ load:
 	done
 
 clean:
-	find . -name '*.retry' -print | xargs rm -f
-	find . -name '*.pyc' -print | xargs rm -f
-	find . -name '__pycache__' -print | xargs rmdir
+	find . -name '*.retry' -print | xargs rm -f || true
+	find . -name '*.pyc' -print | xargs rm -f || true
+	find . -name '__pycache__' -print | xargs rmdir || true
 	./cleanup_app.sh
 
 wipe: clean
