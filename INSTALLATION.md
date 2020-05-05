@@ -22,6 +22,19 @@ Optionally, if more users will need access to manage this project change group o
 ```
 chgrp -R docker <project dir>
 ```
+
+## Host Firewall
+
+On CentOS to allow Docker to modify firewalld so containers exposed ports can be accessed,
+run these commands after installing Docker.
+
+```
+firewall-cmd --permanent --zone=trusted --change-interface=docker0
+firewall-cmd --permanent --zone=trusted --add-port=4243/tcp
+firewall-cmd --reload
+systemctl restart docker
+```
+
 ## Services used
 - Python Django Web Framework
 - Nginx
