@@ -37,7 +37,15 @@ services:
 {% for i in range(num_web) %}
   web{{i}}:
     container_name: web{{i}}
-    image: nginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+      args:
+        UFTS_UID: {{UID}}
+        UFTS_GID: {{GID}}
+    image: nginx:custom
+    environment:
+      - SERVICE_80_IGNORE=true
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - ./static:/opt/services/ufts/static
