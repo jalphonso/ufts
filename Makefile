@@ -13,6 +13,8 @@ develop: venv
 	. .venv/bin/activate && \
 	./docker-compose.py -g && \
 	docker-compose pull && \
+	docker pull consul && \
+	docker pull gliderlabs/registrator:master && \
 	docker-compose build
 	docker build -t consul-template:custom -f Dockerfile-consul-template .
 
