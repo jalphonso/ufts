@@ -22,16 +22,18 @@ Optionally, if more users will need access to manage this project change group o
 ```
 chgrp -R docker <project dir>
 ```
+
 Also as some of the containers are built to run with the UID and GID of the user building them, it is important that in the situation where they are being built and saved on a development machine and then loaded and deployed on a production machine, that the ID's of the users on the two machines match. Changing user and group IDs is only possible as root, so if the change below is done on the development machine, it must be done prior to running make develop. If it is done on the production machine, it needs to be done before make start.
- - To retrieve UID(run on both machines to verify)
+
+- To retrieve UID(run on both machines to verify)
  ```
  id -u
  ```
- - To retrieve GID(run on both machines to verify)
+- To retrieve GID(run on both machines to verify)
  ```
  id -g
  ```
- - To change the IDs(run on one machine or the other)
+- To change the IDs(run on one machine or the other)
  ```
  sudo groupmod -g NEWGID(GID from other machine) GROUPNAME(existing groupname)
  sudo usermod -u NEWUID(UID from other machine) USERNAME(existing username)
