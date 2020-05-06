@@ -22,6 +22,19 @@ Optionally, if more users will need access to manage this project change group o
 ```
 chgrp -R docker <project dir>
 ```
+
+## Host Firewall
+
+On CentOS to allow Docker to modify firewalld so containers exposed ports can be accessed,
+run these commands after installing Docker.
+
+```
+firewall-cmd --permanent --zone=trusted --change-interface=docker0
+firewall-cmd --permanent --zone=trusted --add-port=4243/tcp
+firewall-cmd --reload
+systemctl restart docker
+```
+
 ## Services used
 - Python Django Web Framework
 - Nginx
@@ -45,7 +58,8 @@ chgrp -R docker <project dir>
 - Consul, Web, DB, and LB configs are stored in config/
 - Static web files like html/css/js and third-party web libraries are stored in /static
 - Templated web files are stored in templates/
-- DB is stored in database/
+- DB is stored in a docker named volume typically named ufts_db_volume
+- Docker data is stored in /var/lib/docker/ by default
 
 ## Certificates
 You will need an openssl.cnf preferably in the default location
@@ -578,24 +592,41 @@ make venv
 If using a virtualenv, you'll need to ensure it is activated in all terminals where you run docker-compose commands. The helper shell scripts will do this automatically when needed.
 
 ### Build Services
+Only necessary if you do not have the docker images or want to do development
 ```
-make install
+make develop
+```
+
+### Save Docker Images
+Save your images after building if transferring to an offline network
+```
+make save
+```
+
+### Load Docker Images
+If installing on system without Internet access take your saved docker images, place them in the docker-images folder in the root of the project. Then load them.
+```
+make load
+```
+
+### Prepare Services
+```
+make prepare
 ```
 
 ### Start Services
 ```
-./start_app.sh
+make start
 ```
 
 ### Setup DB for the first time
 ```
-docker-compose exec app0 bash
-python manage.py migrate
+make migrate
 ```
 
 ### Monitor Services
 ```
-./monitor_app.sh
+make monitor
 ```
 If you scale the app while tailing the logs you will need to reissue this command to get logs for the new services
 
@@ -603,12 +634,12 @@ If using the syslog driver for your Docker daemon, you'll have to monitor logs o
 
 ### Stop Services
 ```
-./stop_app.sh
+make stop
 ```
 
 ### Restart Services
 ```
-./restart_app.sh
+make restart
 ```
 
 ### Scale Services
@@ -642,30 +673,60 @@ make clean
 
 ### Cleanly restart app
 ```
-make clean && make install && make start
+make clean && make prepare && make start
 ```
 
 ### View running services
 ```
-$ docker ps
+$ make status
+docker ps -a
 CONTAINER ID        IMAGE                           COMMAND                  CREATED             STATUS              PORTS                                                                      NAMES
-960b93537e5d        nginx:latest                    "nginx -g 'daemon of…"   17 minutes ago      Up 17 minutes       80/tcp                                                                     web1
-71a0bc44210d        ufts-app                        "gunicorn -w 3 --chd…"   17 minutes ago      Up 17 minutes       8000/tcp                                                                   app1
-cd3886cf6bde        consul-template:custom          "/bin/docker-entrypo…"   17 minutes ago      Up 17 minutes                                                                                  consul-tpl
-2d4b12bbf9e7        ufts-app                        "gunicorn -w 3 --chd…"   51 minutes ago      Up 51 minutes       8000/tcp                                                                   app0
-0c7d8583c264        celery                          "celery -A ufts beat…"   51 minutes ago      Up 51 minutes                                                                                  celery-beat
-ed35fd259916        celery                          "celery -A ufts work…"   51 minutes ago      Up 51 minutes                                                                                  celery
-3866422bbf60        nginx:latest                    "nginx -g 'daemon of…"   51 minutes ago      Up 51 minutes       80/tcp                                                                     web0
-6debc8fc23c4        haproxy:custom                  "/docker-entrypoint.…"   51 minutes ago      Up 51 minutes       8000/tcp                                                                   app-lb
-bed8414fadec        postgres:10                     "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       5432/tcp                                                                   db
-d82c91bb8013        redis:alpine                    "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       6379/tcp                                                                   redis
-03c6aaeaf3e1        haproxy:custom                  "/docker-entrypoint.…"   51 minutes ago      Up 51 minutes       0.0.0.0:443->443/tcp                                                       web-lb
-016a61671fbe        gliderlabs/registrator:master   "/bin/registrator -i…"   51 minutes ago      Up 51 minutes                                                                                  registrator
-83d4b4e90166        consul                          "docker-entrypoint.s…"   51 minutes ago      Up 51 minutes       8300-8302/tcp, 8301-8302/udp, 8600/tcp, 8600/udp, 0.0.0.0:8500->8500/tcp   consul
+cf67833f8531        consul-template:custom          "/bin/docker-entrypo…"   2 minutes ago       Up 2 minutes                                                                                   consul-tpl
+77fb53b8af5a        ufts-app                        "gunicorn -w 3 --chd…"   2 minutes ago       Up 2 minutes        8000/tcp                                                                   app0
+d638cd1986df        celery:custom                   "celery -A ufts beat…"   2 minutes ago       Up 2 minutes                                                                                   celery-beat
+6b22988a6b0d        celery:custom                   "celery -A ufts work…"   2 minutes ago       Up 2 minutes                                                                                   celery
+29821ba1bb28        postgres:10                     "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        5432/tcp                                                                   db
+37f7cc13f723        haproxy:custom                  "/docker-entrypoint.…"   2 minutes ago       Up 2 minutes        0.0.0.0:443->443/tcp                                                       web-lb
+a0a11219c8e8        redis:alpine                    "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        6379/tcp                                                                   redis
+364410c82a40        nginx:latest                    "nginx -g 'daemon of…"   2 minutes ago       Up 2 minutes        80/tcp                                                                     web0
+38c84eb221bd        haproxy:custom                  "/docker-entrypoint.…"   2 minutes ago       Up 2 minutes        8000/tcp                                                                   app-lb
+e47a75761c78        gliderlabs/registrator:master   "/bin/registrator -i…"   3 minutes ago       Up 3 minutes                                                                                   registrator
+4e5c68bdc96c        consul                          "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes        8300-8302/tcp, 8301-8302/udp, 8600/tcp, 8600/udp, 0.0.0.0:8500->8500/tcp   consul
+docker images
+REPOSITORY                  TAG                 IMAGE ID            CREATED             SIZE
+consul-template             custom              e399a9ad03c0        3 hours ago         333MB
+celery                      custom              0ab36fdac6ac        3 hours ago         1.27GB
+ufts-app                    latest              076e7c8dbd49        3 hours ago         1.27GB
+haproxy                     custom              41733cdac60f        3 hours ago         92.4MB
+redis                       alpine              7277f03c430e        26 hours ago        31.6MB
+python                      3.6                 8802e0ebf8c7        2 days ago          914MB
+hashicorp/consul-template   alpine              a09aa47bf9f9        4 days ago          17.2MB
+consul                      latest              197999eb696c        7 days ago          116MB
+postgres                    10                  b500168be260        8 days ago          200MB
+nginx                       latest              602e111c06b6        8 days ago          127MB
+haproxy                     latest              c033852569f1        8 days ago          92.4MB
+gliderlabs/registrator      master              70855268d755        3 months ago        14.3MB
+docker network ls
+NETWORK ID          NAME                    DRIVER              SCOPE
+3abc338a83b4        bridge                  bridge              local
+80a147c6cebe        host                    host                local
+ec2123227ffb        none                    null                local
+f7e0f108cbd0        ufts_backend_network    bridge              local
+c1ea5fbd637e        ufts_frontend_network   bridge              local
+4f584f586b0a        ufts_redis_network      bridge              local
 ```
 
-### Completely wipe docker env: images/datastores
+### Completely wipe docker environment and all application data
 ```
 make wipe
 ```
 
+### Wipe and reinstall
+```
+make wipe && make load && make prepare && sleep 30 && make start && sleep 30 && make migrate && make status
+```
+
+### Load test data (Not for Production)
+```
+make testdata
+```

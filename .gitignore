@@ -61,7 +61,7 @@ coverage.xml
 /software
 /sent_emails
 /reports
-/database
+/docker-images
 local_settings.py
 db.sqlite3
 db.sqlite3-journal

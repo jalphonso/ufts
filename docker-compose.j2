@@ -89,7 +89,7 @@ services:
     networks:
       - backend_network
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - db_volume:/var/lib/postgresql/data
     restart: unless-stopped
 
   redis:
@@ -167,3 +167,6 @@ networks:
       driver: default
       config:
         - subnet: "172.20.12.0/24"
+
+volumes:
+  db_volume:
