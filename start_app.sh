@@ -5,7 +5,6 @@ if [[ -f ".venv/bin/activate" ]]; then
 else
     ./docker-compose.py -a1 -w1 up --remove-orphans -d || exit 1
 fi
-docker network create --subnet 172.20.0.0/24 ufts_service_discovery_network || true
 docker run -d --restart always --name consul-tpl -e CONSUL_TEMPLATE_LOG=debug  \
 --net=ufts_service_discovery_network --ip 172.20.0.3  \
 -v /var/run/docker.sock:/var/run/docker.sock  \
