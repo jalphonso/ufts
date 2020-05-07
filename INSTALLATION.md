@@ -617,12 +617,22 @@ Save your images after building if transferring to an offline network
 ```
 make save
 ```
+Or use the following shortcut to build and save in one step
+```
+make build_save_images
+```
 
 ### Load Docker Images
-If installing on system without Internet access take your saved docker images, place them in the docker-images folder in the root of the project. Then load them. 
+If installing on system without Internet access take your saved docker images, place them in the docker-images folder in the root of the project. Then load them. Also make sure you copy your .venv folder over as well.
+
 NOTE: The User ID(UID) and Group ID(GID) of the user that the application containers are running as are copied from the user running "make develop". These should match the user running the remaining commands below(ie. UID/GID need to match on development machine and production machine). It is not necessary that the user and group names match, just the IDs.
 ```
 make load
+```
+
+Or use the following shortcut to load, install, start the project
+```
+make offline_install
 ```
 
 ### Prepare Services
@@ -689,7 +699,7 @@ make clean
 
 ### Cleanly restart app
 ```
-make clean && make prepare && make start
+make clean_start
 ```
 
 ### View running services
@@ -739,7 +749,7 @@ make wipe
 
 ### Wipe and reinstall
 ```
-make wipe && make load && make prepare && sleep 30 && make start && sleep 30 && make migrate && make status
+make fresh_install
 ```
 
 ### Load test data (Not for Production)

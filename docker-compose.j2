@@ -17,7 +17,7 @@ services:
       - "443:443"
     hostname: haproxy
     user: root
-    restart: unless-stopped
+    restart: always
 
   app-lb:
     container_name: app-lb
@@ -33,7 +33,8 @@ services:
       - "8000"
     hostname: haproxy
     user: root
-    restart: unless-stopped
+    restart: always
+
 {% for i in range(num_web) %}
   web{{i}}:
     container_name: web{{i}}
@@ -46,6 +47,8 @@ services:
     image: nginx:custom
     environment:
       - SERVICE_80_IGNORE=true
+    tmpfs:
+      - /run:uid={{UID}},gid={{GID}}
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - ./static:/opt/services/ufts/static
@@ -53,8 +56,9 @@ services:
       - ./software:/opt/services/ufts/software
     networks:
       - frontend_network
-    restart: unless-stopped
+    restart: always
 {% endfor %}
+
 {% for i in range(num_app) %}
   app{{i}}:
     container_name: app{{i}}
@@ -78,7 +82,7 @@ services:
         ipv4_address: 172.20.11.{{100 + i}}
     depends_on:
       - db
-    restart: unless-stopped
+    restart: always
 {% endfor %}
 
   db:
@@ -90,14 +94,14 @@ services:
       - backend_network
     volumes:
       - db_volume:/var/lib/postgresql/data
-    restart: unless-stopped
+    restart: always
 
   redis:
     container_name: redis
     image: "redis:alpine"
     networks:
       - redis_network
-    restart: unless-stopped
+    restart: always
 
   celery:
     container_name: celery
@@ -110,11 +114,13 @@ services:
     image: celery:custom
     command: >
              celery -A ufts worker
-             --pidfile=/var/run/celery/celeryd.pid
+             --pidfile=/var/run/celeryd.pid
              -l info -c 3
     networks:
       - redis_network
       - backend_network
+    tmpfs:
+      - /run:uid={{UID}},gid={{GID}}
     volumes:
       - .:/opt/services/ufts/src
       - ./static:/opt/services/ufts/static
@@ -123,7 +129,7 @@ services:
     depends_on:
       - db
       - redis
-    restart: unless-stopped
+    restart: always
 
   celery-beat:
     container_name: celery-beat
@@ -136,11 +142,13 @@ services:
     image: celery:custom
     command: >
              celery -A ufts beat
-             --pidfile=/var/run/celery/celeryd.pid
-             --schedule=/var/run/celery/celerybeat-schedule
+             --pidfile=/var/run/celeryd.pid
+             --schedule=/var/run/celerybeat-schedule
              -l info
     networks:
       - redis_network
+    tmpfs:
+      - /run:uid={{UID}},gid={{GID}}
     volumes:
       - .:/opt/services/ufts/src
       - ./static:/opt/services/ufts/static
@@ -149,7 +157,7 @@ services:
     depends_on:
       - db
       - redis
-    restart: unless-stopped
+    restart: always
 
 networks:
   frontend_network:

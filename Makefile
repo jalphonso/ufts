@@ -1,4 +1,4 @@
-.PHONY: venv develop prepare start stop restart monitor migrate testdata save load clean wipe
+.PHONY: venv develop prepare start stop restart monitor migrate testdata save load clean wipe freshinstall
 docker-images-path=docker-images
 
 venv:
@@ -23,9 +23,11 @@ prepare: venv
 	./docker-compose.py -g
 	./init_app.sh
 	mkdir -p logs media software reports
+	sleep 30
 
 start:
 	./start_app.sh
+	sleep 30
 
 stop:
 	./stop_app.sh
@@ -71,3 +73,11 @@ wipe: clean
 	docker system prune -af
 	docker volume prune -f
 	rm -rf logs media software reports sent_emails
+
+fresh_install: wipe develop prepare start migrate status
+
+clean_start: clean prepare start
+
+build_save_images: wipe develop save
+
+offline_install: load prepare start migrate status
