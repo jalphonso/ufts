@@ -1,4 +1,4 @@
-.PHONY: venv develop prepare start stop restart monitor migrate testdata save load clean wipe freshinstall
+.PHONY: venv develop prepare start stop restart monitor migrate testdata save load clean wipe fresh_install clean_start build_save_images offline_install
 docker-images-path=docker-images
 
 venv:
