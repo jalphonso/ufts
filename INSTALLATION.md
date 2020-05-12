@@ -4,6 +4,7 @@
 
 - Python 3.6 https://www.python.org/downloads/
 - Docker 19.03 https://docs.docker.com/get-docker/
+- ruamel.yaml download and install via pip
 
 ## Clone Repository
 ```
@@ -597,14 +598,29 @@ https://docs.docker.com/get-docker/
 
 Version used during development was 19.03
 
-The Docker compose version used is 1.25.5 which we install using pip. To install system wide you will need superuser privileges; otherwise, you can use a virtualenv.
+The Docker compose version used is 1.25.5
 
-To create and use the virtualenv:
+Instructions here:
+https://docs.docker.com/compose/install/
+
+### Install Python dependency
+The only external dependencies required are ruamel.yaml and jinja2
+
+Install directly if Internet access is available with
 ```
-make venv
-. .venv/bin/activate
+$ pip install ruamel.yaml jinja2
 ```
-If using a virtualenv, you'll need to ensure it is activated in all terminals where you run docker-compose commands. The helper shell scripts will do this automatically when needed.
+
+Otherwise, download the package (dependencies will automatically be downloaded), transfer to target system, and install
+```
+$ pip download ruamel.yaml jinja2
+$ ls -l *.whl
+-rw-r--r--  1 jalphonso  staff  125774 May 11 13:56 Jinja2-2.11.2-py2.py3-none-any.whl
+-rw-r--r--  1 jalphonso  staff   18847 May 11 13:56 MarkupSafe-1.1.1-cp36-cp36m-macosx_10_6_intel.whl
+-rw-r--r--  1 jalphonso  staff  111176 May 11 13:56 ruamel.yaml-0.16.10-py2.py3-none-any.whl
+-rw-r--r--  1 jalphonso  staff  147211 May 11 13:56 ruamel.yaml.clib-0.2.0-cp36-cp36m-macosx_10_9_x86_64.whl
+$ pip install *.whl
+```
 
 ### Build Services
 Only necessary if you do not have the docker images or want to do development
@@ -623,7 +639,7 @@ make build_save_images
 ```
 
 ### Load Docker Images
-If installing on system without Internet access take your saved docker images, place them in the docker-images folder in the root of the project. Then load them. Also make sure you copy your .venv folder over as well.
+If installing on system without Internet access take your saved docker images, place them in the docker-images folder in the root of the project. Then load them.
 
 NOTE: The User ID(UID) and Group ID(GID) of the user that the application containers are running as are copied from the user running "make develop". These should match the user running the remaining commands below(ie. UID/GID need to match on development machine and production machine). It is not necessary that the user and group names match, just the IDs.
 ```
@@ -671,11 +687,11 @@ make restart
 ### Scale Services
 Scale App and Web Tiers to 3 containers each
 ```
-./scale_app.sh 3 3
+make scale APP=3 WEB=3
 ```
 Scale App and Web Tiers back down to 1 each
 ```
-./scale_app.sh
+make scale
 ```
 
 ### Signal HAProxy or Nginx to reload config
