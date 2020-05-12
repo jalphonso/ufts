@@ -5,9 +5,10 @@ services:
   web-lb:
     container_name: web-lb
     build:
-      context: .
-      dockerfile: Dockerfile-haproxy
-    image: haproxy:custom
+      context: docker/haproxy
+    image: ufts-haproxy:{{app_version}}
+    environment:
+      - SERVICE_443_NAME=haproxy
     volumes:
       - ./config/web-haproxy/:/usr/local/etc/haproxy/
       - ./config/certs/:/etc/ssl/certs/
@@ -22,9 +23,10 @@ services:
   app-lb:
     container_name: app-lb
     build:
-      context: .
-      dockerfile: Dockerfile-haproxy
-    image: haproxy:custom
+      context: docker/haproxy
+    image: ufts-haproxy:{{app_version}}
+    environment:
+      - SERVICE_8000_NAME=haproxy
     volumes:
       - ./config/app-haproxy/:/usr/local/etc/haproxy/
     networks:
@@ -39,18 +41,19 @@ services:
   web{{i}}:
     container_name: web{{i}}
     build:
-      context: .
-      dockerfile: Dockerfile-nginx
+      context: docker/nginx
       args:
         UFTS_UID: {{UID}}
         UFTS_GID: {{GID}}
-    image: nginx:custom
+    image: ufts-nginx:{{app_version}}
     environment:
       - SERVICE_80_IGNORE=true
+      - SERVICE_8080_NAME=nginx
     tmpfs:
       - /run:uid={{UID}},gid={{GID}}
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./static:/opt/services/ufts/static
       - ./media:/opt/services/ufts/media
       - ./software:/opt/services/ufts/software
@@ -63,11 +66,13 @@ services:
   app{{i}}:
     container_name: app{{i}}
     build:
-      context: .
+      context: docker/app
       args:
         UFTS_UID: {{UID}}
         UFTS_GID: {{GID}}
-    image: ufts-app
+    image: ufts-app:{{app_version}}
+    environment:
+      - SERVICE_8000_NAME=app
     volumes:
       - .:/opt/services/ufts/src
       - ./static:/opt/services/ufts/static
@@ -87,7 +92,11 @@ services:
 
   db:
     container_name: db
-    image: postgres:10
+    build:
+      context: docker/postgres
+    image: ufts-postgres:{{app_version}}
+    environment:
+      - SERVICE_5432_NAME=postgres
     env_file:
       - config/db/postgres_env
     networks:
@@ -98,7 +107,11 @@ services:
 
   redis:
     container_name: redis
-    image: "redis:alpine"
+    build:
+      context: docker/redis
+    image: ufts-redis:{{app_version}}
+    environment:
+      - SERVICE_6379_NAME=redis
     networks:
       - redis_network
     restart: always
@@ -106,12 +119,11 @@ services:
   celery:
     container_name: celery
     build:
-      context: .
-      dockerfile: Dockerfile-celery
+      context: docker/celery
       args:
         UFTS_UID: {{UID}}
         UFTS_GID: {{GID}}
-    image: celery:custom
+    image: ufts-celery:{{app_version}}
     command: >
              celery -A ufts worker
              --pidfile=/var/run/celeryd.pid
@@ -134,12 +146,11 @@ services:
   celery-beat:
     container_name: celery-beat
     build:
-      context: .
-      dockerfile: Dockerfile-celery
+      context: docker/celery
       args:
         UFTS_UID: {{UID}}
         UFTS_GID: {{GID}}
-    image: celery:custom
+    image: ufts-celery:{{app_version}}
     command: >
              celery -A ufts beat
              --pidfile=/var/run/celeryd.pid

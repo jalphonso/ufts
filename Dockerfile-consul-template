@@ -1,3 +1,0 @@
-FROM hashicorp/consul-template:alpine
-USER root
-RUN apk add docker

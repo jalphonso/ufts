@@ -1,5 +1,7 @@
 # start from an official image
 FROM python:3.6
+LABEL net.juniper.vendor "Juniper Networks"
+LABEL description "UFTS"
 ARG UFTS_UID
 ARG UFTS_GID
 

@@ -28,5 +28,5 @@ backend app-servers
     option tcp-check
     tcp-check send HEAD /about HTTP/1.1\r\nHost:\ ufts.lab
     default-server check maxconn 100
-    {{range service "ufts-app" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} check
+    {{range service "app" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} check
     {{end}}

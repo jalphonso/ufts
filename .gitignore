@@ -144,3 +144,7 @@ haproxy.cfg
 
 #Docker Compose file is generated
 docker-compose.yml
+
+#Duplicate Copies of Pipfile
+/docker/app/Pipfile*
+/docker/celery/Pipfile*
