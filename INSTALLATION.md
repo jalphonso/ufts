@@ -4,7 +4,7 @@
 
 - Python 3.6 https://www.python.org/downloads/
 - Docker 19.03 https://docs.docker.com/get-docker/
-- ruamel.yaml download and install via pip
+- Python libraries installed via pip (instructions later on)
 
 ## Clone Repository
 ```
@@ -608,18 +608,18 @@ The only external dependencies required are ruamel.yaml and jinja2
 
 Install directly if Internet access is available with
 ```
-$ pip install ruamel.yaml jinja2
+$ pip3 install ruamel.yaml jinja2
 ```
 
 Otherwise, download the package (dependencies will automatically be downloaded), transfer to target system, and install
 ```
-$ pip download ruamel.yaml jinja2
+$ pip3 download ruamel.yaml jinja2
 $ ls -l *.whl
 -rw-r--r--  1 jalphonso  staff  125774 May 11 13:56 Jinja2-2.11.2-py2.py3-none-any.whl
 -rw-r--r--  1 jalphonso  staff   18847 May 11 13:56 MarkupSafe-1.1.1-cp36-cp36m-macosx_10_6_intel.whl
 -rw-r--r--  1 jalphonso  staff  111176 May 11 13:56 ruamel.yaml-0.16.10-py2.py3-none-any.whl
 -rw-r--r--  1 jalphonso  staff  147211 May 11 13:56 ruamel.yaml.clib-0.2.0-cp36-cp36m-macosx_10_9_x86_64.whl
-$ pip install *.whl
+$ pip3 install *.whl
 ```
 
 ### Build Services
