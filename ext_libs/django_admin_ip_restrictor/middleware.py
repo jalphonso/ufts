@@ -1,5 +1,5 @@
 import ipaddress
-from ipware.ip2 import get_client_ip
+from ipware import get_client_ip
 
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseForbidden
