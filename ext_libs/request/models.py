@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from ipware import get_client_ip
 from six import python_2_unicode_compatible
 
 from . import settings as request_settings
@@ -62,7 +63,7 @@ class Request(models.Model):
         self.is_ajax = request.is_ajax()
 
         # User information.
-        self.ip = request.META.get('REMOTE_ADDR', '')
+        self.ip, is_routable = get_client_ip(request)
         self.referer = request.META.get('HTTP_REFERER', '')[:255]
         self.user_agent = request.META.get('HTTP_USER_AGENT', '')[:255]
         self.language = request.META.get('HTTP_ACCEPT_LANGUAGE', '')[:255]
