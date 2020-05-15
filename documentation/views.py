@@ -8,7 +8,7 @@ logger = logging.getLogger('documentation_user')
 
 
 def index(request):
-    client_ip = get_client_ip(request)
+    client_ip, is_routable = get_client_ip(request)
     document_list = Document.objects.all().order_by('document')
     for filename in document_list:
         print(filename.document)
