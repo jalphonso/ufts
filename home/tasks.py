@@ -11,6 +11,7 @@ from lib.utilities import generate_download_report_xlsx, generate_upload_report_
 from lib.utilities import generate_download_report_docx, generate_upload_report_docx
 import os
 
+
 @shared_task
 def daily_email():
     today = date.today()
@@ -19,7 +20,8 @@ def daily_email():
     email_list = []
     users = CustomUser.objects.all()
     for user in users:
-        email_list.append(user.email)
+        if user.subscribe_to_emails:
+            email_list.append(user.email)
 
     context = {
         'jsas': recent_jsas,
@@ -49,7 +51,7 @@ def weekly_report_email():
     for user in users:
         if user.is_staff:
             email_list.append(user.email)
-    
+
     if settings.REPORT_FORMAT == 'pdf':
         dlreportfile=os.path.join(settings.BASE_DIR,'reports/download_report-') + str(today) + '.pdf'
         ulreportfile=os.path.join(settings.BASE_DIR,'reports/upload_report-') + str(today) + '.pdf'
