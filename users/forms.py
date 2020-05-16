@@ -26,6 +26,7 @@ class EditProfileForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'company', 'unclas_email', 'class_phone', 'unclas_phone')
+        fields = ('email', 'first_name', 'last_name', 'company', 'unclas_email', 'class_phone',
+                  'unclas_phone', 'subscribe_to_emails')
 
     password = None

@@ -26,7 +26,7 @@ class UploadFileAdmin(admin.ModelAdmin):
         readonly_fields = readonly_fields + ('md5sum', 'sha256sum')
         return readonly_fields
     def save_model(self, request, obj, form, change):
-        client_ip, is_forwardable = get_client_ip(request)
+        client_ip, is_routable = get_client_ip(request)
         if not change:
             obj.uploaded_by = request.user
             fixed_name=obj.file.name.replace(' ','_')
@@ -40,10 +40,10 @@ class UploadFileAdmin(admin.ModelAdmin):
             obj.verified_by=request.user
             if obj.verified_by:
                 logger.debug('user: {} |ip address: {} |verified_file: {}'.format(obj.verified_by, client_ip, obj.file))
-                
+
         super().save_model(request, obj, form, change)
     def delete_model(self, request, obj):
-        client_ip, is_forwardable = get_client_ip(request)
+        client_ip, is_routable = get_client_ip(request)
         logger.debug('user: {} |ip address: {} |deleted_file: {}'.format(obj.uploaded_by, client_ip, obj.file))
         super().delete_model(request, obj)
 

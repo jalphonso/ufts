@@ -40,7 +40,7 @@ def get_permissions(user):
 @permission_required('uploads.view_uploadfile', raise_exception=True)
 def downloads(request):
     download_permissions = get_permissions(request.user)
-    dw_client_ip = get_client_ip(request)
+    dw_client_ip, is_routable = get_client_ip(request)
     upload_list = []
     for permission in download_permissions:
         prod_type = permission.split('_')[0]
