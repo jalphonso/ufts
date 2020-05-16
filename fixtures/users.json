@@ -16,7 +16,7 @@
         "class_phone": "111111111",
         "unclas_phone": "22222222",
         "company": "Juniper Networks",
-        "jsa": true,
+        "subscribe_to_emails": true,
         "groups": [
         ],
         "user_permissions": []
@@ -39,7 +39,7 @@
         "class_phone": "9999999",
         "unclas_phone": "540-219-5679",
         "company": "Juniper Networks",
-        "jsa": true,
+        "subscribe_to_emails": true,
         "groups": [
         ],
         "user_permissions": []
@@ -62,7 +62,7 @@
         "class_phone": "",
         "unclas_phone": "",
         "company": "Stone Company",
-        "jsa": true,
+        "subscribe_to_emails": true,
         "groups": [],
         "user_permissions": []
     }
@@ -84,7 +84,7 @@
         "class_phone": "999-9999",
         "unclas_phone": "703-251-7763",
         "company": "ATCII",
-        "jsa": true,
+        "subscribe_to_emails": true,
         "groups": [
         ],
         "user_permissions": []
@@ -107,7 +107,7 @@
         "class_phone": "",
         "unclas_phone": "",
         "company": "Stone Co",
-        "jsa": true,
+        "subscribe_to_emails": true,
         "groups": [],
         "user_permissions": []
     }
