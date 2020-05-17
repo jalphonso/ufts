@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django import forms
+from django.http import HttpResponseRedirect
 from django.db.models import Q 
 from django.contrib import messages
 from .models import UploadFile, Products
@@ -15,6 +16,24 @@ class UploadFileAdmin(admin.ModelAdmin):
                     'uploaded_by', 'verified_by', 'verified_date']
     search_fields = ['name', 'file']
     actions = ['verify_files']
+    change_form_template = "upload_changeform.html"
+
+    def response_change(self, request, obj):
+        client_ip, is_routable = get_client_ip(request)
+        if "_verify" in request.POST:
+            if not obj.verified_by and obj.uploaded_by != request.user:
+                obj.verified_by=request.user
+                obj.save()
+                messages.add_message(request,messages.SUCCESS, 'File verified by {}.'.format(request.user)) 
+                logger.debug('user: {} |ip address: {} |verified_file: {}'.format(obj.verified_by, client_ip, obj.file))
+            else:
+                if obj.verified_by:
+                    messages.add_message(request,messages.ERROR, 'File is already verified.')
+                else:
+                    messages.add_message(request,messages.ERROR, 'File cannot be verified by {} as you are the uploader.'.format(request.user)) 
+
+            return HttpResponseRedirect(".")
+        return super().response_change(request, obj)
 
     def verify_files(self, request, queryset):
         client_ip, is_routable = get_client_ip(request)
@@ -54,11 +73,7 @@ class UploadFileAdmin(admin.ModelAdmin):
             else:
                 logger.debug('user: {} |ip address: {} |uploaded_file: {}'.format(obj.uploaded_by, client_ip, fixed_name))
         else:
-            if not form.changed_data:
-                if not obj.verified_by and obj.uploaded_by != request.user:
-                    obj.verified_by=request.user
-                    logger.debug('user: {} |ip address: {} |verified_file: {}'.format(obj.verified_by, client_ip, obj.file))
-            elif 'release_notes' in form.changed_data:
+            if 'release_notes' in form.changed_data:
                 fixed_relnotes=obj.release_notes.name.replace(' ','_')
                 logger.debug('user: {} |ip address: {} |uploaded_release_notes: {}'.format(request.user, client_ip, fixed_relnotes))
         super().save_model(request, obj, form, change)
