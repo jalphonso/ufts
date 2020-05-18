@@ -9,7 +9,7 @@ class CustomUser(AbstractUser, ModelDiffMixin):
     class_phone = models.CharField(max_length=30, default='', editable=True)
     unclas_phone = models.CharField(max_length=30, default='', editable=True)
     company = models.CharField(max_length=30, default='', editable=True)
-    jsa = models.BooleanField(default=True, editable=True, blank=True, null=True)
+    subscribe_to_emails = models.BooleanField(default=True, editable=True)
 
 
     def __str__(self):

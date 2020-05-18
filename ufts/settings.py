@@ -15,14 +15,15 @@ from logging.handlers import SysLogHandler
 from socket import gethostname, gethostbyname
 from datetime import time
 import logging
-import os
+import os, sys
 
 
 # from termsandconditions.decorators import terms_required
 
 # Build paths inside the ufts like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+EXTERNAL_LIBS_PATH = os.path.join(BASE_DIR, "ext_libs")
+sys.path = ["", EXTERNAL_LIBS_PATH] + sys.path
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -88,12 +89,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_ssl_auth.SSLClientAuthMiddleware',
+    'django_admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
     'django_ssl_auth.SSLClientAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+RESTRICT_ADMIN=True
+ALLOWED_ADMIN_IPS=['127.0.0.1', '::1', '192.168.1.1']
+ALLOWED_ADMIN_IP_RANGES=['127.0.0.0/24', '::/1', '172.20.0.0/16']
+RESTRICTED_APP_NAMES=['admin']
+TRUST_PRIVATE_IP=False
 
 USER_DATA_FN = 'django_ssl_auth.cert.user_dict_from_dn'
 AUTOCREATE_VALID_SSL_USERS = True

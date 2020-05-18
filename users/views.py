@@ -40,6 +40,7 @@ def edit_profile(request):
         'unclas_email': user.unclas_email,
         'class_phone': user.class_phone,
         'unclas_phone': user.unclas_phone,
+        'subscribe_to_emails': user.subscribe_to_emails,
     }
     ### prepopulate form fields with existing user data
     form = EditProfileForm(initial=existing_data)
