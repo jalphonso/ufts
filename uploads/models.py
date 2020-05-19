@@ -53,8 +53,3 @@ class UploadFile(models.Model):
             self.md5sum = md5hash.hexdigest()
             self.filesize = self.file.size
             super(UploadFile, self).save(*args, **kwargs)
-
-    def clean(self):
-        if hasattr(self, 'uploaded_by') and self.uploaded_by == self.verified_by:
-            self.verified_by = None
-            raise ValidationError("Verified by user must be different from Uploaded by user")
