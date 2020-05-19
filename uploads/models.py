@@ -42,13 +42,9 @@ class UploadFile(models.Model):
         with self.file.open('rb') as f:
             hash256 = hashlib.sha256()
             md5hash = hashlib.md5()
-            if f.multiple_chunks():
-                for chunk in f.chunks():
-                    hash256.update(chunk)
-                    md5hash.update(chunk)
-            else:
-                hash256.update(f.read())
-                md5hash.update(f.read())
+            for chunk in f.chunks():
+                hash256.update(chunk)
+                md5hash.update(chunk)
             self.sha256sum = hash256.hexdigest()
             self.md5sum = md5hash.hexdigest()
             self.filesize = self.file.size
