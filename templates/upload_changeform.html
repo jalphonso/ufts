@@ -1,9 +1,6 @@
 {% extends 'admin/change_form.html' %}
+{% load verify_upload %}
 
 {% block submit_buttons_bottom %}
-
-    <div class="submit-row">
-            <input type="submit" value="Verify File" name="_verify">
-    </div>
-    {{ block.super }}
+    {% submit_row %}
 {% endblock %}
