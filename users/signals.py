@@ -21,7 +21,7 @@ def create_contract_group(sender, instance, **kwargs):
 def notify_user_of_contract_change(sender, instance, **kwargs):
     accepted_signals = ['post_add', 'post_remove']
 
-    if kwargs['action'] not in accepted_signals:
+    if kwargs['action'] not in accepted_signals or kwargs['model'] != Group:
         return
 
     for pk in kwargs['pk_set']:
