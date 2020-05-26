@@ -1,0 +1,15 @@
+{% spaceless %}
+Hello {{ user }},
+
+{% if type == 'post_add' %}
+You have been added to contract {{ group }}, which grants you the following download permissions:
+{% for permission in permissions %}
+    {{ permission.name }}
+{% endfor %}
+{% else %}
+You have been removed from contract {{ group }}, which removes the following download permissions:
+{% for permission in permissions %}
+    {{ permission.name }}
+{% endfor %}
+{% endif %}
+{% endspaceless %}
