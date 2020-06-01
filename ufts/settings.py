@@ -90,6 +90,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_ssl_auth.SSLClientAuthMiddleware',
     'django_admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware',
+    'lib.user_profile.check_userprofile_middleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
