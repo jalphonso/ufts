@@ -36,7 +36,7 @@ tag_for_prod:
 prepare:
 	./docker-compose.py --version $(APP_VERSION); \
 	docker network create --subnet $(SERVICE_NETWORK) ufts_service_discovery_network || true
-	docker run -d -p $(CONSUL_PORT):$(CONSUL_PORT) --name=consul --restart always --net=ufts_service_discovery_network --ip $(CONSUL_IP)\
+	docker run -d --name=consul --restart always --net=ufts_service_discovery_network --ip $(CONSUL_IP)\
 		-e SERVICE_8300_NAME=consul-8300 -e SERVICE_8301_NAME=consul-8301 -e SERVICE_8302_NAME=consul-8302 -e SERVICE_8500_NAME=consul-8500 \
 		-e SERVICE_8600_NAME=consul-8600 \
 		ufts-consul:$(APP_VERSION) agent -server -bootstrap-expect 1 -node=myconsulnode  -client=0.0.0.0 -ui
