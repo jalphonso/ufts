@@ -1,5 +1,6 @@
 .PHONY: develop tag_for_prod prepare start stop restart scale monitor migrate testdata status \
 				save load clean wipe fresh_install clean_start build_save_images offline_install
+SHELL:=/bin/bash
 export DOCKER_IMAGES_PATH=docker-images
 export APP_VERSION=1.0
 export SERVICE_NETWORK=172.20.0.0/24
