@@ -8,7 +8,7 @@ global
     stats timeout 30s
     nbproc 1
     nbthread 32
-    cpu-map auto:1/1-4 0-3
+    cpu-map auto:1/1-32 0-31
     log 127.0.0.1 local0
 
 defaults
