@@ -23,4 +23,4 @@ EXPOSE 8000
 RUN sed -i 's/load staticfiles/load static/g' /usr/local/lib/python3.6/site-packages/django_classification_banner/templates/django_classification_banner/classification.html
 # define the default command to run when starting the container
 USER ufts:ufts
-CMD ["gunicorn", "-w", "7", "--chdir", "ufts", "--bind", ":8000", "--timeout", "0", "--worker-tmp-dir", "/dev/shm", "ufts.wsgi:application"]
+CMD ["gunicorn", "-w", "11", "--chdir", "ufts", "--bind", ":8000", "--timeout", "0", "--worker-tmp-dir", "/dev/shm", "ufts.wsgi:application"]
