@@ -6,7 +6,9 @@ global
     pidfile     /var/run/haproxy.pid
     stats socket /run/haproxy/admin.sock user haproxy group haproxy mode 660 level admin expose-fd listeners
     stats timeout 30s
-    nbproc 2
+    nbproc 1
+    nbthread 32
+    cpu-map auto:1/1-4 0-3
     log 127.0.0.1 local0
 
 defaults
