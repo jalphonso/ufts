@@ -93,8 +93,8 @@ status:
 	docker volume ls
 
 save: tag_for_prod
-	@if [ ! -d "docker-images" ]; then \
-		mkdir -p docker-images;\
+	@if [ ! -d $(DOCKER_IMAGES_PATH) ]; then \
+		mkdir -p $(DOCKER_IMAGES_PATH);\
 	fi
 
 	@for image in $$(docker images -f reference="ufts*$(APP_VERSION)" --format "{{.Repository}}:{{.Tag}}"); do \
