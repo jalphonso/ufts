@@ -14,5 +14,5 @@ RUN chown celery:celery /var/run/celery
 # install our dependencies
 # we use --system flag because we don't need an extra virtualenv
 COPY Pipfile Pipfile.lock /opt/services/ufts/src/
-RUN pip install pipenv && pipenv install --system
+RUN pip install pipenv==2018.11.26 && pipenv install --system
 USER celery:celery
