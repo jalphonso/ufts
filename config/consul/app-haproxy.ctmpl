@@ -7,7 +7,6 @@ global
     stats socket /run/haproxy/admin.sock user haproxy group haproxy mode 660 level admin expose-fd listeners
     stats timeout 30s
     nbproc 2
-    cpu-map auto:1/1-4 0-3
     log 127.0.0.1 local0
 
 defaults
@@ -27,6 +26,5 @@ backend app-servers
     balance roundrobin
     option tcp-check
     tcp-check send HEAD /about HTTP/1.1\r\nHost:\ ufts.lab
-    default-server check maxconn 100
     {{range service "app" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} check
     {{end}}
