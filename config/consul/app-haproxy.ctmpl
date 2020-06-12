@@ -7,8 +7,8 @@ global
     stats socket /run/haproxy/admin.sock user haproxy group haproxy mode 660 level admin expose-fd listeners
     stats timeout 30s
     nbproc 1
-    nbthread 8
-    cpu-map auto:1/1-8 16-23
+    nbthread 4
+    cpu-map auto:1/1-4 8-11
     log 127.0.0.1 local0
 
 defaults
