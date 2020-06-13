@@ -13,8 +13,8 @@ global
 
 defaults
     timeout connect 10s
-    timeout client 600s
-    timeout server 600s
+    timeout client 120s
+    timeout server 120s
     log global
     mode tcp
     maxconn 5000
