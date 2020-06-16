@@ -47,5 +47,5 @@ class UploadFile(models.Model):
                 md5hash.update(chunk)
             self.sha256sum = hash256.hexdigest()
             self.md5sum = md5hash.hexdigest()
-        self.filesize = self.file.size
-        super(UploadFile, self).save(*args, **kwargs)
+            self.filesize = self.file.size
+            super(UploadFile, self).save(*args, **kwargs)
