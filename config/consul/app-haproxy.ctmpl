@@ -6,14 +6,15 @@ global
     pidfile     /var/run/haproxy.pid
     stats socket /run/haproxy/admin.sock user haproxy group haproxy mode 660 level admin expose-fd listeners
     stats timeout 30s
-    nbproc 2
-    cpu-map auto:1/1-4 0-3
+    nbproc 1
+    nbthread 2
+    cpu-map auto:1/1-2 4-5
     log 127.0.0.1 local0
 
 defaults
     timeout connect 10s
-    timeout client 30s
-    timeout server 30s
+    timeout client 180s
+    timeout server 180s
     log global
     mode tcp
     maxconn 5000
@@ -27,6 +28,5 @@ backend app-servers
     balance roundrobin
     option tcp-check
     tcp-check send HEAD /about HTTP/1.1\r\nHost:\ ufts.lab
-    default-server check maxconn 100
     {{range service "app" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} check
     {{end}}

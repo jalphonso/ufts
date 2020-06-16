@@ -71,6 +71,10 @@ services:
         UFTS_UID: {{UID}}
         UFTS_GID: {{GID}}
     image: ufts-app:{{app_version}}
+    command: >
+             gunicorn --workers 5 --threads 2 --chdir ufts
+             --bind :8000 --worker-tmp-dir /dev/shm
+             -k gthread ufts.wsgi:application
     environment:
       - SERVICE_8000_NAME=app
     volumes:

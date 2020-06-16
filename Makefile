@@ -1,5 +1,6 @@
 .PHONY: develop tag_for_prod prepare start stop restart scale monitor migrate testdata status \
 				save load clean wipe fresh_install clean_start build_save_images offline_install
+SHELL:=/bin/bash
 export DOCKER_IMAGES_PATH=docker-images
 export APP_VERSION=1.0
 export SERVICE_NETWORK=172.20.0.0/24
@@ -93,8 +94,8 @@ status:
 	docker volume ls
 
 save: tag_for_prod
-	@if [ ! -d "docker-images" ]; then \
-		mkdir -p docker-images;\
+	@if [ ! -d $(DOCKER_IMAGES_PATH) ]; then \
+		mkdir -p $(DOCKER_IMAGES_PATH);\
 	fi
 
 	@for image in $$(docker images -f reference="ufts*$(APP_VERSION)" --format "{{.Repository}}:{{.Tag}}"); do \

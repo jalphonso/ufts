@@ -216,6 +216,10 @@ MEDIA_URL = '/media/'
 SOFTWARE_ROOT = '/opt/services/ufts/software/'
 SOFTWARE_URL = '/software/'
 
+## 16GB File will be loaded in memory with this setting
+## Only use if experiencing poor disk performance
+# FILE_UPLOAD_MAX_MEMORY_SIZE = 1024*1024*1024*16
+
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'

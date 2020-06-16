@@ -6,7 +6,8 @@ global
     pidfile     /var/run/haproxy.pid
     stats socket /run/haproxy/admin.sock user haproxy group haproxy mode 660 level admin expose-fd listeners
     stats timeout 30s
-    nbproc 2
+    nbproc 1
+    nbthread 4
     cpu-map auto:1/1-4 0-3
     ssl-default-bind-ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
     ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
@@ -15,8 +16,8 @@ global
 
 defaults
     timeout connect 10s
-    timeout client 30s
-    timeout server 30s
+    timeout client 180s
+    timeout server 180s
     log global
     mode http
     option httplog
@@ -46,7 +47,6 @@ backend https-servers
     balance roundrobin
     cookie WEBSERVERUSED insert indirect nocache
     option httpchk HEAD /static/img/Juniper-Logo.svg HTTP/1.1\r\nHost:\ ufts.lab
-
     acl url_expired path /certexpired.html
     acl url_revoked path /certrevoked.html
     acl url_othererrors path /othererrors.html
@@ -60,7 +60,5 @@ backend https-servers
     redirect location /certexpired.html if cert_used cert_expired ! url_expired
     redirect location /certrevoked.html if cert_used cert_revoked ! url_revoked
     redirect location /othererrors.html if cert_used ! cert_valid ! cert_expired ! cert_revoked ! url_othererrors
-
-    default-server check maxconn 100
     {{range service "nginx" "any"}}server {{ .ID }} {{.Address}}:{{.Port}} cookie {{.ID }} check
     {{end}}
