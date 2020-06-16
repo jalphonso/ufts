@@ -37,15 +37,15 @@ class UploadFile(models.Model):
     def __str__(self):
         return self.name
 
-    # def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
 
-    #     # with self.file.open('rb') as f:
-    #     #     hash256 = hashlib.sha256()
-    #     #     md5hash = hashlib.md5()
-    #     #     for chunk in f.chunks():
-    #     #         hash256.update(chunk)
-    #     #         md5hash.update(chunk)
-    #     #     self.sha256sum = hash256.hexdigest()
-    #     #     self.md5sum = md5hash.hexdigest()
-    #     self.filesize = self.file.size
-    #     super(UploadFile, self).save(*args, **kwargs)
+        with self.file.open('rb') as f:
+            hash256 = hashlib.sha256()
+            md5hash = hashlib.md5()
+            for chunk in f.chunks():
+                hash256.update(chunk)
+                md5hash.update(chunk)
+            self.sha256sum = hash256.hexdigest()
+            self.md5sum = md5hash.hexdigest()
+        self.filesize = self.file.size
+        super(UploadFile, self).save(*args, **kwargs)
