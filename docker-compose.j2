@@ -89,6 +89,8 @@ services:
         ipv4_address: 172.20.10.{{100 + i}}
       backend_network:
         ipv4_address: 172.20.11.{{100 + i}}
+      redis_network:
+        ipv4_address: 172.20.12.{{100 + i}}
     depends_on:
       - db
     restart: always

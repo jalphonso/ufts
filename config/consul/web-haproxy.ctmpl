@@ -16,8 +16,8 @@ global
 
 defaults
     timeout connect 10s
-    timeout client 180s
-    timeout server 180s
+    timeout client 60s
+    timeout server 60s
     log global
     mode http
     option httplog

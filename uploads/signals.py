@@ -1,10 +1,12 @@
 from .models import Products, UploadFile
+from celery.execute import send_task
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch import receiver
 
 import os
+
 
 @receiver(post_save, sender=Products)
 def create_product_permission(sender, instance, **kwargs):
@@ -41,3 +43,13 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     if old_release_notes and old_release_notes != new_release_notes:
         if os.path.isfile(old_release_notes.path):
             os.remove(old_release_notes.path)
+
+
+@receiver(post_save, sender=UploadFile)
+def launch_async_checksum_task(sender, instance, **kwargs):
+
+    if instance.md5sum and instance.sha256sum:
+        return False
+
+    task_args = [instance.pk]
+    send_task("uploads.tasks.generate_checksums", task_args)

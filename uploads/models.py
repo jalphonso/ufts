@@ -3,10 +3,11 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.db import models
-import hashlib
+
 
 fs_software = FileSystemStorage(location=settings.SOFTWARE_ROOT, base_url=settings.SOFTWARE_URL)
 fs_release_notes = FileSystemStorage(location=settings.SOFTWARE_ROOT + 'release_notes/', base_url=settings.SOFTWARE_URL + 'release_notes/')
+
 
 class Products(models.Model):
     prod_type = models.CharField(max_length=100, default='')  # Routing, Switching, Security, SDN, Packet Optical
@@ -36,16 +37,3 @@ class UploadFile(models.Model):
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-
-        with self.file.open('rb') as f:
-            hash256 = hashlib.sha256()
-            md5hash = hashlib.md5()
-            for chunk in f.chunks():
-                hash256.update(chunk)
-                md5hash.update(chunk)
-            self.sha256sum = hash256.hexdigest()
-            self.md5sum = md5hash.hexdigest()
-            self.filesize = self.file.size
-            super(UploadFile, self).save(*args, **kwargs)
