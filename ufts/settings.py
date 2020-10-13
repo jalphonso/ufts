@@ -33,7 +33,7 @@ SECRET_KEY = 'n9ucrt9=)e!d=(uaimum@7onn%uvua6a(m^9-=zmscd$&f%(%u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ufts.lab', 'support.atcii.net','172.16.16.125','support.atcii.net', 'patches.atcii.net', '35.231.90.209','ufts-demo.atcii.net', 'www.atcii.net', '127.0.0.1', 'localhost', 'greenlan.net', '192.168.202.179']
+ALLOWED_HOSTS = ['ufts.lab', '172.16.16.205', '172.16.16.114', '127.0.0.1', 'localhost']
 # secure proxy SSL header and secure cookies
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
@@ -100,7 +100,7 @@ AUTHENTICATION_BACKENDS = [
 
 RESTRICT_ADMIN=True
 ALLOWED_ADMIN_IPS=['127.0.0.1', '::1', '192.168.1.1']
-ALLOWED_ADMIN_IP_RANGES=['127.0.0.0/24', '::/1', '172.20.0.0/16']
+ALLOWED_ADMIN_IP_RANGES=['127.0.0.0/24', '::/1', '172.20.0.0/16', '172.16.16.0/24']
 RESTRICTED_APP_NAMES=['admin']
 TRUST_PRIVATE_IP=False
 
@@ -224,7 +224,7 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-CLASSIFICATION_TEXT = 'Unclassified//FOUO'
+CLASSIFICATION_TEXT = 'Unclassified'
 CLASSIFICATION_TEXT_COLOR = 'black'
 CLASSIFICATION_BACKGROUND_COLOR = 'green'
 # CLASSIFICATION_LINK = '/security'
