@@ -772,3 +772,40 @@ make fresh_install
 ```
 make testdata
 ```
+
+### Change or Add multiple hostnames for the application to accept and respond
+
+#### Python Django application
+Config File: ufts/settings.py
+```
+ALLOWED_HOSTS = ['ufts.local', 'myweb.local']
+```
+
+#### Nginx web server
+Config File: config/nginx/conf.d/local.conf
+```
+server_name ufts.local myweb.local;
+```
+
+#### Web HAProxy LB
+Config File: config/consul/web-haproxy.ctmpl
+
+frontend setting
+```
+acl host_ufts hdr(host) -i ufts.local myweb.local
+```
+
+backend setting (only need primary hostname as its used internally for a health check)
+```
+option httpchk HEAD /static/img/Juniper-Logo.svg HTTP/1.1\r\nHost:\ ufts.local
+```
+
+#### App HAProxy LB
+Config File: config/consul/app-haproxy.ctmp
+
+backend setting (only need primary hostname as its used internally for a health check)
+```
+tcp-check send HEAD /about HTTP/1.1\r\nHost:\ ufts.local
+```
+
+Afterwards issue a `make restart` for changes to take effect.
