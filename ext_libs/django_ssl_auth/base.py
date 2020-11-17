@@ -69,16 +69,19 @@ class SSLClientAuthBackend(backends.ModelBackend):
             return None
         dn = request.META.get('HTTP_X_SSL_CLIENT_DN')
         user_data = USER_DATA_FN(dn)
+        logger.debug(user_data)
         username = user_data['username']
         if not username:
             return None
         try:
             user = User.objects.get(username=username)
+            logger.info("user {0} retrieved".format(username))
         except User.DoesNotExist:
             logger.info("user {0} not found".format(username))
             if settings.AUTOCREATE_VALID_SSL_USERS:
                 user = User(**user_data)
                 user.save()
+                logger.info("first time user {0} logging in. creating account".format(username))
             else:
                 return None
         logger.info("user {0} authenticated using a certificate issued to {1}".format(username, dn))
@@ -110,6 +113,6 @@ class SSLClientAuthMiddleware(MiddlewareMixin):
             user = authenticate(request=request)
             if user is None or not check_user_auth(user):
                 return
-            logger.info("Logging user in")
+            logger.info("Logging user {0} in".format(user))
             login(request, user)
             return HttpResponseRedirect(resolve_url(settings.LOGIN_REDIRECT_URL))
