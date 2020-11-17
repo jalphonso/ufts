@@ -501,14 +501,14 @@ openssl ca -batch -notext -in ufts.csr -out ufts.crt
 cat ufts.crt ufts.key > ufts.pem
 ```
 
-#### Create Client Cert
+#### Create Client Cert (Must regenerate root_crl.pem and signal web-lb to reload)
 ```
 openssl genrsa -out client1.key 2048
 openssl req -new -key client1.key -out client1.csr -subj '/userName=client1/CN=firstname lastname/O=ufts/C=US/ST=Maryland/L=Columbia/emailAddress=client1@ufts.lab'
 openssl ca -batch -notext -in client1.csr -out client1.crt
 openssl pkcs12 -export -clcerts -in client1.crt -inkey client1.key -out client1.p12
 ```
-**Note: CN format should be "firstname lastname"**
+**Note: CN format can vary "firstname lastname username" or "firstname lastname middle username"**
 
 Take the p12 cert and import it into your browser and/or system keychain. Safari will use the system keychain, but Firefox manages its own certificate store. On Mac, I also manually trusted the certificate in the system keychain which may or may not be necessary but it seemed like a logical thing to do.
 
