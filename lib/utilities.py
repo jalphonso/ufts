@@ -1,10 +1,11 @@
 import logging
 import re
 import os
+from bs4 import BeautifulSoup
 from django.conf import settings
 
 from fpdf import FPDF
-from datetime import datetime,date 
+from datetime import datetime,date
 from openpyxl import load_workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from docx import Document
@@ -141,7 +142,7 @@ def generate_download_report_pdf(log_file,pdf_file,startdate,enddate):
     else:
         pdf.set_font('Arial', 'BU', 9)
         line_no = 1
-    
+
         pdf.cell(0, 10, "Date                   Time                  User                                                       IP                                Filename".ljust(260), 0,1)
         pdf.set_font('Courier', '', 10)
         for logentry in logs:
@@ -161,7 +162,7 @@ def generate_upload_report_xlsx(log_file,xlsx_file,startdate,enddate):
     dlstyle=dltable.tableStyleInfo
     for i,dload in enumerate(logs):
         ws.cell(row=3+i,column=2).value=datetime.strptime(dload['uploaddate'],'%Y-%m-%d').date()
-        ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"           
+        ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"
         ws.cell(row=3+i,column=3).value=datetime.strptime(dload['uploadtime'],'%H:%M:%S').time()
         ws.cell(row=3+i,column=3).number_format="h:mm:ss"
         ws.cell(row=3+i,column=4).value=dload['uploaduser']
@@ -173,7 +174,7 @@ def generate_upload_report_xlsx(log_file,xlsx_file,startdate,enddate):
             ws.cell(row=3+i,column=8).value=dload['verifyip']
         elif dload['deleted']=='N':
             ws.cell(row=3+i,column=7).value="Unverified"
-               
+
 
     dltable.ref='B2:I{}'.format(len(logs)+2)
     ws._tables[0]=dltable
@@ -191,7 +192,7 @@ def generate_download_report_xlsx(log_file,xlsx_file,startdate,enddate):
     dlstyle=dltable.tableStyleInfo
     for i,dload in enumerate(logs):
         ws.cell(row=3+i,column=2).value=datetime.strptime(dload['dloaddate'],'%Y-%m-%d').date()
-        ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"           
+        ws.cell(row=3+i,column=2).number_format="YYYY-MM-DD"
         ws.cell(row=3+i,column=3).value=datetime.strptime(dload['dloadtime'],'%H:%M:%S').time()
         ws.cell(row=3+i,column=3).number_format="h:mm:ss"
         ws.cell(row=3+i,column=4).value=dload['dloaduser']
@@ -300,3 +301,10 @@ def do_user_logging(request, action='query'):
     else:
         request.session['s_pages_visited'] = str(str(request.user)) + ':' + path + '|'
     logger.info('|Pages visited by: ' + str(request.session['s_pages_visited']))
+
+
+def convert_html_to_plain_text(html_email):
+    soup = BeautifulSoup(html_email, "html.parser")
+    for data in soup(['style', 'script']):
+        data.decompose()
+    return '\n'.join(soup.stripped_strings)

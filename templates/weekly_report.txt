@@ -1,8 +1,11 @@
+{% extends 'base_email.html' %}
+{% block content %}
 {% spaceless %}
 {% if downloads > 0 %}
-Number of files downloaded this week: {{ downloads }}
+<p>Number of files downloaded this week: {{ downloads }}</p>
 {% endif %}
 {% if uploads > 0 %}
-Number of new files uploaded this week: {{ uploads }}
+<p>Number of new files uploaded this week: {{ uploads }}</p>
 {% endif %}
 {% endspaceless %}
+{% endblock %}

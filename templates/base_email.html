@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .center {
+    text-align: center;
+    background-color: {{ classification_color }};
+    font-size: 14pt;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+    <div class="center">
+        {{ classification }}
+    </div>
+    {% block content %}
+    {% endblock %}
+    <div class="center">
+        {{ classification }}
+    </div>
+</body>
+</html>
