@@ -18,10 +18,11 @@ urlpatterns = [
     # All the password urls come from django.contrib.auth.urls so keep this line before others so the override works
     path('users/', include('django.contrib.auth.urls')),
     # The name param is used in the templates/base.html file so it needs to match here to complete the override
-    path('password_reset/', auth_views.PasswordResetView.as_view(extra_email_context=dict(email_template_name="registration/password_reset_email.txt",
-                                                                                          html_email_template_name="registration/password_reset_email.html",
-                                                                                          classification=settings.CLASSIFICATION_TEXT,
-                                                                                          classification_short=settings.CLASSIFICATION_TEXT_SHORT)),
+    path('password_reset/', auth_views.PasswordResetView.as_view(email_template_name="registration/password_reset_email.txt",
+                                                                 html_email_template_name="registration/password_reset_email.html",
+                                                                 extra_email_context=dict(classification=settings.CLASSIFICATION_TEXT,
+                                                                                          classification_short=settings.CLASSIFICATION_TEXT_SHORT,
+                                                                                          classification_color=settings.CLASSIFICATION_BACKGROUND_COLOR)),
          name='password_reset'),
     path('documentation/', include('documentation.urls')),
     path('downloads/', include('uploads.urls')),
