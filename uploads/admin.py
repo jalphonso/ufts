@@ -50,12 +50,12 @@ class UploadFileAdmin(admin.ModelAdmin):
                                  f'{queryset.count()-validateable.count()} cannot be verified by {request.user}. '
                                  f'Either files were already verified, or they were uploaded by {request.user}')
             for validated in validateable:
-                logger.debug(f'user: {validated.verified_by} |ip address: {client_ip} |verified_file: {validated.file}')
+                logger.debug(f'user: {request.user} |ip address: {client_ip} |verified_file: {validated.file}')
             validateable.update(verified_by=request.user)
         else:
             messages.add_message(request, messages.SUCCESS, f'{validateable.count()} file(s) have been verified')
             for validated in validateable:
-                logger.debug(f'user: {validated.verified_by} |ip address: {client_ip} |verified_file: {validated.file}')
+                logger.debug(f'user: {request.user} |ip address: {client_ip} |verified_file: {validated.file}')
             validateable.update(verified_by=request.user)
     verify_files.short_description = "Verify selected uploaded files"
 
