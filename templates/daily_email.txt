@@ -1,10 +1,13 @@
+{% extends 'base_email.html' %}
+{% block content %}
 {% spaceless %}
 {% if jsas %}
-NEW JSAs:{% for jsa in jsas %}
-    {{ jsa.displayName }} {{ jsa.description }}{% endfor %}{% endif %}
+<p>NEW JSAs:{% for jsa in jsas %}</p>
+<p>    {{ jsa.displayName }} {{ jsa.description }}{% endfor %}{% endif %}</p>
 {% if softwares %}
-NEW SOFTWARE:{% for software in softwares %}
-    Name: {{ software.name }}
-        Version: {{ software.version }}
-        Description: {{ software.description }}{% endfor %}{% endif %}
+<p>NEW SOFTWARE:{% for software in softwares %}</p>
+<p>    Name: {{ software.name }}</p>
+<p>        Version: {{ software.version }}</p>
+<p>        Description: {{ software.description }}{% endfor %}{% endif %}</p>
 {% endspaceless %}
+{% endblock %}

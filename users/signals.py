@@ -1,10 +1,12 @@
 from .models import Contract, CustomUser
+from django.conf import settings
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.template.loader import get_template
+from lib.utilities import convert_html_to_plain_text
 
 
 @receiver(post_save, sender=Contract)
@@ -31,16 +33,16 @@ def notify_user_of_contract_change(sender, instance, **kwargs):
             'user': instance.first_name,
             'group': group,
             'permissions': group.permissions.all(),
-            'type': kwargs['action']
+            'type': kwargs['action'],
+            'classification': settings.CLASSIFICATION_TEXT,
+            'classification_color': settings.CLASSIFICATION_BACKGROUND_COLOR
         }
-        subject = 'Contract membership changed'
-        email_body = get_template('contract_changed_email.txt').render(context)
+        subject = f'{settings.CLASSIFICATION_TEXT_SHORT} Contract membership changed'
+        email_body_html = get_template('contract_changed_email.txt').render(context)
+        email_body_plain = convert_html_to_plain_text(email_body_html)
         email_from = None
         email_to = [instance.email]
-        email = EmailMessage(
-            subject,
-            email_body,
-            email_from,
-            email_to,
-        )
+        email = EmailMultiAlternatives(subject, email_body_plain, email_from, email_to)
+        if email_body_html:
+            email.attach_alternative(email_body_html, 'text/html')
         email.send()

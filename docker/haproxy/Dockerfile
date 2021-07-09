@@ -1,4 +1,4 @@
-FROM haproxy:latest
+FROM haproxy:1.9
 LABEL net.juniper.vendor "Juniper Networks"
 LABEL description "UFTS"
 RUN mkdir -p /etc/ssl/certs/
